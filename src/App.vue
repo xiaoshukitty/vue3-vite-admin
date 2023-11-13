@@ -1,23 +1,12 @@
 <template>
-  <div class="box">
-    <h1>23</h1>
+  <div>
+    <el-button type="success">Success</el-button>
+    <el-button type="danger" :icon="Delete" circle />
   </div>
 </template>
-
-<script lang="ts">
-for (let i = 0; i < 100; i++) 
-{
-  console.log(i)
-}
+<script lang="ts" setup>
+import {Delete} from '@element-plus/icons-vue'
+// 引入图标
 </script>
 
-<style lang="scss" scoped>
-.box {
-  width: 600px;
-  height: 400px;
-  background-color: black;
-  h1 {
-    color: wheat;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
