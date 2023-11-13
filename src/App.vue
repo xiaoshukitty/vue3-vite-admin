@@ -5,7 +5,12 @@
 </template>
 
 <script lang="ts">
-let str = '我爱你'
+for(let i=0;i<100;i++)
+{
+
+  console.log(i);
+  
+}
 </script>
 
 <style lang="scss" scoped>
