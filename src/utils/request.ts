@@ -9,7 +9,6 @@ let request = axios.create({
 })
 //2，request 实例添加请求拦截器
 request.interceptors.request.use((config) => {
-  console.log(config)
   config.headers.token='213';
   // config配置对象，headers 属性请求头，给服务器端且待公共参数
   //返回配置对象
@@ -19,7 +18,6 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response) => {
     console.log(response);
-    
     //成功回调
     return response.data
   },
