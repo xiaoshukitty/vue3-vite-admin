@@ -4,8 +4,10 @@ export interface loginForm {
   password: string
 }
 
+// token? 可能有token，可能没有
 interface dataType {
-  token: string
+  token?: string
+  message?: string
 }
 
 //登录接口返回的数据类型
