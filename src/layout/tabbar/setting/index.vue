@@ -1,6 +1,6 @@
 <template>
-    <el-button size="small" icon="Refresh" circle />
-    <el-button size="small" icon="FullScreen" circle />
+    <el-button size="small" icon="Refresh" circle @click="updateRefsh" />
+    <el-button size="small" icon="FullScreen" circle @click="fullScreen" />
     <el-button size="small" icon="Setting" circle />
     <img src="../../../assets/images/avatar1.jpg" alt=""
         style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%;">
@@ -21,6 +21,28 @@
 </template>
 
 <script setup lang='ts'>
+//获取 setting 仓库
+import useLayOutSettingStore from '@/store/modules/setting'
+let layOutSettingStore = useLayOutSettingStore();
+
+//刷新
+const updateRefsh = () => {
+    layOutSettingStore.refsh = !layOutSettingStore.refsh;
+}
+//全屏
+const fullScreen = () => {
+    // dom 对象的属性，判断当前是否是全屏，是返回 true，不是返回 false(null)
+    let full = document.fullscreenElement;
+    
+    //切换全屏
+    if (!full) {
+        // 利用文档根节点 requestFullscreen 实现全屏
+        document.documentElement.requestFullscreen();
+    } else {
+        //退出全屏
+        document.exitFullscreen();
+    }
+}
 
 </script>
 <script lang="ts">

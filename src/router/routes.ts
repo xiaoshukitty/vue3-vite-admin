@@ -17,9 +17,9 @@ export const constantRouter = [
     component: () => import('@/layout/index.vue'),
     name: 'layout',
     meta: {
-      title: 'layout',
+      title: '',
       hidden: false,
-      icon: 'Avatar',
+      icon: '',
     },
     redirect: '/home',
     children: [
@@ -73,6 +73,7 @@ export const constantRouter = [
       hidden: false,
       icon: 'Grid',
     },
+    redirect:'/module/barCode',//访问一级路由直接重定向到二级路由的第一个
     children: [
       {
         path: '/module/barCode',
@@ -115,6 +116,7 @@ export const constantRouter = [
       hidden: false,
       icon: 'Location',
     },
+    redirect:'/map/qqMap',//访问一级路由直接重定向到二级路由的第一个
     children: [
       {
         path: '/map/qqMap',
