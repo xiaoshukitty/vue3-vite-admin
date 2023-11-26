@@ -9,6 +9,11 @@
 //引入设置标题和logo配置文件
 import setting from '@/setting'
 </script>
+<script lang="ts">
+export default {
+    name: "Logo"
+}
+</script>
   
 <style scoped lang="scss">
 .logo {
@@ -17,7 +22,7 @@ import setting from '@/setting'
     display: flex;
     color: #fff;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
 
     img {
         width: 40px;

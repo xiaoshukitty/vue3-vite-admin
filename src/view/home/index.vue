@@ -8,7 +8,4 @@
   </script>
   
   <style scoped lang="scss">
-  div {
-    color: $color;
-  }
   </style>

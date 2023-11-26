@@ -21,6 +21,9 @@ import i18n from './lang'
 //全局配置国际化的配置
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
+// 引入自定义插件对象：注册整个项目全局组件
+import globalComponent from '@/components/index'
+
 //获取应用实例对象
 const app = createApp(App)
 app.use(i18n)
@@ -32,6 +35,8 @@ console.log(import.meta.env) //获取环境变量
 app.use(router)
 // 注册 pinia 仓库
 app.use(pinia)
+// 注册全局组件
+app.use(globalComponent)
 
 //将应用挂载到挂载点上
 app.mount('#app')

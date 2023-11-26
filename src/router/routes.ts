@@ -7,7 +7,8 @@ export const constantRouter = [
     name: 'login', //命名路由
     meta: {
       title: '登录', //菜单标题
-      hidden: true, //代表路由标题在菜单中是否隐藏
+      hidden: true, //代表路由标题在菜单中是否隐藏 true：隐藏，false：显示
+      icon: 'Promotion', //菜单文字左侧图标，支持 element-plus 所以图标
     },
   },
   {
@@ -16,24 +17,19 @@ export const constantRouter = [
     component: () => import('@/layout/index.vue'),
     name: 'layout',
     meta: {
-      title: 'layout', //菜单标题
-      hidden: false, //代表路由标题在菜单中是否隐藏
+      title: 'layout',
+      hidden: false,
+      icon: 'Avatar',
     },
+    redirect: '/home',
     children: [
       {
         path: '/home',
         component: () => import('@/view/home/index.vue'),
         meta: {
-          title: '首页', //菜单标题
-          hidden: false, //代表路由标题在菜单中是否隐藏
-        },
-      },
-      {
-        path: '/ceshi',
-        component: () => import('@/view/home/index.vue'),
-        meta: {
-          title: '测试', //菜单标题
-          hidden: true, //代表路由标题在菜单中是否隐藏
+          title: '首页',
+          hidden: false,
+          icon: 'HomeFilled',
         },
       },
     ],
@@ -43,8 +39,19 @@ export const constantRouter = [
     component: () => import('@/view/404/index.vue'),
     name: '404',
     meta: {
-      title: '404', //菜单标题
-      hidden: true, //代表路由标题在菜单中是否隐藏
+      title: '404',
+      hidden: true,
+      icon: 'CloseBold',
+    },
+  },
+  {
+    path: '/screen',
+    component: () => import('@/view/screen/index.vue'),
+    name: 'screen',
+    meta: {
+      title: '数据大屏',
+      hidden: false,
+      icon: 'Help',
     },
   },
   {
@@ -52,8 +59,84 @@ export const constantRouter = [
     redirect: '/404',
     name: 'any',
     meta: {
-      title: '任意路由', //菜单标题
-      hidden: true, //代表路由标题在菜单中是否隐藏
+      title: '任意路由',
+      hidden: true,
+      icon: 'CircleCheck',
     },
   },
+  {
+    path: '/module',
+    component: () => import('@/layout/index.vue'),
+    name: 'module',
+    meta: {
+      title: '组件',
+      hidden: false,
+      icon: 'Grid',
+    },
+    children: [
+      {
+        path: '/module/barCode',
+        component: () => import('@/view/module/barCode/index.vue'),
+        name:'barCode',
+        meta: {
+          title: '条形码',
+          hidden: false,
+          icon: 'MessageBox',
+        },
+      },
+      {
+        path: '/module/verificationCode',
+        component: () => import('@/view/module/verificationCode/index.vue'),
+        name:'verificationCode',
+        meta: {
+          title: '验证码',
+          hidden: false,
+          icon: 'ChatDotSquare',
+        },
+      },
+      {
+        path: '/module/primaryDrag',
+        component: () => import('@/view/module/primaryDrag/index.vue'),
+        name:'primaryDrag',
+        meta: {
+          title: '原生拖拽',
+          hidden: false,
+          icon: 'Notification',
+        },
+      },
+    ],
+  },
+  {
+    path: '/map',
+    component: () => import('@/layout/index.vue'),
+    name:'map',
+    meta: {
+      title: '地图',
+      hidden: false,
+      icon: 'Location',
+    },
+    children: [
+      {
+        path: '/map/qqMap',
+        component: () => import('@/view/map/qqMap/index.vue'),
+        name:'qqMap',
+        meta: {
+          title: 'qq地图',
+          hidden: false,
+          icon: 'MapLocation',
+        },
+      },
+      {
+        path: '/map/amap',
+        component: () => import('@/view/map/amap/index.vue'),
+        name:'amap',
+        meta: {
+          title: '高德地图',
+          hidden: false,
+          icon: 'Place',
+        },
+      }
+      
+    ]
+  }
 ]
