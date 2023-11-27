@@ -14,6 +14,8 @@ import pinia from './store'
 //引入语言
 import i18n from './lang'
 
+
+import './permisstion'
 /**
  *  @ts-ignore 忽略 ts
  */
@@ -37,6 +39,7 @@ app.use(router)
 app.use(pinia)
 // 注册全局组件
 app.use(globalComponent)
+
 
 //将应用挂载到挂载点上
 app.mount('#app')

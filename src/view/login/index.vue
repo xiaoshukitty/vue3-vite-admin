@@ -50,10 +50,11 @@ import { reactive, ref, computed } from 'vue';
 import useUserStore from '@/store/modules/user';
 import i18n from '@/lang'; // 引入i8n实例
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 //引入当前时间函数
 import { getTime } from '@/utils/time'
 let useStore = useUserStore();
+let $route = useRoute();
 //获取路由器
 let $router = useRouter();
 //获取 el-form组件
@@ -92,7 +93,9 @@ const login = async () => {
         //编程式导航跳转到展示数据首页
         setTimeout(() => {
             loading.value = false;
-            $router.push('/')
+            // 判断登录时候是否有 $route 参数
+            let redirect: any = $route.query.redirect;
+            $router.push({ path: redirect || '/' })
             ElNotification({
                 type: "success",
                 message: '登录成功',
