@@ -120,6 +120,7 @@
  
  body {
      line-height: 1;
+     color: rgb(0, 0, 0, 0.88);
  }
  
  ol,
@@ -319,6 +320,9 @@
 .mr-5{
     margin-right: .3125rem;
 }
+.mr-8{
+    margin-right: .5rem;
+}
 .mr-10{
     margin-right: .625rem;
 }
@@ -507,4 +511,15 @@
 }
 .f-1{
     flex: 1;
+}
+.p-a{
+    position: absolute;
+}
+
+.top-16{
+    top: 1rem;
+}
+
+.right-16{
+    right: 1rem;
 }

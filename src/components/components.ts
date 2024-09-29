@@ -1,2 +1,2 @@
 export { DefPagination } from './Pagination'
-export { DefSvgIcon } from './SvgIcon'
+export { SvgIcon } from './SvgIcon'
