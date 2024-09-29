@@ -73,12 +73,12 @@ export const constantRouter = [
       hidden: false,
       icon: 'Grid',
     },
-    redirect:'/module/barCode',//访问一级路由直接重定向到二级路由的第一个
+    redirect: '/module/barCode', //访问一级路由直接重定向到二级路由的第一个
     children: [
       {
         path: '/module/barCode',
         component: () => import('@/view/module/barCode/index.vue'),
-        name:'barCode',
+        name: 'barCode',
         meta: {
           title: '条形码',
           hidden: false,
@@ -88,7 +88,7 @@ export const constantRouter = [
       {
         path: '/module/verificationCode',
         component: () => import('@/view/module/verificationCode/index.vue'),
-        name:'verificationCode',
+        name: 'verificationCode',
         meta: {
           title: '验证码',
           hidden: false,
@@ -98,7 +98,7 @@ export const constantRouter = [
       {
         path: '/module/primaryDrag',
         component: () => import('@/view/module/primaryDrag/index.vue'),
-        name:'primaryDrag',
+        name: 'primaryDrag',
         meta: {
           title: '原生拖拽',
           hidden: false,
@@ -110,18 +110,18 @@ export const constantRouter = [
   {
     path: '/map',
     component: () => import('@/layout/index.vue'),
-    name:'map',
+    name: 'map',
     meta: {
       title: '地图',
       hidden: false,
       icon: 'Location',
     },
-    redirect:'/map/qqMap',//访问一级路由直接重定向到二级路由的第一个
+    redirect: '/map/qqMap', //访问一级路由直接重定向到二级路由的第一个
     children: [
       {
         path: '/map/qqMap',
         component: () => import('@/view/map/qqMap/index.vue'),
-        name:'qqMap',
+        name: 'qqMap',
         meta: {
           title: 'qq地图',
           hidden: false,
@@ -131,14 +131,36 @@ export const constantRouter = [
       {
         path: '/map/amap',
         component: () => import('@/view/map/amap/index.vue'),
-        name:'amap',
+        name: 'amap',
         meta: {
           title: '高德地图',
           hidden: false,
           icon: 'Place',
         },
-      }
-      
-    ]
-  }
+      },
+    ],
+  },
+  {
+    //登录成功展示数据的路由
+    path: '/test',
+    component: () => import('@/layout/index.vue'),
+    name: 'test',
+    meta: {
+      title: '',
+      hidden: false,
+      icon: '',
+    },
+    redirect: '/test',
+    children: [
+      {
+        path: '/test',
+        component: () => import('@/view/test/index.vue'),
+        meta: {
+          title: '测试',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+    ],
+  },
 ]

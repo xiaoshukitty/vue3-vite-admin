@@ -47,6 +47,7 @@ let $router = useRouter();
 //点击菜单回调
 const goRoute = (val: any) => {
     console.log($router);
+    console.log(val);
     // 路由跳转
     $router.push(val.index)
 

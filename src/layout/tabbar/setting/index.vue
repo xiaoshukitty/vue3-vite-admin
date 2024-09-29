@@ -1,7 +1,9 @@
 <template>
-    <el-button size="small" icon="Refresh" circle @click="updateRefsh" />
-    <el-button size="small" icon="FullScreen" circle @click="fullScreen" />
-    <el-button size="small" icon="Setting" circle />
+    <el-button class="p-13" size="small" icon="Refresh" circle @click="updateRefsh" />
+    <el-button class="p-13" size="small" icon="FullScreen" circle @click="fullScreen" />
+    <el-button class="p-13" size="small" icon="Setting" circle />
+    <el-switch ref="elSwitch" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt :active-icon="Sunny"
+        :inactive-icon="Moon" @click="changeDark" />
     <img src="../../../assets/images/avatar1.jpg" alt=""
         style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%;">
     <!-- 下来菜单 -->
@@ -24,7 +26,14 @@
 //获取 setting 仓库
 import useLayOutSettingStore from '@/store/modules/setting'
 import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useThemeStore } from '@/store/modules/theme'
+//引入操作本地存储工具方法
+import { SET_STORAGE, GET_STORAGE } from '@/utils/storage'
+//收集开关
+let dark = ref<boolean>(false)
 let layOutSettingStore = useLayOutSettingStore();
+let layOutThemeStore = useThemeStore();
 let $router = useRouter();
 //获取路由对象
 let $route = useRoute();
@@ -33,6 +42,7 @@ let $route = useRoute();
 const updateRefsh = () => {
     layOutSettingStore.refsh = !layOutSettingStore.refsh;
 }
+
 //全屏
 const fullScreen = () => {
     // dom 对象的属性，判断当前是否是全屏，是返回 true，不是返回 false(null)
@@ -55,6 +65,59 @@ const logout = () => {
     $router.push({ path: '/login', query: { redirect: $route.path } })
 }
 
+
+//主题切换
+//获取 html 根节点
+let html = document.documentElement;
+if (GET_STORAGE('THEME') == 'dark') {
+    html.className = 'dark';
+    dark.value = true;
+} else {
+    html.className = '';
+    dark.value = false;
+}
+
+const changeDark = (event: MouseEvent) => {
+    
+    const transition = (document as Document).startViewTransition(() => {
+        //判断标签是否有 dark
+        if (dark.value) {
+            html.className = 'dark';
+            layOutThemeStore.theme = 'dark'
+            SET_STORAGE('THEME', 'dark');
+        } else {
+            html.className = '';
+            layOutThemeStore.theme = 'light';
+            SET_STORAGE('THEME', 'light');
+        }
+    });
+
+    //开关按钮的坐标
+    const x = event.clientX;
+    const y = event.clientY;
+
+    //计算开关按钮到页面对角的距离(半径)
+    const tragetRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+    )
+    console.log('tragetRadius----', tragetRadius);
+
+    transition.ready.then(() => {
+        //过渡动画结束
+        //第一个参数是关键帧，第二个参数是可选项
+        document.documentElement.animate({
+            // 裁剪路径，中心圆点从 0% 到 100% 
+            clipPath: [
+                `circle(0% at ${x}px ${y}px)`,
+                `circle(${tragetRadius}px at  ${x}px ${y}px)`
+            ],
+        }, {
+            duration: 1000,
+            pseudoElement: '::view-transition-new(root)'
+        })
+    })
+}
 </script>
 <script lang="ts">
 export default {

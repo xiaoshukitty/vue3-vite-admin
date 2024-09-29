@@ -10,7 +10,9 @@ import setting from './setting'
 import useUserStore from './store/modules/user'
 import pinia from './store' //必须引入 pinia，不然报错
 let userStore = useUserStore(pinia)
-console.log('userStore---', userStore)
+
+
+nprogress.configure({showSpinner: false}) // 通过设置为false来关闭加载旋转器
 
 //全局前置守卫
 router.beforeEach((to: any, from: any, next: any) => {

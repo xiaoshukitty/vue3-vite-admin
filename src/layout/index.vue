@@ -20,11 +20,11 @@
         </div>
         <!-- 内容展示 -->
         <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
-            <Main />
+            <Main></Main>
         </div>
     </div>
 </template>
-  
+
 <script setup lang="ts">
 //获取路由对象
 import { useRoute } from 'vue-router';
@@ -55,14 +55,18 @@ export default {
     name: "Layout"
 }
 </script>
-  
+
 <style scoped lang="scss">
 .layout_container {
     width: 100%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     .layout_slider {
         width: $base-menu-width;
+        flex: 0 0  $base-menu-width;
+        max-width:  $base-menu-width;
         height: 100vh;
         background-color: $base-menu-background;
         color: #fff;
@@ -100,7 +104,6 @@ export default {
         position: absolute;
         width: calc(100% - $base-menu-width);
         height: calc(100vh - $base-tabbar-height);
-        background-color: yellow;
         left: $base-menu-width;
         top: $base-tabbar-height;
         padding: 20px;
