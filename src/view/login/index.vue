@@ -1,12 +1,12 @@
 <template>
     <div class="login">
         <div class="d-flex ai-center p-a top-16 right-16">
-            <div class="theme-switch mr-8" @click="themeSwitch">
+            <div class="theme-switch mr-8" :style="MoveRound ? 'border: 1px solid #c4bcbc;' : ''" @click="themeSwitch">
                 <div :class="['theme-round', MoveRound ? 'move-round ' : '']"></div>
                 <SvgIcon name="sun"></SvgIcon>
                 <SvgIcon name="moon"></SvgIcon>
             </div>
-            <SvgIcon name="lang"></SvgIcon>
+            <SvgIcon name="lang" :color="'rgb(153, 153, 153)'"></SvgIcon>
         </div>
         <div class="login-box">
             <div class="login-left">
@@ -14,7 +14,7 @@
             </div>
             <div class="login-right d-flex j-center ai-center">
                 <div class="login-block">
-                    <h2 class="mr-10">登录</h2>
+                    <h2 class="mr-10" :style="MoveRound ? 'color:#fff' : ''">登录</h2>
                     <el-form class="login-form" :model="loginForm" :rules="rules" ref="loginForms">
                         <el-form-item prop="username">
                             <el-input :prefix-icon="User" v-model="loginForm.username"></el-input>
@@ -42,7 +42,10 @@ import { ref, reactive } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ElNotification } from 'element-plus';
 //引入当前时间函数
-import { getTime } from '@/utils/time'
+import { getTime } from '@/utils/time';
+import { useThemeStore } from '@/store/modules/theme';
+//引入操作本地存储工具方法
+import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
 
 let MoveRound = ref(false);
 let checked = ref(false);
@@ -55,6 +58,7 @@ let loginForm = reactive({ username: 'admin', password: '123456' });
 let $route = useRoute();
 //获取路由器
 let $router = useRouter();
+let layOutThemeStore = useThemeStore();
 
 //自定义校验规则函数(可以写正则)
 const validateUserName = (rule: any, value: any, callback: any) => {
@@ -101,10 +105,30 @@ const rules = {
     ]
 }
 
+//主题切换
+//获取 html 根节点
+let html = document.documentElement;
+if (GET_STORAGE('THEME') == 'dark') {
+    html.className = 'dark';
+    MoveRound.value = true;
+} else {
+    html.className = '';
+    MoveRound.value = false;
+}
 
 //主题切换
 const themeSwitch = () => {
     MoveRound.value = !MoveRound.value;
+    //判断标签是否有 dark
+    if (MoveRound.value) {
+        html.className = 'dark';
+        layOutThemeStore.theme = 'dark'
+        SET_STORAGE('THEME', 'dark');
+    } else {
+        html.className = '';
+        layOutThemeStore.theme = 'light';
+        SET_STORAGE('THEME', 'light');
+    }
 }
 
 // 登录按钮回调
@@ -185,7 +209,6 @@ const login = async () => {
         .login-left {
             width: 50vw;
             min-height: 100vh;
-            background-color: #f00;
         }
 
         .login-right {
