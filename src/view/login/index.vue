@@ -150,13 +150,13 @@ const login = async () => {
             loading.value = false;
             // 判断登录时候是否有 $route 参数
             let redirect: any = $route.query.redirect;
-            $router.push({ path: redirect || '/' })
+            $router.push({ path: redirect || '/home' })
             ElNotification({
                 type: "success",
                 message: '登录成功',
                 title: `Hi,${getTime()}好`
             })
-        }, 2000)
+        }, 1000)
     } catch (error) {
         //登录失败，加载效果消失
         ElNotification({

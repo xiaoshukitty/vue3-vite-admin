@@ -62,7 +62,7 @@ const logout = () => {
     // 1，发请求
     // 2，清空仓库中用户相关数据
     // 3，跳转登录页面
-    $router.push({ path: '/login', query: { redirect: $route.path } })
+    $router.push({ path: '/', query: { redirect: $route.path } })
 }
 
 
@@ -78,7 +78,7 @@ if (GET_STORAGE('THEME') == 'dark') {
 }
 
 const changeDark = (event: MouseEvent) => {
-    
+
     const transition = (document as Document).startViewTransition(() => {
         //判断标签是否有 dark
         if (dark.value) {

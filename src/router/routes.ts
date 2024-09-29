@@ -2,7 +2,7 @@
 export const constantRouter = [
   {
     //登录路由
-    path: '/login',
+    path: '/',
     component: () => import('@/view/login/index.vue'),
     name: 'login', //命名路由
     meta: {
@@ -13,7 +13,7 @@ export const constantRouter = [
   },
   {
     //登录成功展示数据的路由
-    path: '/',
+    path: '/home',
     component: () => import('@/layout/index.vue'),
     name: 'layout',
     meta: {
