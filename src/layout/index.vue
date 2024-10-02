@@ -1,14 +1,14 @@
 <template>
     <div class="layout_container">
         <!-- 左侧菜单 -->
-        <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+        <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }" >
             <Logo></Logo>
             <!-- 展示菜单 -->
             <!-- 滚动组件 -->
             <el-scrollbar class="scrollbar">
                 <!-- 菜单组件 -->
                 <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$router.path"
-                    background-color="rgb(84, 92, 100)" text-color="#fff" active-text-color="rgb(255, 208, 75)">
+                    background-color="151515" text-color="#fff" active-text-color="rgb(255, 208, 75)">
                     <Menu :menuList="useStore.menuRoutes"></Menu>
                 </el-menu>
             </el-scrollbar>
@@ -71,6 +71,7 @@ export default {
         background-color: $base-menu-background;
         color: #fff;
         transition: all .3s;
+        border-right: 1px solid var(--border-color);
 
         .scrollbar {
             width: 100%;
