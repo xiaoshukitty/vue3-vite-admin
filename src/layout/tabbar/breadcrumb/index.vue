@@ -1,13 +1,13 @@
 <template>
     <!-- 顶部左侧 -->
-    <el-icon class="mr-10 fs-26" @click="changeIcon">
+    <el-icon class="mr-10 fs-26" :style="layOutThemeStore.theme === 'dark' ? 'color:#eee' : ''" @click="changeIcon">
         <component :is="LayOutSettingStore.fold ? 'Expand' : 'Fold'"></component>
     </el-icon>
     <!-- 左侧面包屑 -->
     <el-breadcrumb separator-icon="ArrowRight">
         <!-- 面包屑动态展示路由名称和标题 -->
         <el-breadcrumb-item v-for="(item, index) in $route.matched" :key="index" v-show="item.meta.title"
-            :to="item.path" >
+            :to="item.path">
             <!-- 图标 -->
             <div class="d-flex ai-center">
                 <el-icon class="fs-24">
@@ -23,7 +23,9 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router'
 import useLayOutSettingStore from '@/store/modules/setting'
+import { useThemeStore } from '@/store/modules/theme'
 
+let layOutThemeStore = useThemeStore();
 //获取 layout相关配置的仓库
 let LayOutSettingStore = useLayOutSettingStore();
 //获取路由对象

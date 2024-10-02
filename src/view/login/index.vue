@@ -1,11 +1,7 @@
 <template>
     <div class="login">
         <div class="d-flex ai-center p-a top-16 right-16">
-            <div class="theme-switch mr-8" :style="MoveRound ? 'border: 1px solid #c4bcbc;' : ''" @click="themeSwitch">
-                <div :class="['theme-round', MoveRound ? 'move-round ' : '']"></div>
-                <SvgIcon name="sun"></SvgIcon>
-                <SvgIcon name="moon"></SvgIcon>
-            </div>
+            <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch"></ThemeSwitch>
             <SvgIcon name="lang" :color="'rgb(153, 153, 153)'"></SvgIcon>
         </div>
         <div class="login-box">

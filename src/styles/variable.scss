@@ -1,20 +1,26 @@
 // 项目提供 scss 变量
 
-
+:root {
+    --border-color:#303030;
+    --header-bg-color: #151515;
+}
 
 // layout组件
 //左侧菜单宽度 
-$base-menu-width:220px;
+$base-menu-width:13.125rem;
 //左侧菜单背景颜色
-$base-menu-background:rgb(84, 92, 100);
-$base-menu-min-width:60px;
+// $base-menu-background:rgb(84, 92, 100);
+$base-menu-background:#151515;
+
+$base-menu-min-width:3.75rem;
 
 //左侧菜单logo高度设置
-$base-menu-logo-height:50px;
+$base-menu-logo-height:3.125rem;
 //左侧菜单logo右侧文字大小
-$base-menu-logo-title-fontSize:20px;
+$base-menu-logo-title-fontSize:1.25rem;
 
 //顶部导航高度
-$base-tabbar-height:50px;
-
+$base-tabbar-height:3.125rem;
+//侧边 menu 高度
+$base-menu-height:2.75rem;
 
