@@ -1,7 +1,7 @@
 <template>
     <el-button class="p-13" size="small" icon="Refresh" circle @click="updateRefsh" />
     <el-button class="p-13" size="small" icon="FullScreen" circle @click="fullScreen" />
-    <el-button class="p-13" size="small" icon="Setting" circle />
+    <el-button class="p-13" size="small" icon="Setting" circle @click="openSetting" />
     <!-- <el-switch ref="elSwitch" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt :active-icon="Sunny"
         :inactive-icon="Moon" @click="changeDark" /> -->
     <div class="p-13">
@@ -23,9 +23,11 @@
             </el-dropdown-menu>
         </template>
     </el-dropdown>
+    <Drawer :isDrawer="isDrawer" @close="closeDrawer"/>
 </template>
 
 <script setup lang='ts'>
+import Drawer from './drawer/index.vue'
 //获取 setting 仓库
 import useLayOutSettingStore from '@/store/modules/setting'
 import { useRouter, useRoute } from 'vue-router'
@@ -34,7 +36,8 @@ import { useThemeStore } from '@/store/modules/theme'
 //引入操作本地存储工具方法
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage'
 //收集开关
-let dark = ref<boolean>(false)
+let dark = ref<boolean>(false);
+const isDrawer = ref<boolean>(false);
 let layOutSettingStore = useLayOutSettingStore();
 let layOutThemeStore = useThemeStore();
 let $router = useRouter();
@@ -83,44 +86,54 @@ if (GET_STORAGE('THEME') == 'dark') {
 //主题切换
 const changeDark = (event: MouseEvent) => {
     dark.value = !dark.value;
-        const transition = (document as Document).startViewTransition(() => {
-            
-            //判断标签是否有 dark
-            if (dark.value) {
-                html.className = 'dark';
-                layOutThemeStore.theme = 'dark'
-                SET_STORAGE('THEME', 'dark');
-            } else {
-                html.className = '';
-                layOutThemeStore.theme = 'light';
-                SET_STORAGE('THEME', 'light');
-            }
-        });
+    const transition = (document as Document).startViewTransition(() => {
 
-        //开关按钮的坐标
-        const x = event.clientX;
-        const y = event.clientY;
+        //判断标签是否有 dark
+        if (dark.value) {
+            html.className = 'dark';
+            layOutThemeStore.theme = 'dark'
+            SET_STORAGE('THEME', 'dark');
+        } else {
+            html.className = '';
+            layOutThemeStore.theme = 'light';
+            SET_STORAGE('THEME', 'light');
+        }
+    });
 
-        //计算开关按钮到页面对角的距离(半径)
-        const tragetRadius = Math.hypot(
-            Math.max(x, window.innerWidth - x),
-            Math.max(y, window.innerHeight - y)
-        )
+    //开关按钮的坐标
+    const x = event.clientX;
+    const y = event.clientY;
 
-        transition.ready.then(() => {
-            //过渡动画结束
-            //第一个参数是关键帧，第二个参数是可选项
-            document.documentElement.animate({
-                // 裁剪路径，中心圆点从 0% 到 100% 
-                clipPath: [
-                    `circle(0% at ${x}px ${y}px)`,
-                    `circle(${tragetRadius}px at  ${x}px ${y}px)`
-                ],
-            }, {
-                duration: 1000,
-                pseudoElement: '::view-transition-new(root)'
-            })
+    //计算开关按钮到页面对角的距离(半径)
+    const tragetRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+    )
+
+    transition.ready.then(() => {
+        //过渡动画结束
+        //第一个参数是关键帧，第二个参数是可选项
+        document.documentElement.animate({
+            // 裁剪路径，中心圆点从 0% 到 100% 
+            clipPath: [
+                `circle(0% at ${x}px ${y}px)`,
+                `circle(${tragetRadius}px at  ${x}px ${y}px)`
+            ],
+        }, {
+            duration: 1000,
+            pseudoElement: '::view-transition-new(root)'
         })
+    })
+}
+
+//打开设置
+const openSetting = () => {
+    isDrawer.value = true;
+}
+
+//关闭设置
+const closeDrawer = (val:boolean) => {
+    isDrawer.value = val;
 }
 </script>
 <script lang="ts">

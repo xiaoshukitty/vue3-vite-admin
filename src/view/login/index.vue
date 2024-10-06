@@ -2,7 +2,7 @@
     <div class="login">
         <div class="d-flex ai-center p-a top-16 right-16">
             <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch"></ThemeSwitch>
-            <SvgIcon name="lang" :color="'rgb(153, 153, 153)'"></SvgIcon>
+            <I18n></I18n>
         </div>
         <div class="login-box">
             <div class="login-left">
@@ -10,7 +10,7 @@
             </div>
             <div class="login-right d-flex j-center ai-center">
                 <div class="login-block">
-                    <h2 class="mr-10" :style="MoveRound ? 'color:#fff' : ''">登录</h2>
+                    <h2 class="mr-10" :style="MoveRound ? 'color:#fff' : ''"> {{ $t('common.Login') }}</h2>
                     <el-form class="login-form" :model="loginForm" :rules="rules" ref="loginForms">
                         <el-form-item prop="username">
                             <el-input :prefix-icon="User" v-model="loginForm.username"></el-input>
@@ -265,4 +265,5 @@ const login = async () => {
 
     }
 }
+
 </style>

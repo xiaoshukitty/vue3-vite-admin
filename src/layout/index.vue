@@ -1,7 +1,7 @@
 <template>
     <div class="layout_container">
         <!-- 左侧菜单 -->
-        <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }" >
+        <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }">
             <Logo></Logo>
             <!-- 展示菜单 -->
             <!-- 滚动组件 -->
@@ -14,13 +14,15 @@
             </el-scrollbar>
         </div>
         <!-- 顶部导航 -->
-        <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
-            <!-- layout组件顶部 tabbar 组件 -->
-            <Tabbar></Tabbar>
-        </div>
-        <!-- 内容展示 -->
-        <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
-            <Main></Main>
+        <div class="layout_box">
+            <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                <!-- layout组件顶部 tabbar 组件 -->
+                <Tabbar></Tabbar>
+            </div>
+            <!-- 内容展示 -->
+            <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                <Main></Main>
+            </div>
         </div>
     </div>
 </template>
@@ -61,12 +63,11 @@ export default {
     width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
 
     .layout_slider {
         width: $base-menu-width;
-        flex: 0 0  $base-menu-width;
-        max-width:  $base-menu-width;
+        flex: 0 0 $base-menu-width;
+        max-width: $base-menu-width;
         height: 100vh;
         background-color: $base-menu-background;
         color: #fff;
@@ -87,34 +88,39 @@ export default {
         }
     }
 
-    .layout_tabbar {
-        position: fixed;
-        width: calc(100% - $base-menu-width);
-        height: $base-tabbar-height;
-        top: 0;
-        left: $base-menu-width;
-        transition: all .3s;
+    .layout_box {
+        flex: 1;
 
-        &.fold {
-            width: calc(100vw - $base-menu-min-width);
-            left: $base-menu-min-width;
+        .layout_tabbar {
+            // position: fixed;
+            width: calc(100vw - $base-menu-width);
+            height: $base-tabbar-height;
+            // top: 0;
+            // left: $base-menu-width;
+            transition: all .3s;
+
+            &.fold {
+                width: calc(100vw - $base-menu-min-width);
+                left: $base-menu-min-width;
+            }
+        }
+
+        .layout_main {
+            // position: absolute;
+            width: calc(100vw - $base-menu-width);
+            height: calc(100vh - $base-tabbar-height);
+            // left: $base-menu-width;
+            // top: $base-tabbar-height;
+            padding: 20px;
+            overflow: auto;
+            transition: all .3s;
+
+            &.fold {
+                width: calc(100vw - $base-menu-min-width);
+                left: $base-menu-min-width;
+            }
         }
     }
 
-    .layout_main {
-        position: absolute;
-        width: calc(100% - $base-menu-width);
-        height: calc(100vh - $base-tabbar-height);
-        left: $base-menu-width;
-        top: $base-tabbar-height;
-        padding: 20px;
-        overflow: auto;
-        transition: all .3s;
-
-        &.fold {
-            width: calc(100vw - $base-menu-min-width);
-            left: $base-menu-min-width;
-        }
-    }
 }
 </style>

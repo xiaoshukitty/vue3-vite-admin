@@ -1,20 +1,21 @@
 <template>
-    <div>
-        <el-popover placement="bottom" :width="200" trigger="click">
+    <el-popover placement="bottom" :width="100" trigger="click" :visible="visiblePopover">
+        <template #reference>
+            <SvgIcon class="c-p" name="lang" :color="'rgb(153, 153, 153)'" @click="visiblePopover = true"></SvgIcon>
+        </template>
+        <div class="language_select">
             <div v-for="(item, index) in languageList" :key="index" @click="changeLangUage(item.langCode)"
                 :class="langColor == item.langCode ? 'paint' : ''">{{ item.langName
                 }}</div>
-            <template #reference>
-                <el-button class="m-2">中文</el-button>
-            </template>
-        </el-popover>
-    </div>
+        </div>
+    </el-popover>
 </template>
-  
-<script setup lang="ts">
-import { reactive,computed } from 'vue'
-import i18n from '@/lang'; // 引入i8n实例
+
+<script setup lang='ts'>
+import { ref } from 'vue';
+import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n';
+
 const languageList = reactive([
     {
         langCode: 'zh-CN',
@@ -24,17 +25,22 @@ const languageList = reactive([
         langCode: 'en-US',
         langName: 'English',
     }
-]);
+])
+let langColor = localStorage.getItem('LANG') || ref('zh-CN');
+let visiblePopover = ref(false);
+
 
 const { locale } = useI18n();
+
+
 //语言切换
 const changeLangUage = (langType: string) => {
-    console.log(langType);
+    langColor = langType;
     locale.value = langType; // 切换语言
     localStorage.setItem('LANG', langType); // 本地存储当前语言类型
+    visiblePopover.value = false;
 }
 
-const currentLang = computed(() => locale.value);
 /**
  * 
  * // 第一种方法：获取i18n实例对象 t 的方法1
@@ -52,5 +58,34 @@ console.log(t3);
  */
 
 </script>
-  
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+.language_select {
+    div {
+        height: 32px;
+        line-height: 32px;
+        padding-left: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    div:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    color: rgba(0, 0, 0, 0.88);
+
+    .paint {
+        color: #1677ff;
+        background-color: #e6f4ff;
+    }
+
+    .paint:hover {
+        background-color: #bae0ff !important;
+    }
+
+}
+
+:v-deep .el-popover {
+    padding: 0 !important;
+}
+</style>
