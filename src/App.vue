@@ -11,7 +11,7 @@ onMounted(() => {
         const appContainer = document.querySelector('#app');
         const loadingContainer = document.querySelector('#loading-mask');
         loadingContainer && appContainer.removeChild(loadingContainer);
-    }, 1000)
+    }, 500)
 })
 </script>
 

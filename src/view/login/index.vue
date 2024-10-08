@@ -8,23 +8,48 @@
             <div class="login-left">
                 <div class="login-block2">1</div>
             </div>
-            <div class="login-right d-flex j-center ai-center">
+            <div class="login-right d-flex j-center pt-64">
                 <div class="login-block">
-                    <h2 class="mr-10" :style="MoveRound ? 'color:#fff' : ''"> {{ $t('common.Login') }}</h2>
+                    <h2 class="mr-10 text-36" :style="MoveRound ? 'color:#fff' : ''"> {{ $t('common.WelcomeBack') }}
+                    </h2>
+                    <div class="text-tips fs-14">{{ $t('common.LoginIntroduce') }}</div>
                     <el-form class="login-form" :model="loginForm" :rules="rules" ref="loginForms">
+                        <el-form-item prop="authority">
+                            <el-select v-model="loginForm.authority" placeholder="Select" style="width: 100%"
+                                size="large">
+                                <el-option v-for="item in userAuthorityEnum" :key="item.value" :label="item.label"
+                                    :value="item.value" />
+                            </el-select>
+                        </el-form-item>
                         <el-form-item prop="username">
-                            <el-input :prefix-icon="User" v-model="loginForm.username"></el-input>
+                            <el-input :prefix-icon="User" v-model="loginForm.username" size="large"></el-input>
                         </el-form-item>
                         <el-form-item prop="password">
-                            <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password"
-                                show-password></el-input>
+                            <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" show-password
+                                size="large"></el-input>
                         </el-form-item>
                         <el-form-item class="login-select">
-                            <el-checkbox v-model="checked" label="记住我" size="large" />
-                            <div>忘记密码?</div>
+                            <el-checkbox v-model="checked" :label="$t('common.RememberMe')" size="large" />
+                            <div>{{ $t('common.ForgotPassword') }}</div>
                         </el-form-item>
                         <el-form-item>
-                            <el-button class="login_btn" type="primary" @click="login" :loading="loading">登录</el-button>
+                            <el-button class="login_btn" type="primary" @click="login" :loading="loading"
+                                size="default">{{ $t('common.Login') }}</el-button>
+                        </el-form-item>
+                        <el-form-item>
+                            <div class="sign-in d-flex j-between">
+                                <el-button plain size="default" style="width: 47%">{{ $t('common.PhoneLogin')
+                                    }}</el-button>
+                                <el-button plain size="default" style="width: 47%">{{ $t('common.ScanPayLogin')
+                                    }}</el-button>
+                            </div>
+                        </el-form-item>
+                        <el-form-item>
+                            <div class="other-login d-flex j-between ai-center">
+                                <div class="other-line"></div>
+                                <div>{{ $t('common.OtherLogin') }}</div>
+                                <div class="other-line"></div>
+                            </div>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -42,6 +67,7 @@ import { getTime } from '@/utils/time';
 import { useThemeStore } from '@/store/modules/theme';
 //引入操作本地存储工具方法
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
+import { userAuthorityEnum } from '@/data/enum/index';
 
 let MoveRound = ref(false);
 let checked = ref(false);
@@ -50,7 +76,7 @@ let loading = ref(false);
 //获取 el-form组件
 let loginForms = ref();
 //收集表单账号密码数据
-let loginForm = reactive({ username: 'admin', password: '123456' });
+let loginForm = reactive({ authority: 'User', username: 'admin', password: '123456' });
 let $route = useRoute();
 //获取路由器
 let $router = useRouter();
@@ -203,13 +229,14 @@ const login = async () => {
         display: flex;
 
         .login-left {
-            width: 50vw;
+            width: 62vw;
             min-height: 100vh;
+            background-color: #1677ff;
         }
 
         .login-right {
             min-height: 100vh;
-            width: 50vw;
+            width: 38vw;
             text-align: center;
             overflow: hidden;
             box-sizing: border-box;
@@ -219,7 +246,7 @@ const login = async () => {
         .login-block {
             display: inline-block;
             font-size: 1.125rem;
-            animation: Animation 2s ease-in-out;
+            animation: Animation 1s ease-in-out;
             animation-fill-mode: forwards;
             animation-delay: .1s;
 
@@ -231,7 +258,6 @@ const login = async () => {
             }
 
             .login-form {
-                padding: 1rem;
 
                 .login-select {
                     ::v-deep .el-form-item__content {
@@ -244,10 +270,37 @@ const login = async () => {
                     }
 
                 }
+
+                .sign-in {
+                    width: 100%;
+                }
+
+                .other-login {
+                    width: 100%;
+
+                    .other-line {
+                        border-color: #e4e4e7;
+                        width: 35%;
+                        border-bottom-width: 1px;
+                        background: #e4e4e7;
+                        height: 1px;
+                    }
+                }
             }
 
             .login_btn {
                 width: 100%;
+            }
+
+            .text-36 {
+                font-size: 2.25rem;
+                line-height: 2.25rem;
+            }
+
+            .text-tips {
+                margin: .75rem 0 1.75rem 0;
+                text-align-last: left;
+                color: #71717a;
             }
         }
 
@@ -265,5 +318,4 @@ const login = async () => {
 
     }
 }
-
 </style>
