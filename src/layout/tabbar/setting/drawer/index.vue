@@ -86,7 +86,7 @@ const changeDark = (event: MouseEvent) => {
                 `circle(${tragetRadius}px at  ${x}px ${y}px)`
             ],
         }, {
-            duration: 1000,
+            duration: 600,
             pseudoElement: '::view-transition-new(root)'
         })
     })

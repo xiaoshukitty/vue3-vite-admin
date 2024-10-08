@@ -11,33 +11,42 @@
     <div class="">
         <el-dropdown trigger="click">
             <div class="d-flex ai-center">
-                <div class="img-hover">
+                <div :class="['img-hover', layOutThemeStore.theme === 'dark' ? 'img-hover-theme' : '']">
                     <img src="../../../assets//images/avatar1.jpg" alt="">
                     <span></span>
                 </div>
             </div>
             <template #dropdown>
                 <div class="user-info ">
-                    <div class="user-top d-flex ai-center b-bottom">
+                    <div
+                        :class="['user-top', 'd-flex', 'ai-center', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
                         <div class="user-img">
                             <img src="../../../assets//images/avatar1.jpg" alt="">
                             <span></span>
                         </div>
-                        <div class="user-name d-flex j-center f-cloumn ml-10">
+                        <div
+                            :class="['user-name', 'd-flex', 'j-center', 'f-cloumn', 'ml-10', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
                             <div class="fw-500">Xiaoshu</div>
                             <div style="color: #71717a;font-size: .75rem;line-height: 1rem;">https:xiaoshukitty</div>
                         </div>
                     </div>
-                    <div class="user-bottom b-bottom">
-                        <div class="user-bottom-line d-flex ai-center"><el-icon class="mr-5">
+                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                        <div
+                            :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']">
+                            <el-icon class="mr-5">
                                 <SwitchFilled />
-                            </el-icon>Github</div>
-                        <div class="user-bottom-line d-flex ai-center"><el-icon class="mr-5">
+                            </el-icon>Github
+                        </div>
+                        <div
+                            :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']">
+                            <el-icon class="mr-5">
                                 <Lock />
-                            </el-icon>锁定屏幕</div>
+                            </el-icon>锁定屏幕
+                        </div>
                     </div>
-                    <div class="user-bottom b-bottom">
-                        <div class="user-bottom-line d-flex ai-center" @click="logout"><el-icon class="mr-5">
+                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                        <div :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']"
+                            @click="logout"><el-icon class="mr-5">
                                 <SwitchButton />
                             </el-icon>退出登录</div>
                     </div>
@@ -57,7 +66,9 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Action } from 'element-plus';
+import { useThemeStore } from '@/store/modules/theme'
 
+let layOutThemeStore = useThemeStore();
 
 const isDrawer = ref<boolean>(false);
 let layOutSettingStore = useLayOutSettingStore();
@@ -205,6 +216,10 @@ export default {
             background-color: #f6f6f6
         }
     }
+
+    .user-hover:hover {
+        background-color: #2e3033 !important;
+    }
 }
 
 .b-bottom {
@@ -215,7 +230,16 @@ export default {
     background-color: #f6f6f6;
 }
 
+.img-hover-theme:hover {
+    background-color: #2e3033 !important;
+}
+
 :v-deep .el-popup-parent--hidden {
     width: 0 !important;
+}
+
+.tabbar-theme {
+    border-bottom: .0625rem solid var(--border-color);
+    border-left: .0625rem solid var(--border-color);
 }
 </style>
