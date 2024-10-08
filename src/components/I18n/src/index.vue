@@ -61,10 +61,10 @@ console.log(t3);
 <style lang="scss" scoped>
 .language_select {
     div {
-        height: 32px;
-        line-height: 32px;
-        padding-left: 10px;
-        border-radius: 4px;
+        height: 2rem;
+        line-height: 2rem;
+        padding-left: .625rem;
+        border-radius: .25rem;
         cursor: pointer;
     }
 

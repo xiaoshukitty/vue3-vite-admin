@@ -26,17 +26,17 @@ export default {
     display: flex;
     color: #fff;
     align-items: center;
-    padding: 10px;
+    padding: .625rem;
 
     img {
-        width: 40px;
-        height: 40px;
+        width: 2.5rem;
+        height: 2.5rem;
         border-radius: 50%;
     }
 
     p {
         font-size: $base-menu-logo-title-fontSize;
-        margin-left: 10px;
+        margin-left: .625rem;
     }
 }
 </style>

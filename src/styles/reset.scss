@@ -552,6 +552,10 @@ pre {
     padding: .8125rem;
 }
 
+.p-13-8 {
+    padding: .8125rem .5rem;
+}
+
 .p-15 {
     padding: .9375rem;
 }
@@ -597,6 +601,10 @@ pre {
     justify-content: flex-end;
 }
 
+.f-cloumn {
+    flex-direction: column;
+}
+
 .f-wrap {
     flex-wrap: wrap;
 }
@@ -619,4 +627,8 @@ pre {
 
 .c-p {
     cursor: pointer;
+}
+
+.fw-500 {
+    font-weight: 500;
 }

@@ -13,7 +13,7 @@
                 <el-icon class="fs-24">
                     <component :is="item.meta.icon"></component>
                 </el-icon>
-                <span style="margin: 0 5px;">{{ item.meta.title }}</span>
+                <span style="margin: 0 .3125rem;">{{ item.meta.title }}</span>
             </div>
         </el-breadcrumb-item>
     </el-breadcrumb>

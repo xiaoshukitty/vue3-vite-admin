@@ -1,5 +1,5 @@
 <template>
-    <div class="theme-switch mr-8" :style="MoveRound ? 'border: 1px solid #c4bcbc;' : ''" @click="themeSwitch">
+    <div class="theme-switch mr-8" :style="MoveRound ? 'border: 0.0625rem solid #c4bcbc;' : ''" @click="themeSwitch">
         <div :class="['theme-round', MoveRound ? 'move-round ' : '']"></div>
         <SvgIcon name="sun"></SvgIcon>
         <SvgIcon name="moon"></SvgIcon>

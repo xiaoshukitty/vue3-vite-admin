@@ -1,45 +1,66 @@
 <template>
-    <el-button class="p-13" size="small" icon="Refresh" circle @click="updateRefsh" />
-    <el-button class="p-13" size="small" icon="FullScreen" circle @click="fullScreen" />
-    <el-button class="p-13" size="small" icon="Setting" circle @click="openSetting" />
-    <!-- <el-switch ref="elSwitch" v-model="dark" class="mt-2" style="margin-left: 24px" inline-prompt :active-icon="Sunny"
-        :inactive-icon="Moon" @click="changeDark" /> -->
-    <div class="p-13">
-        <ThemeSwitch :MoveRound="dark" @update:themeSwitch="changeDark"></ThemeSwitch>
+    <div class="p-13-8" @click="updateRefsh">
+        <el-button size="small" icon="Refresh" circle />
     </div>
-    <img src="../../../assets/images/avatar1.jpg" alt=""
-        style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%;">
-    <!-- 下来菜单 -->
-    <el-dropdown>
-        <span class="el-dropdown-link">
-            admin
-            <el-icon class="el-icon--right">
-                <arrow-down />
-            </el-icon>
-        </span>
-        <template #dropdown>
-            <el-dropdown-menu>
-                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-        </template>
-    </el-dropdown>
-    <Drawer :isDrawer="isDrawer" @close="closeDrawer"/>
+    <div class="p-13-8" @click="fullScreen">
+        <el-button size="small" icon="FullScreen" circle />
+    </div>
+    <div class="p-13-8" @click="openSetting">
+        <el-button size="small" icon="Setting" circle />
+    </div>
+    <div class="">
+        <el-dropdown trigger="click">
+            <div class="d-flex ai-center">
+                <div class="img-hover">
+                    <img src="../../../assets//images/avatar1.jpg" alt="">
+                    <span></span>
+                </div>
+            </div>
+            <template #dropdown>
+                <div class="user-info ">
+                    <div class="user-top d-flex ai-center b-bottom">
+                        <div class="user-img">
+                            <img src="../../../assets//images/avatar1.jpg" alt="">
+                            <span></span>
+                        </div>
+                        <div class="user-name d-flex j-center f-cloumn ml-10">
+                            <div class="fw-500">Xiaoshu</div>
+                            <div style="color: #71717a;font-size: .75rem;line-height: 1rem;">https:xiaoshukitty</div>
+                        </div>
+                    </div>
+                    <div class="user-bottom b-bottom">
+                        <div class="user-bottom-line d-flex ai-center"><el-icon class="mr-5">
+                                <SwitchFilled />
+                            </el-icon>Github</div>
+                        <div class="user-bottom-line d-flex ai-center"><el-icon class="mr-5">
+                                <Lock />
+                            </el-icon>锁定屏幕</div>
+                    </div>
+                    <div class="user-bottom b-bottom">
+                        <div class="user-bottom-line d-flex ai-center" @click="logout"><el-icon class="mr-5">
+                                <SwitchButton />
+                            </el-icon>退出登录</div>
+                    </div>
+                </div>
+            </template>
+        </el-dropdown>
+    </div>
+
+    <Drawer :isDrawer="isDrawer" @close="closeDrawer" />
 </template>
 
 <script setup lang='ts'>
 import Drawer from './drawer/index.vue'
 //获取 setting 仓库
-import useLayOutSettingStore from '@/store/modules/setting'
-import { useRouter, useRoute } from 'vue-router'
-import { ref } from 'vue'
-import { useThemeStore } from '@/store/modules/theme'
-//引入操作本地存储工具方法
-import { SET_STORAGE, GET_STORAGE } from '@/utils/storage'
-//收集开关
-let dark = ref<boolean>(false);
+import useLayOutSettingStore from '@/store/modules/setting';
+import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import type { Action } from 'element-plus';
+
+
 const isDrawer = ref<boolean>(false);
 let layOutSettingStore = useLayOutSettingStore();
-let layOutThemeStore = useThemeStore();
 let $router = useRouter();
 //获取路由对象
 let $route = useRoute();
@@ -68,62 +89,27 @@ const logout = () => {
     // 1，发请求
     // 2，清空仓库中用户相关数据
     // 3，跳转登录页面
-    $router.push({ path: '/', query: { redirect: $route.path } })
-}
-
-
-//主题切换
-//获取 html 根节点
-let html = document.documentElement;
-if (GET_STORAGE('THEME') == 'dark') {
-    html.className = 'dark';
-    dark.value = true;
-} else {
-    html.className = '';
-    dark.value = false;
-}
-
-//主题切换
-const changeDark = (event: MouseEvent) => {
-    dark.value = !dark.value;
-    const transition = (document as Document).startViewTransition(() => {
-
-        //判断标签是否有 dark
-        if (dark.value) {
-            html.className = 'dark';
-            layOutThemeStore.theme = 'dark'
-            SET_STORAGE('THEME', 'dark');
-        } else {
-            html.className = '';
-            layOutThemeStore.theme = 'light';
-            SET_STORAGE('THEME', 'light');
+    ElMessageBox.confirm(
+        '是否退出登录?',
+        '提示',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
         }
-    });
-
-    //开关按钮的坐标
-    const x = event.clientX;
-    const y = event.clientY;
-
-    //计算开关按钮到页面对角的距离(半径)
-    const tragetRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
     )
-
-    transition.ready.then(() => {
-        //过渡动画结束
-        //第一个参数是关键帧，第二个参数是可选项
-        document.documentElement.animate({
-            // 裁剪路径，中心圆点从 0% 到 100% 
-            clipPath: [
-                `circle(0% at ${x}px ${y}px)`,
-                `circle(${tragetRadius}px at  ${x}px ${y}px)`
-            ],
-        }, {
-            duration: 1000,
-            pseudoElement: '::view-transition-new(root)'
+        .then(() => {
+            $router.push({ path: '/', query: { redirect: $route.path } })
+            ElMessage({
+                type: 'success',
+                message: 'Delete completed',
+            })
         })
-    })
+        .catch(() => {
+            ElMessage({
+                type: 'info',
+                message: 'Delete canceled',
+            })
+        })
 }
 
 //打开设置
@@ -132,7 +118,7 @@ const openSetting = () => {
 }
 
 //关闭设置
-const closeDrawer = (val:boolean) => {
+const closeDrawer = (val: boolean) => {
     isDrawer.value = val;
 }
 </script>
@@ -141,4 +127,95 @@ export default {
     name: 'Setting',//递归组件加的name(必须要加)
 }
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+.img-hover {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: .625rem;
+
+    img {
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        margin: .25rem;
+    }
+
+    span {
+        position: absolute;
+        bottom: .3125rem;
+        right: .3125rem;
+        width: .625rem;
+        height: .625rem;
+        border-radius: 50%;
+        border: .125rem solid #fff;
+        background-color: #79cebe;
+    }
+}
+
+.user-info {
+    width: 15rem;
+    box-sizing: border-box;
+
+    .user-top {
+        padding: .75rem;
+
+        .user-img {
+            position: relative;
+            width: 3rem;
+            height: 3rem;
+
+            img {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+            }
+
+            span {
+                width: 1rem;
+                height: 1rem;
+                border-radius: 50%;
+                background-color: #79cebe;
+                position: absolute;
+                bottom: .25rem;
+                right: .25rem;
+                border: .125rem solid #fff;
+
+            }
+
+        }
+    }
+
+}
+
+.user-bottom {
+    padding: .3125rem;
+    font-size: .876rem;
+
+    .user-bottom-line {
+        height: 2.5rem;
+        border-radius: .3125rem;
+        line-height: 2.5rem;
+        padding: 0 .625rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f6f6f6
+        }
+    }
+}
+
+.b-bottom {
+    border-bottom: .0625rem solid #e4e4e7;
+}
+
+.img-hover:hover {
+    background-color: #f6f6f6;
+}
+
+:v-deep .el-popup-parent--hidden {
+    width: 0 !important;
+}
+</style>

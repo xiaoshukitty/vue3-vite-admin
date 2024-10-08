@@ -181,19 +181,19 @@ const currentLang = computed(() => {
     .login_form {
         position: relative;
         // width: 80%;
-        width: 540px;
+        width: 33.75rem;
         top: 20vh;
         background-color: rgba(255, 255, 255, 0.5);
-        padding: 20px;
+        padding: 1.25rem;
 
         .el-form-item {
-            padding: 0 50px;
+            padding: 0 3.125rem;
         }
 
         h1 {
             color: #000;
-            font-size: 40px;
-            padding: 5px 0 20px 0;
+            font-size: 2.5rem;
+            padding: .3125rem 0 1.25rem 0;
         }
 
         .login_btn {
@@ -222,7 +222,7 @@ const currentLang = computed(() => {
         }
 
         .login_flex_conter {
-            margin: 20px 0;
+            margin: 1.25rem 0;
             font-weight: 700;
 
             ::v-deep .el-form-item__content {

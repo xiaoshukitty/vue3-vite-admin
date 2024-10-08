@@ -23,31 +23,32 @@ export default {
 </script>
 <style scoped lang="scss">
 .tabbar {
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
-    border-left: 1px solid #eee;
+    border-bottom: .0625rem solid #eee;
+    border-left: .0625rem solid #eee;
     background-color: #fff !important;
 
     .tabbar_left {
         display: flex;
         align-items: center;
-        margin-left: 20px;
+        margin-left: 1.25rem;
     }
 
     .tabbar_right {
         display: flex;
         align-items: center;
-        margin-right: 20px;
+        // margin-right: 1.25rem;
     }
 }
 
 .tabbar-theme {
-    border-bottom: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
+    border-bottom: .0625rem solid var(--border-color);
+    border-left: .0625rem solid var(--border-color);
     background-color: var(--header-bg-color) !important;
 }
 </style>

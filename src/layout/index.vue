@@ -66,13 +66,13 @@ export default {
 
     .layout_slider {
         width: $base-menu-width;
-        flex: 0 0 $base-menu-width;
+        // flex: 0 0 $base-menu-width;
         max-width: $base-menu-width;
         height: 100vh;
         background-color: $base-menu-background;
         color: #fff;
         transition: all .3s;
-        border-right: 1px solid var(--border-color);
+        border-right: .0625rem solid var(--border-color);
 
         .scrollbar {
             width: 100%;
@@ -111,7 +111,7 @@ export default {
             height: calc(100vh - $base-tabbar-height);
             // left: $base-menu-width;
             // top: $base-tabbar-height;
-            padding: 20px;
+            padding: 1.25rem;
             overflow: auto;
             transition: all .3s;
 
