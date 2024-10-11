@@ -8,21 +8,28 @@
             <el-scrollbar class="scrollbar">
                 <!-- 菜单组件 -->
                 <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$router.path"
-                    background-color="151515" text-color="#fff" active-text-color="rgb(255, 208, 75)">
+                    background-color="151515" text-color="#fff" active-text-color="rgb(255, 208, 75)" router
+                    :unique-opened="true">
                     <Menu :menuList="useStore.menuRoutes"></Menu>
                 </el-menu>
             </el-scrollbar>
         </div>
         <!-- 顶部导航 -->
         <div class="layout_box">
-            <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
-                <!-- layout组件顶部 tabbar 组件 -->
-                <Tabbar></Tabbar>
+            <div class="layout-header">
+                <header class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                    <!-- layout组件顶部 tabbar 组件 -->
+                    <Tabbar></Tabbar>
+                </header>
+                <!-- 标签页 -->
+                <section class="layout-label" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                    <LabelPage></LabelPage>
+                </section>
             </div>
             <!-- 内容展示 -->
-            <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+            <main class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
                 <Main></Main>
-            </div>
+            </main>
         </div>
     </div>
 </template>
@@ -31,13 +38,15 @@
 //获取路由对象
 import { useRoute } from 'vue-router';
 //引入左侧菜单logo子组件
-import Logo from './logo/index.vue'
+import Logo from './logo/index.vue';
 //引入菜单组件
-import Menu from './menu/index.vue'
+import Menu from './menu/index.vue';
 //引入右侧内容展示组件(二级路由)
-import Main from './main/index.vue'
+import Main from './main/index.vue';
 // 引入 tabbar组件
-import Tabbar from './tabbar/index.vue'
+import Tabbar from './tabbar/index.vue';
+//引入标签页
+import LabelPage from './labelPage/index.vue';
 //获取用户相关的小仓库路由
 import useUserStore from '@/store/modules/user'
 //获取 layout相关配置的仓库
@@ -48,7 +57,6 @@ let LayOutSettingStore = useLayOutSettingStore();
 
 //获取路由对象
 let $router = useRoute();
-console.log('222', $router);
 
 </script>
 
@@ -90,25 +98,35 @@ export default {
 
     .layout_box {
         flex: 1;
+        width: calc(100vw - $base-menu-width);
 
-        .layout_tabbar {
-            // position: fixed;
-            width: calc(100vw - $base-menu-width);
-            height: $base-tabbar-height;
-            // top: 0;
-            // left: $base-menu-width;
-            transition: all .3s;
+        .layout-header {
+            .layout_tabbar {
+                // position: fixed;
+                width: 100%;
+                height: $base-tabbar-height;
+                // top: 0;
+                // left: $base-menu-width;
+                transition: all .3s;
 
-            &.fold {
-                width: calc(100vw - $base-menu-min-width);
-                left: $base-menu-min-width;
+                &.fold {
+                    width: calc(100vw - $base-menu-min-width);
+                    left: $base-menu-min-width;
+                }
+            }
+
+            .layout-label {
+                height: 2.375rem;
+                margin-left: 0px;
+                width: 100%;
             }
         }
 
+
         .layout_main {
             // position: absolute;
-            width: calc(100vw - $base-menu-width);
-            height: calc(100vh - $base-tabbar-height);
+            width: 100%;
+            height: calc(100vh - ($base-tabbar-height + $base-label-height));
             // left: $base-menu-width;
             // top: $base-tabbar-height;
             padding: 1.25rem;

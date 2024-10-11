@@ -2,7 +2,7 @@
     <template v-for="(item, index) in menuList" :key="item.path">
         <!-- 没有子路由 -->
         <template v-if="!item.children">
-            <el-menu-item :index="item.path" v-if="!item.meta.hidden" @click="goRoute">
+            <el-menu-item :index="item.path" v-if="!item.meta.hidden" @click="recordsRoute">
                 <el-icon>
                     <!-- component vue提供的全局组件，可以直接使用，这里是用来放 icon -->
                     <component :is="item.meta.icon"></component>
@@ -14,7 +14,7 @@
         </template>
         <!-- 有子路由但是只有一个 -->
         <template v-if="item.children && item.children.length == 1">
-            <el-menu-item :index="item.children[0].path" v-if="!item.children[0].meta.hidden" @click="goRoute">
+            <el-menu-item :index="item.children[0].path" v-if="!item.children[0].meta.hidden" @click="recordsRoute">
                 <el-icon>
                     <component :is="item.children[0].meta.icon"></component>
                 </el-icon>
@@ -45,12 +45,11 @@ import { useRouter } from 'vue-router';
 let $router = useRouter();
 
 //点击菜单回调
-const goRoute = (val: any) => {
+const recordsRoute = (val: any) => {
     console.log($router);
     console.log(val);
     // 路由跳转
     $router.push(val.index)
-
 }
 
 </script>

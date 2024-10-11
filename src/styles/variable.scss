@@ -1,7 +1,7 @@
 // 项目提供 scss 变量
 
 :root {
-    --border-color:#303030;
+    --border-color: #303030;
     --header-bg-color: #151515;
 }
 
@@ -23,4 +23,5 @@ $base-menu-logo-title-fontSize:1.25rem;
 $base-tabbar-height:3.125rem;
 //侧边 menu 高度
 $base-menu-height:2.75rem;
-
+//标签页高度
+$base-label-height:2.0625rem;
