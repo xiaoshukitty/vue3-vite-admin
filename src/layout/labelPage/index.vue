@@ -1,9 +1,9 @@
 <template>
     <div :class="['label-page', layOutThemeStore.theme === 'dark' ? 'label-theme' : '']">
-        <div class="left-lable" @contextmenu="showContextMenu($event)">
+        <div class="left-lable fs-14" @contextmenu="showContextMenu($event)">
             <div class="d-flex left-lable-content">
-                <div class="left-lable-text d-flex ai-center label-hover">首页</div>
-                <div class="left-lable-text d-flex ai-center label-hover">页面滑动</div>
+                <div :class="['left-lable-text' ,'d-flex' ,'ai-center', 'label-hover',layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '']">首页</div>
+                <div :class="['left-lable-text' ,'d-flex' ,'ai-center', 'label-hover',layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '']">页面滑动</div>
             </div>
         </div>
         <div class="right-labl">
@@ -69,6 +69,9 @@ const showContextMenu = (e: MouseEvent) => {
                 background-color: #f6f6f6;
                 border-radius: .3125rem;
                 height: 1.9375rem;
+            }
+            .label-theme-hover:hover{
+                background-color: #2e3033 !important;
             }
         }
     }

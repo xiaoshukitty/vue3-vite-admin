@@ -8,7 +8,7 @@
             <el-scrollbar class="scrollbar">
                 <!-- 菜单组件 -->
                 <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$router.path"
-                    background-color="151515" text-color="#fff" active-text-color="rgb(255, 208, 75)" router
+                    background-color="#151515" text-color="#fff" active-text-color="rgb(255, 208, 75)" router
                     :unique-opened="true">
                     <Menu :menuList="useStore.menuRoutes"></Menu>
                 </el-menu>
@@ -116,7 +116,7 @@ export default {
             }
 
             .layout-label {
-                height: 2.375rem;
+                height: $base-label-height;
                 margin-left: 0px;
                 width: 100%;
             }

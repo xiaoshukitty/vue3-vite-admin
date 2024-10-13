@@ -1,6 +1,6 @@
 <template>
     <div class="context-menu" v-if="visible" :style="{ left: position.x + 'px', top: position.y + 'px' }">
-        <ul>
+        <ul :class="[layOutThemeStore.theme === 'dark' ? 'menu-theme' : '']">
             <li class="d-flex ai-center" v-for="(item, index) in labelPages" :key="index" @click="triggerClick(item)">
                 <el-icon class="mr-5">
                     <component :is="item.icon" />
@@ -15,9 +15,11 @@
 import { defineExpose, defineProps, ref, watch, onMounted } from 'vue';
 import { fieldsListEnum } from '@/utils/method';
 import useLayOutSettingStore from '@/store/modules/setting';
+import { useThemeStore } from '@/store/modules/theme';
 
 const props = defineProps(['routerType'])
 let layOutSettingStore = useLayOutSettingStore();
+const layOutThemeStore = useThemeStore();
 
 interface IContextMenu {
     name: string,
@@ -129,5 +131,18 @@ onMounted(() => {
 .context-menu li:hover {
     background-color: #f6f6f6;
     border-radius: .3125rem;
+}
+
+.menu-theme {
+    border: 0.0625rem solid var(--border-color) !important;
+    background-color: var(--header-bg-color) !important;
+
+    li {
+        color: hsl(var(--theme-text-color));
+    }
+
+    li:hover {
+        background-color: #2e3033 !important;
+    }
 }
 </style>
