@@ -5,6 +5,9 @@
     <div class="p-13-8" @click="fullScreen">
         <el-button size="small" icon="FullScreen" circle />
     </div>
+    <div class="p-13-8">
+        <I18n></I18n>
+    </div>
     <div class="p-13-8" @click="openSetting">
         <el-button size="small" icon="Setting" circle />
     </div>

@@ -1,7 +1,8 @@
 <template>
     <el-popover placement="bottom" :width="100" trigger="click" :visible="visiblePopover">
         <template #reference>
-            <SvgIcon class="c-p" name="lang" :color="'rgb(153, 153, 153)'" @click="visiblePopover = true"></SvgIcon>
+            <!-- <SvgIcon class="c-p" name="lang" :color="'rgb(153, 153, 153)'" @click="visiblePopover = true"></SvgIcon> -->
+            <el-button  class="c-p" size="small" icon="Sort" circle @click="visiblePopover = true"/>
         </template>
         <div class="language_select">
             <div v-for="(item, index) in languageList" :key="index" @click="changeLangUage(item.langCode)"
