@@ -1,3 +1,4 @@
+
 //对外暴露常量路由
 export const constantRouter = [
   {
@@ -42,16 +43,6 @@ export const constantRouter = [
       title: '404',
       hidden: true,
       icon: 'CloseBold',
-    },
-  },
-  {
-    path: '/screen',
-    component: () => import('@/view/screen/index.vue'),
-    name: 'screen',
-    meta: {
-      title: '数据大屏',
-      hidden: false,
-      icon: 'Help',
     },
   },
   {
@@ -136,29 +127,6 @@ export const constantRouter = [
           title: '高德地图',
           hidden: false,
           icon: 'Place',
-        },
-      },
-    ],
-  },
-  {
-    //登录成功展示数据的路由
-    path: '/test',
-    component: () => import('@/layout/index.vue'),
-    name: 'test',
-    meta: {
-      title: '',
-      hidden: false,
-      icon: '',
-    },
-    redirect: '/test',
-    children: [
-      {
-        path: '/test',
-        component: () => import('@/view/test/index.vue'),
-        meta: {
-          title: '测试',
-          hidden: false,
-          icon: 'HomeFilled',
         },
       },
     ],

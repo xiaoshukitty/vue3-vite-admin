@@ -14,8 +14,10 @@
 <script setup lang='ts'>
 import { defineExpose, defineProps, ref, watch, onMounted } from 'vue';
 import { fieldsListEnum } from '@/utils/method';
+import useLayOutSettingStore from '@/store/modules/setting';
 
 const props = defineProps(['routerType'])
+let layOutSettingStore = useLayOutSettingStore();
 
 interface IContextMenu {
     name: string,
@@ -37,6 +39,8 @@ watch(() => props.routerType, (newVal: string) => {
     immediate: true
 })
 
+
+
 // 鼠标右键事件
 const showMenu = (event: MouseEvent) => {
     event.preventDefault(); // 阻止默认右键菜单
@@ -50,9 +54,36 @@ defineExpose({
 
 // 点击事件
 const triggerClick = (item: IContextMenu) => {
-    visible.value = false;
-    console.log('item--', item);
+    let routeContextMenuObj = {
+        'refresh': () => {
+            //页面刷新
+            layOutSettingStore.refsh = !layOutSettingStore.refsh;
+        },
+        'close': () => {
+            //关闭菜单
+            console.log('关闭菜单');
+        },
+        'operation': () => {
+            //关闭所有
+            console.log('关闭所有');
+        },
+        'back': () => {
+            //关闭左侧
+            console.log('关闭左侧');
+        },
+        'right': () => {
+            //关闭右侧
+            console.log('关闭右侧');
+        },
+        'topRight': () => {
+            //新的窗口打开
+            console.log('新的窗口打开');
+        },
+    } as any;
 
+    routeContextMenuObj[item.label] && routeContextMenuObj[item.label]();
+
+    visible.value = false;
 }
 
 const handleClickOutside = () => {

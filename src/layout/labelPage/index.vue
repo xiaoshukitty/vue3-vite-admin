@@ -16,14 +16,20 @@
 
 <script setup lang='ts'>
 import { ref } from 'vue';
-import { useThemeStore } from '@/store/modules/theme'
+import { useThemeStore } from '@/store/modules/theme';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 let layOutThemeStore = useThemeStore();
 const contextMenu = ref();
 let routerType = ref('');  //传递给 contextMenu 组件用来辨别
 
-const showContextMenu = (e: MouseEvent) => {
+console.log(t('routerNavigation'));
+console.log(t('common'));
 
+
+
+const showContextMenu = (e: MouseEvent) => {
     e.preventDefault();
     contextMenu.value.showMenu(e);
     routerType.value = 'labelPage';

@@ -7,7 +7,7 @@
     <el-breadcrumb separator-icon="ArrowRight">
         <!-- 面包屑动态展示路由名称和标题 -->
         <el-breadcrumb-item v-for="(item, index) in $route.matched" :key="index" v-show="item.meta.title"
-            :to="item.path">
+            @click="recordsRoute(item)" :to="item.path">
             <!-- 图标 -->
             <div class="d-flex ai-center">
                 <el-icon class="fs-24">
@@ -21,9 +21,10 @@
 
 <script setup lang='ts'>
 import { ref } from 'vue';
-import { useRoute } from 'vue-router'
-import useLayOutSettingStore from '@/store/modules/setting'
-import { useThemeStore } from '@/store/modules/theme'
+import { useRoute } from 'vue-router';
+import useLayOutSettingStore from '@/store/modules/setting';
+import { useThemeStore } from '@/store/modules/theme';
+import { LabelRouteType } from '@/types/labelRouteType';
 
 let layOutThemeStore = useThemeStore();
 //获取 layout相关配置的仓库
@@ -35,6 +36,11 @@ let fold = ref(false)
 
 const changeIcon = () => {
     LayOutSettingStore.fold = !LayOutSettingStore.fold;
+}
+
+const recordsRoute = (item: LabelRouteType) => {
+    console.log(item);
+
 }
 </script>
 <script lang="ts">

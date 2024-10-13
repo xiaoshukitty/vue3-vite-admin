@@ -22,26 +22,26 @@ export const labelPages = [
   {
     name: '重新加载',
     icon: 'Refresh',
-    label: 'close',
+    label: 'refresh',
   },
   {
     name: '全部关闭',
     icon: 'Operation',
-    label: 'close',
+    label: 'operation',
   },
   {
     name: '关闭左则',
     icon: 'Back',
-    label: 'close',
+    label: 'back',
   },
   {
     name: '关闭右侧',
     icon: 'Right',
-    label: 'close',
+    label: 'right',
   },
   {
     name: '在新的窗口打开',
     icon: 'TopRight',
-    label: 'close',
+    label: 'topRight',
   },
 ]
