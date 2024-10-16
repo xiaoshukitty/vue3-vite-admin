@@ -4,6 +4,7 @@ import router from '@/router'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import setting from './setting'
+import Cookies from 'js-cookie'
 
 // nprogress.configure({ showSpinner: false })
 //获取用户相关小仓库 token
@@ -11,8 +12,7 @@ import useUserStore from './store/modules/user'
 import pinia from './store' //必须引入 pinia，不然报错
 let userStore = useUserStore(pinia)
 
-
-nprogress.configure({showSpinner: false}) // 通过设置为false来关闭加载旋转器
+nprogress.configure({ showSpinner: false }) // 通过设置为false来关闭加载旋转器
 
 //全局前置守卫
 router.beforeEach((to: any, from: any, next: any) => {
@@ -21,6 +21,18 @@ router.beforeEach((to: any, from: any, next: any) => {
   // from 从那个路由来
   // next 放行
   nprogress.start()
+  //判断是否是锁屏页面 
+  if (Cookies.get('lockStatus') == '0' && to.name == 'lockscreen') {
+    next()
+  }
+  if (Cookies.get('lockStatus') == '1' && to.path != '/lockscreen') {
+    next({
+      replace: true,
+      path: '/lockscreen',
+    })
+    nprogress.done()
+  }
+  
   let username
   let token = userStore.token
   //登录

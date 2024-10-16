@@ -1,4 +1,3 @@
-
 //对外暴露常量路由
 export const constantRouter = [
   {
@@ -41,6 +40,15 @@ export const constantRouter = [
     name: '404',
     meta: {
       title: '404',
+      hidden: true,
+      icon: 'CloseBold',
+    },
+  },{
+    path: '/lockscreen',
+    component: () => import('@/view/common/lockscreen/index.vue'),
+    name: 'lockscreen',
+    meta: {
+      title: '锁屏页面',
       hidden: true,
       icon: 'CloseBold',
     },

@@ -41,7 +41,7 @@
                             </el-icon>Github
                         </div>
                         <div
-                            :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']">
+                            :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']" @click="lockScreen">
                             <el-icon class="mr-5">
                                 <Lock />
                             </el-icon>锁定屏幕
@@ -59,10 +59,12 @@
     </div>
 
     <Drawer :isDrawer="isDrawer" @close="closeDrawer" />
+    <LockDialog :isLockDialog="isLockDialog" @close="closeLockDialog"/>
 </template>
 
 <script setup lang='ts'>
-import Drawer from './drawer/index.vue'
+import Drawer from './drawer/index.vue';
+import LockDialog from './LockDialog/index.vue';
 //获取 setting 仓库
 import useLayOutSettingStore from '@/store/modules/setting';
 import { useRouter, useRoute } from 'vue-router';
@@ -78,6 +80,7 @@ let layOutSettingStore = useLayOutSettingStore();
 let $router = useRouter();
 //获取路由对象
 let $route = useRoute();
+let isLockDialog = ref<boolean>(true); //锁屏弹框
 
 //刷新
 const updateRefsh = () => {
@@ -98,6 +101,17 @@ const fullScreen = () => {
         document.exitFullscreen();
     }
 }
+//锁定屏幕
+const lockScreen = () => {
+    isLockDialog.value = true;
+}
+
+
+//关闭弹框
+const closeLockDialog = (val:boolean) => {
+    isLockDialog.value = val
+}
+
 //退出登录
 const logout = () => {
     // 1，发请求

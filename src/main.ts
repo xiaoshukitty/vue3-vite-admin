@@ -15,6 +15,8 @@ import pinia from './store'
 import i18n from './lang'
 //暗黑模式需要样式
 import 'element-plus/theme-chalk/dark/css-vars.css'
+//引入 cookie
+import Cookies from 'js-cookie'
 
 import './permisstion'
 /**
@@ -26,6 +28,11 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 // 引入自定义插件对象：注册整个项目全局组件
 import globalComponent from '@/components/index'
+
+// 禁止浏览器上一步下一步
+window.addEventListener('popstate', () => {
+  history.pushState(null, null, document.URL)
+})
 
 //获取应用实例对象
 const app = createApp(App)
