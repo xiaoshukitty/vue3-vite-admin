@@ -75,7 +75,7 @@ import { useThemeStore } from '@/store/modules/theme'
 
 let layOutThemeStore = useThemeStore();
 
-const isDrawer = ref<boolean>(true);
+const isDrawer = ref<boolean>(false);
 let layOutSettingStore = useLayOutSettingStore();
 let $router = useRouter();
 //获取路由对象
