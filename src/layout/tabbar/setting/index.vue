@@ -75,12 +75,12 @@ import { useThemeStore } from '@/store/modules/theme'
 
 let layOutThemeStore = useThemeStore();
 
-const isDrawer = ref<boolean>(false);
+const isDrawer = ref<boolean>(true);
 let layOutSettingStore = useLayOutSettingStore();
 let $router = useRouter();
 //获取路由对象
 let $route = useRoute();
-let isLockDialog = ref<boolean>(true); //锁屏弹框
+let isLockDialog = ref<boolean>(false); //锁屏弹框
 
 //刷新
 const updateRefsh = () => {
