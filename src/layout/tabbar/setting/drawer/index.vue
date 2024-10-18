@@ -2,7 +2,7 @@
     <el-drawer v-model="openDrawer" :direction="direction" close-on-click-modal @close="closeDrawer"
         :size="drawerWidth">
         <template #header>
-            <h4>set title by slot</h4>
+            <h4>主题配置</h4>
         </template>
         <template #default>
             <div class="content">
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, watch, defineProps, computed,defineEmits } from 'vue';
+import { ref, watch, defineProps, computed, defineEmits } from 'vue';
 import type { DrawerProps } from 'element-plus';
 //引入操作本地存储工具方法
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
@@ -315,5 +315,10 @@ const closeDrawer = () => {
 .el-drawer__body {
     padding: 0;
     border-top: 0.0625rem solid #ccc;
+}
+
+.el-drawer__header {
+    margin-bottom: 0;
+    padding-top: 0;
 }
 </style>

@@ -47,8 +47,11 @@ const handleClose = () => {
 };
 
 const goToLockscreen = () => {
+    if (lockIpt.value === '') return;
     Cookies.set("lastLockscreen", $route.fullPath); // 本地存储锁屏之前打开的页面以便解锁后打开
-    $router.push({ path: '/lockscreen' })
+    $router.push(
+        { path: '/lockscreen', query: { unlockPassword: lockIpt.value } }
+    );
     Cookies.set("lockStatus", "1");
 }
 </script>
