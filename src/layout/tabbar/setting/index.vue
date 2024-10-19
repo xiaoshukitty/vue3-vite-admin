@@ -80,7 +80,7 @@ let layOutSettingStore = useLayOutSettingStore();
 let $router = useRouter();
 //获取路由对象
 let $route = useRoute();
-let isLockDialog = ref<boolean>(true); //锁屏弹框
+let isLockDialog = ref<boolean>(false); //锁屏弹框
 
 //刷新
 const updateRefsh = () => {

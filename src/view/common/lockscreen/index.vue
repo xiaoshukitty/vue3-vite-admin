@@ -30,7 +30,7 @@
                 </div>
                 <div class="unlock-btn">
                     <div>
-                        <el-button class="w300 " type="primary">进入系统</el-button>
+                        <el-button class="w300 " type="primary" @click="handleUnlock">进入系统</el-button>
                     </div>
                     <div>
                         <el-button class="w300 p16">返回登录</el-button>
@@ -65,10 +65,6 @@ let isFlag = ref(false);
 let unlockPassword = ref('');
 let showUnlock = ref(true);
 
-
-const handleUnlock = () => {
-
-}
 // 更新当前时间
 const updateTime = () => {
     const now = new Date();
@@ -84,6 +80,19 @@ const updateTime = () => {
 const unlock = () => {
     Cookies.set("lockStatus", "0");
     $router.push({ path: Cookies.get('lastLockscreen') })// 解锁之后跳转到锁屏之前的页面
+}
+
+const handleUnlock = () => {
+    if (unlockPassword.value === $route.query.unlockPassword) {
+        Cookies.set("lockStatus", "0");
+        $router.push({ path: Cookies.get('lastLockscreen') })// 解锁之后跳转到锁屏之前的页面
+    } else {
+        showUnlock.value = false;
+        setTimeout(() => {
+            showUnlock.value = true;
+            unlockPassword.value = '';
+        }, 1000);
+    }
 }
 // 组件挂载后启动定时器
 onMounted(() => {
