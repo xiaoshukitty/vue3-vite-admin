@@ -22,10 +22,7 @@ export const getTime = (): string => {
  * @param week 是否显示星期
  * @returns
  */
-export const getCurrentDate = (
-  type: string,
-  week?: boolean,
-): string | undefined => {
+export const getCurrentDate = <T>(type: T, week?: boolean): T | undefined => {
   const cureenDateObj = {
     'yyyy-MM-dd': () => {
       const cureenWeekDay = weekDay()

@@ -96,9 +96,8 @@ const handleUnlock = () => {
 }
 // 组件挂载后启动定时器
 onMounted(() => {
-    console.log('传递过来的解锁密码---', $route.query.unlockPassword);
     updateTime();
-    currentDate.value = getCurrentDate('yyyy-MM-dd', true);
+    currentDate.value = getCurrentDate('yyyy-MM-dd', true) ?? '';
     interval = setInterval(updateTime, 1000); // 每秒更新一次时间
     // 清理定时器，防止内存泄漏
     isFlag.value = true;
