@@ -34,6 +34,7 @@ export const constantRouter = [
       },
     ],
   },
+
   {
     path: '/404',
     component: () => import('@/view/404/index.vue'),
@@ -43,7 +44,8 @@ export const constantRouter = [
       hidden: true,
       icon: 'CloseBold',
     },
-  },{
+  },
+  {
     path: '/lockscreen',
     component: () => import('@/view/common/lockscreen/index.vue'),
     name: 'lockscreen',
@@ -106,6 +108,7 @@ export const constantRouter = [
       },
     ],
   },
+
   {
     path: '/map',
     component: () => import('@/layout/index.vue'),
@@ -135,6 +138,28 @@ export const constantRouter = [
           title: '高德地图',
           hidden: false,
           icon: 'Place',
+        },
+      },
+    ],
+  },
+  {
+    path: '/test',
+    component: () => import('@/layout/index.vue'),
+    name: 'test',
+    meta: {
+      title: '测试',
+      hidden: false,
+      icon: 'Location',
+    },
+    redirect: '/test',
+    children: [
+      {
+        path: '/test',
+        component: () => import('@/view/test/index.vue'),
+        meta: {
+          title: '测试',
+          hidden: false,
+          icon: 'HomeFilled',
         },
       },
     ],

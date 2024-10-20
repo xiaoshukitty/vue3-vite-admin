@@ -21,19 +21,23 @@
 
 <script setup lang='ts'>
 import Cookies from 'js-cookie';
-import { ref, defineProps, watch, defineEmits } from 'vue';
+import { ref, defineProps, watch, defineEmits, } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 let lockIpt = ref('');
 let dialogVisible = ref(false);
 let $router = useRouter();
 const $route = useRoute();
+
+
 const props = defineProps({
     isLockDialog: {
         type: Boolean,
         default: false
     }
 })
+
+
 
 const emits = defineEmits(['close'])
 
