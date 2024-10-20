@@ -1,5 +1,5 @@
 //封装函数：获取 早上｜下午｜上午｜晚上
-export const getTime = () => {
+export const getTime = (): string => {
   let message = ''
   let hours = new Date().getHours()
   console.log(hours, 'hours')
@@ -22,7 +22,10 @@ export const getTime = () => {
  * @param week 是否显示星期
  * @returns
  */
-export const getCurrentDate = (type: string, week?: boolean): string => {
+export const getCurrentDate = (
+  type: string,
+  week?: boolean,
+): string | undefined => {
   const cureenDateObj = {
     'yyyy-MM-dd': () => {
       const cureenWeekDay = weekDay()
