@@ -1,4 +1,10 @@
-export const userAuthorityEnum = [
+import {
+  userAuthorityEnumType,
+  labelPagetype,
+  ThemeTab,
+  ThemeColor,
+} from './types'
+export const userAuthorityEnum: userAuthorityEnumType[] = [
   {
     value: '1',
     label: 'User',
@@ -13,7 +19,7 @@ export const userAuthorityEnum = [
   },
 ]
 
-export const labelPages = [
+export const labelPages: labelPagetype[] = [
   {
     name: '关闭',
     icon: 'Close',
@@ -48,9 +54,12 @@ export const labelPages = [
 
 /**主题设置 */
 //主题tab切换
-export const themeTabList = ['外观', '布局', '功能']
+export const themeTabList: ThemeTab[] = ['外观', '布局', '功能']
+// export const themeTabList = ['外观', '布局', '功能'] as const;
+
 //内置主题
-export const themeColorList = [
+
+export const themeColorList: ThemeColor[] = [
   { name: '默认', color: '#006be6' },
   { name: '紫罗兰', color: 'rgb(113, 102, 240)' },
   { name: '樱花粉', color: 'rgb(232, 74, 108)' },

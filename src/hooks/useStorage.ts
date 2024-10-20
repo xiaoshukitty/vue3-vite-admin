@@ -23,8 +23,7 @@ export const useStorage = <T>(options: StorageType<T>) => {
     console.error('Error loading storage item: ', e)
   }
 
-
-  //   // 监听值的变化，更新本地存储
+  // 监听值的变化，更新本地存储
   watchEffect(() => {
     if (storageType === 'session') {
       if (value.value !== undefined)
