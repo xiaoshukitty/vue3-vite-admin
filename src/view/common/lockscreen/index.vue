@@ -1,6 +1,6 @@
 <template>
     <div class="lockscreen">
-        <div class="lock-time" v-if="false">
+        <div class="lock-time" v-if="showUnlock">
             <div class="lock-time-header">
                 <el-icon class="icon-lock" style="color:#323639" @click="unlock">
                     <Lock />
@@ -18,8 +18,8 @@
 
             </div>
         </div>
-        <div class="unlock">
-            <div class="unlock_bg" v-if="showUnlock">
+        <div class="unlock" v-else>
+            <div class="unlock_bg">
                 <div class="unlock_img">
                     <img src="@/assets/images/avatar1.jpg" alt="">
                 </div>
@@ -33,10 +33,10 @@
                         <el-button class="w300 " type="primary" @click="handleUnlock">进入系统</el-button>
                     </div>
                     <div>
-                        <el-button class="w300 p16">返回登录</el-button>
+                        <el-button class="w300 p16" @click="logout">返回登录</el-button>
                     </div>
                     <div>
-                        <el-button class="w300 ">返回</el-button>
+                        <el-button class="w300 " @click="showUnlock = true;">返回</el-button>
                     </div>
                 </div>
             </div>
@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang='ts'>
+import { ElMessage } from 'element-plus';
 import Cookies from 'js-cookie';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { getCurrentDate } from '@/utils/time'
@@ -78,8 +79,18 @@ const updateTime = () => {
 };
 //解锁
 const unlock = () => {
-    Cookies.set("lockStatus", "0");
-    $router.push({ path: Cookies.get('lastLockscreen') })// 解锁之后跳转到锁屏之前的页面
+    showUnlock.value = false;
+}
+
+//退出登录
+const logout = () => {
+    Cookies.remove('lockStatus');
+    Cookies.remove('lastLockscreen');
+    $router.push({ path: '/', query: { redirect: '/home' } })
+    ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+    })
 }
 
 const handleUnlock = () => {
@@ -91,7 +102,12 @@ const handleUnlock = () => {
         setTimeout(() => {
             showUnlock.value = true;
             unlockPassword.value = '';
-        }, 1000);
+            ElMessage({
+                message: '密码输入错误、请重新输入',
+                type: 'error',
+                plain: true,
+            })
+        }, 300);
     }
 }
 // 组件挂载后启动定时器

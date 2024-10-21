@@ -27,6 +27,10 @@ router.beforeEach(
     // from 从那个路由来
     // next 放行
     nprogress.start()
+    //是否去登录页面
+    if (to.name == '/') {
+      next()
+    }
     //判断是否是锁屏页面
     if (Cookies.get('lockStatus') == '0' && to.name == 'lockscreen') {
       next()
