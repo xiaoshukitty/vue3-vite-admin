@@ -10,7 +10,7 @@ onMounted(() => {
     // 移除 Loading 效果
     const appContainer = document.querySelector('#app');
     const loadingContainer = document.querySelector('#loading-mask');
-    loadingContainer && appContainer.removeChild(loadingContainer);
+    loadingContainer && appContainer?.removeChild(loadingContainer);
   }, 500)
 })
 </script>

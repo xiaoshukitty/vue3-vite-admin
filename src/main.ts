@@ -15,9 +15,7 @@ import pinia from './store'
 import i18n from './lang'
 //暗黑模式需要样式
 import 'element-plus/theme-chalk/dark/css-vars.css'
-//引入 cookie
-import Cookies from 'js-cookie'
-
+//引入 路由配置
 import './permisstion'
 /**
  *  @ts-ignore 忽略 ts
@@ -65,4 +63,4 @@ loadingMask.innerHTML = `
     </span>
   </div>
 `
-appContainer.appendChild(loadingMask)
+appContainer?.appendChild(loadingMask)
