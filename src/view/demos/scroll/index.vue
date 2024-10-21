@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h1>数据大屏</h1>
+    <div class="scroll">
+        <h1>滚动组件</h1>
     </div>
 </template>
 

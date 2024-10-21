@@ -25,15 +25,11 @@ const contextMenu = ref();
 let routerType = ref('');  //传递给 contextMenu 组件用来辨别
 
 console.log(t('routerNavigation'));
-console.log(t('common'));
-
-
 
 const showContextMenu = (e: MouseEvent) => {
     e.preventDefault();
     contextMenu.value.showMenu(e);
     routerType.value = 'labelPage';
-    console.log('routerType---', routerType.value);
 }
 </script>
 

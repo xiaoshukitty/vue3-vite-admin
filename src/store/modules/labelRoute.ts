@@ -10,9 +10,7 @@ export const useLabelRoute = defineStore({
   }),
   actions: {
     //添加标签路由
-    addLabelRoute(labelRoute: LabelRouteType) {
-      console.log('labelRoute---', labelRoute)
-    },
+    addLabelRoute(labelRoute: LabelRouteType) {},
   },
   getters: {},
 })

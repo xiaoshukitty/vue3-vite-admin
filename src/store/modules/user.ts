@@ -8,7 +8,9 @@ import type { UserState } from './types/type'
 //引入操作本地存储工具方法
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token'
 //引入路由(常量路由) 将来组件就可以拿着用
-import { constantRouter } from '@/router/routes'
+import commonRoutes from '@/router/commonRoutes'
+
+
 //创建用户小仓库
 let useUserStore = defineStore('User', {
   //小仓库，存储数据地方
@@ -16,7 +18,7 @@ let useUserStore = defineStore('User', {
     // : UserState 函数返回类型的意思
     return {
       token: GET_TOKEN(), //获取token，用户唯一标识
-      menuRoutes: constantRouter,//仓库存储生成菜单需要数组(路由)
+      menuRoutes: commonRoutes, //仓库存储生成菜单需要数组(路由)
     }
   },
   //处理异步｜逻辑地方
