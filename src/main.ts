@@ -28,8 +28,8 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import globalComponent from '@/components/index'
 
 // 禁止浏览器上一步下一步
-window.addEventListener('popstate', () => {
-  history.pushState(null, null, document.URL)
+window.addEventListener('popstate', (): void => {
+  history.pushState(null, '', document.URL)
 })
 
 //获取应用实例对象
@@ -48,6 +48,11 @@ app.use(globalComponent)
 
 //将应用挂载到挂载点上
 app.mount('#app')
+
+//全局配置颜色
+// app.config.globalProperties.$styles = {
+//   backgrroundColor: 'red',
+// }
 
 // 动态创建 html 结果来展示页面加载 loading （要写在 app 挂在完毕后）
 const appContainer = document.querySelector('#app')

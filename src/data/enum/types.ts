@@ -4,7 +4,7 @@ export type userAuthorityEnumType = {
 }
 
 // 右键菜单
-export interface labelPagetype {
+export interface LabelPagetype {
   name: string
   icon: string
   label: string

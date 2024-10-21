@@ -79,11 +79,7 @@ router.beforeEach(
 
 //全局后置守卫
 router.afterEach(
-  (
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext,
-  ) => {
+  (to: RouteLocationNormalized, from: RouteLocationNormalized,) => {
     nprogress.done()
   },
 )

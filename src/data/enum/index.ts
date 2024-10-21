@@ -1,6 +1,6 @@
 import {
   userAuthorityEnumType,
-  labelPagetype,
+  LabelPagetype,
   ThemeTab,
   ThemeColor,
 } from './types'
@@ -19,7 +19,7 @@ export const userAuthorityEnum: userAuthorityEnumType[] = [
   },
 ]
 
-export const labelPages: labelPagetype[] = [
+export const labelPages: LabelPagetype[] = [
   {
     name: '关闭',
     icon: 'Close',
