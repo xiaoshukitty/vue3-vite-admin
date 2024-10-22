@@ -15,7 +15,7 @@
         <el-dropdown trigger="click">
             <div class="d-flex ai-center">
                 <div :class="['img-hover', layOutThemeStore.theme === 'dark' ? 'img-hover-theme' : '']">
-                    <img src="../../../assets//images/avatar1.jpg" alt="">
+                    <img :src="setting.logo" alt="">
                     <span></span>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     <div
                         :class="['user-top', 'd-flex', 'ai-center', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
                         <div class="user-img">
-                            <img src="../../../assets//images/avatar1.jpg" alt="">
+                            <img :src="setting.logo" alt="">
                             <span></span>
                         </div>
                         <div
@@ -71,7 +71,8 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Action } from 'element-plus';
-import { useThemeStore } from '@/store/modules/theme'
+import { useThemeStore } from '@/store/modules/theme';
+import setting from '@/setting';
 
 let layOutThemeStore = useThemeStore();
 
