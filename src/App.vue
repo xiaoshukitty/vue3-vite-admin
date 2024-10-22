@@ -7,8 +7,6 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   setTimeout(() => {
-    console.log('测试log');
-
     // 移除 Loading 效果
     const appContainer = document.querySelector('#app');
     const loadingContainer = document.querySelector('#loading-mask');
