@@ -176,7 +176,7 @@ const login = async () => {
             loading.value = false;
             // 判断登录时候是否有 $route 参数
             let redirect: any = $route.query.redirect;
-            $router.push({ path: redirect || '/home' })
+            $router.push({ path: redirect || '/overview' })
             ElNotification({
                 type: "success",
                 message: '登录成功',
