@@ -22,6 +22,7 @@ const testRoutes: RouteRecordRaw[] = [
           title: '测试',
           hidden: false,
           icon: 'Crop',
+          roles: ['Admin', 'User', 'Super'],
         },
       },
     ],

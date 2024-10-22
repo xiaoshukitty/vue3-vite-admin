@@ -22,6 +22,8 @@ const demosRoutes: RouteRecordRaw[] = [
           title: '视频播放',
           hidden: false,
           icon: 'VideoCamera',
+          requiresAuth: true,
+          roles: ['Admin', 'Super'],
         },
       },
       {
@@ -31,6 +33,8 @@ const demosRoutes: RouteRecordRaw[] = [
           title: '滚动组件',
           hidden: false,
           icon: 'Files',
+          requiresAuth: true,
+          roles: ['Super'],
         },
       },
     ],

@@ -2,17 +2,19 @@
 export interface loginForm {
   username: string
   password: string
+  authority:string
 }
 
 // token? 可能有token，可能没有
-interface dataType {
-  token?: string
-  message?: string
+export interface dataType {
+  token:string,
+  role:string,
 }
 
 //登录接口返回的数据类型
 export interface loginReponseData {
   code: number
+  message: string
   data: dataType
 }
 

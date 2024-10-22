@@ -5,23 +5,25 @@ import { RouteRecordRaw } from 'vue-router'
  */
 const overviewRoutes: RouteRecordRaw[] = [
   {
-    path: '/home',
+    path: '/overview',
     component: () => import('@/layout/index.vue'),
-    name: 'layout',
+    name: 'overview',
     meta: {
-      title: '',
+      title: '概览',
       hidden: false,
-      icon: '',
+      icon: 'HomeFilled',
     },
-    redirect: '/home',
+    redirect: '/overview/analysis',
     children: [
       {
-        path: '/home',
-        component: () => import('@/view/overview/index.vue'),
+        path: '/overview/analysis',
+        component: () => import('@/view/overview/analysis/index.vue'),
         meta: {
-          title: '概览',
+          title: '分析页',
           hidden: false,
           icon: 'HomeFilled',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
         },
       },
     ],

@@ -18,7 +18,7 @@
                             <el-select v-model="loginForm.authority" placeholder="Select" style="width: 100%"
                                 size="large">
                                 <el-option v-for="item in userAuthorityEnum" :key="item.value" :label="item.label"
-                                    :value="item.value" />
+                                    :value="item.label" />
                             </el-select>
                         </el-form-item>
                         <el-form-item prop="username">
@@ -68,6 +68,7 @@ import { useThemeStore } from '@/store/modules/theme';
 //引入操作本地存储工具方法
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
 import { userAuthorityEnum } from '@/data/enum/index';
+import useUserStore from '@/store/modules/user'
 
 let MoveRound = ref(false);
 let checked = ref(false);
@@ -81,6 +82,7 @@ let $route = useRoute();
 //获取路由器
 let $router = useRouter();
 let layOutThemeStore = useThemeStore();
+const authUserStore = useUserStore();
 
 //自定义校验规则函数(可以写正则)
 const validateUserName = (rule: any, value: any, callback: any) => {
@@ -166,8 +168,10 @@ const login = async () => {
     // 请求成功->首页展示数据
     // 请求失败->弹出登录失败提示
     try {
+        await authUserStore.userLogin({ username: loginForm.username, password: loginForm.password, authority: loginForm.authority })
         // await useStore.userLogin(loginForm);
         //编程式导航跳转到展示数据首页
+
         setTimeout(() => {
             loading.value = false;
             // 判断登录时候是否有 $route 参数

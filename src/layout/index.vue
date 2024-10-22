@@ -10,7 +10,7 @@
                 <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$router.path"
                     background-color="#151515" text-color="#fff" active-text-color="rgb(255, 208, 75)" router
                     :unique-opened="true">
-                    <Menu :menuList="useStore.menuRoutes"></Menu>
+                    <Menu :menuList="menus"></Menu>
                 </el-menu>
             </el-scrollbar>
         </div>
@@ -48,15 +48,25 @@ import Tabbar from './tabbar/index.vue';
 //引入标签页
 import LabelPage from './labelPage/index.vue';
 //获取用户相关的小仓库路由
+import useMenuStore from '@/store/modules/menu'
 import useUserStore from '@/store/modules/user'
 //获取 layout相关配置的仓库
 import useLayOutSettingStore from '@/store/modules/setting'
+import { ref, onMounted } from 'vue';
 
-let useStore = useUserStore();
+const useMenu = useMenuStore();
+const authUserStore = useUserStore();
 let LayOutSettingStore = useLayOutSettingStore();
 
 //获取路由对象
 let $router = useRoute();
+let menus = ref<any>([]);
+
+onMounted(() => {
+    useMenu.generateMenus(authUserStore.userRole);
+    
+    menus.value = useMenu.menuRoutes;
+})
 
 </script>
 
