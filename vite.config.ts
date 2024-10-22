@@ -4,6 +4,9 @@ import vue from '@vitejs/plugin-vue'
 //引入 svg 需要用到插件
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
+//生成可视化的打包报告
+import { visualizer } from 'rollup-plugin-visualizer'
+
 //mock 插件提供方法
 import { viteMockServe } from 'vite-plugin-mock'
 
@@ -24,12 +27,16 @@ export default defineConfig((command, mode) => {
         localEnabled: command === 'serve', //提供开发阶段mock使用的接口
         mockPath: './moke',
       }),
+      //生成可视化的打包报告 需要就把里面的注释放开
+      visualizer({
+        // filename: 'dist/stats.html', // 指定报告文件的输出路径
+        // open: true, // 构建完成后自动打开报告
+      }),
     ],
 
     resolve: {
       alias: {
         '@': path.resolve('./src'), // 相对路径别名配置，使用 @ 代替 src
-        
       },
     },
 
