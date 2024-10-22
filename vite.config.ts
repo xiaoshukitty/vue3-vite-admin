@@ -29,6 +29,7 @@ export default defineConfig((command, mode) => {
     resolve: {
       alias: {
         '@': path.resolve('./src'), // 相对路径别名配置，使用 @ 代替 src
+        
       },
     },
 
@@ -60,11 +61,25 @@ export default defineConfig((command, mode) => {
       target: 'modules', // 兼容性配置
       assetsDir: 'assets',
       assetsInlineLimit: 360000,
-      minify: 'terser',
+      minify: 'terser', // 使用terser进行压缩
+      cache: true, // 开启缓存
       terserOptions: {
         compress: {
-          drop_console: true,
-          drop_debugger: true,
+          drop_console: true, // 生产环境移除console
+          drop_debugger: true, // 生产环境移除debugger
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id
+                .toString()
+                .split('node_modules/')[1]
+                .split('/')[0]
+                .toString() // 将依赖拆分成单独的块
+            }
+          },
         },
       },
     },
