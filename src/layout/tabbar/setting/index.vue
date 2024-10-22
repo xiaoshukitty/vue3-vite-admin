@@ -40,8 +40,8 @@
                                 <SwitchFilled />
                             </el-icon>Github
                         </div>
-                        <div
-                            :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']" @click="lockScreen">
+                        <div :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']"
+                            @click="lockScreen">
                             <el-icon class="mr-5">
                                 <Lock />
                             </el-icon>锁定屏幕
@@ -59,7 +59,7 @@
     </div>
 
     <Drawer :isDrawer="isDrawer" @close="closeDrawer" />
-    <LockDialog :isLockDialog="isLockDialog" @close="closeLockDialog"/>
+    <LockDialog :isLockDialog="isLockDialog" @close="closeLockDialog" />
 </template>
 
 <script setup lang='ts'>
@@ -73,10 +73,12 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Action } from 'element-plus';
 import { useThemeStore } from '@/store/modules/theme';
 import setting from '@/setting';
+import useUserStore from '@/store/modules/user'
 
 let layOutThemeStore = useThemeStore();
 
 const isDrawer = ref<boolean>(false);
+const authUserStore = useUserStore();
 let layOutSettingStore = useLayOutSettingStore();
 let $router = useRouter();
 //获取路由对象
@@ -109,7 +111,7 @@ const lockScreen = () => {
 
 
 //关闭弹框
-const closeLockDialog = (val:boolean) => {
+const closeLockDialog = (val: boolean) => {
     isLockDialog.value = val
 }
 
@@ -127,6 +129,8 @@ const logout = () => {
         }
     )
         .then(() => {
+
+            authUserStore.logout();
             $router.push({ path: '/', query: { redirect: $route.path } })
             ElMessage({
                 type: 'success',
