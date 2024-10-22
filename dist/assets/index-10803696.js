@@ -1,1 +1,0 @@
-import{_ as e,c,o,b as s}from"./index-96bdff00.js";const t={},n={class:"videoPlayback"},_=s("h1",null,"视频播放",-1),a=[_];function r(d,i){return o(),c("div",n,a)}const f=e(t,[["render",r]]);export{f as default};

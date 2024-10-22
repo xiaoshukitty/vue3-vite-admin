@@ -1,1 +1,0 @@
-import{_ as e,c as s,o as c,b as o}from"./index-96bdff00.js";const t={},n={class:"scroll"},_=o("h1",null,"滚动组件",-1),r=[_];function a(d,l){return c(),s("div",n,r)}const f=e(t,[["render",a]]);export{f as default};
