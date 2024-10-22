@@ -3,7 +3,7 @@
         style="border-radius: 1.25rem;">
         <div class="lock-dialog pr-40 pl-40">
             <div class="lock-img">
-                <img src="/src/assets//images/avatar1.jpg" alt="">
+                <img :src="setting.logo" alt="">
             </div>
             <div class="lock-name">
                 小小舒
@@ -23,6 +23,8 @@
 import Cookies from 'js-cookie';
 import { ref, defineProps, watch, defineEmits, } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import setting from '@/setting';
+
 
 let lockIpt = ref('');
 let dialogVisible = ref(false);
