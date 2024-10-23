@@ -3,6 +3,7 @@ import {
   LabelPagetype,
   ThemeTab,
   ThemeColor,
+  WebItem,
 } from './types'
 export const userAuthorityEnum: userAuthorityEnumType[] = [
   {
@@ -75,4 +76,64 @@ export const themeColorList: ThemeColor[] = [
   { name: '石板灰', color: 'rgb(52, 66, 86)' },
   { name: '中灰色', color: 'rgb(56, 66, 82)' },
   { name: '自定义', color: 'rgb(223, 223, 223)' },
+]
+
+/**
+ * 概览页面数据
+ */
+export const webItems: WebItem[] = [
+  {
+    id: 1,
+    title: 'Github',
+    introduce: '不要等待机会，而要创造机会。',
+    webDate: '2024-07-27',
+    type: '开源组',
+    icon: 'github-fill',
+    link: 'https://github.com/xiaoshukitty',
+  },
+  {
+    id: 2,
+    title: 'Vue',
+    introduce: '现在的你决定将来的你。',
+    webDate: '2024-07-27',
+    type: '算法组',
+    icon: 'Vue',
+    link: 'https://cn.vuejs.org/',
+  },
+  {
+    id: 3,
+    title: 'Html5',
+    introduce: '没有什么才能比努力更重要。',
+    webDate: '2024-07-27',
+    type: '上班摸鱼',
+    icon: 'HTML5',
+    link: 'https://www.runoob.com/html/html5-intro.html',
+  },
+  {
+    id: 4,
+    title: 'Angular',
+    introduce: '热情和欲望可以突破一切难关。',
+    webDate: '2024-07-27',
+    type: '技术牛',
+    icon: 'angular',
+    link: 'https://vitejs.cn/',
+  },
+  {
+    id: 5,
+    title: 'React',
+    introduce: '健康的身体是实现目标的基石。',
+    webDate: '2024-07-27',
+    type: 'React',
+    icon: 'React',
+    link: 'https://element.eleme.cn/#/zh-CN',
+  },
+  {
+    id: 6,
+    title: 'Js',
+    introduce: '路是走出来的，而不是空想出来的。',
+    webDate: '2024-07-27',
+    type: '架构组',
+    icon: 'JavaScript',
+    link: 'https://www.w3school.com.cn/js/index.asp',
+  },
 ]

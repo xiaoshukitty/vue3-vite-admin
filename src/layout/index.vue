@@ -169,6 +169,7 @@ export default {
 
 
         .layout_main {
+            background-color: #f1f3f5;
             width: 100%;
             height: calc(100vh - ($base-tabbar-height + $base-label-height));
             padding: 1.25rem;
@@ -181,13 +182,13 @@ export default {
 
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 12.5rem;
+    width: 13.75rem;
     min-height: 25rem;
 }
 
 ::v-deep .el-sub-menu__title:hover,
 ::v-deep .el-menu-item:hover {
-    background: var(--menu-item-hover-background-color) !important;
+    background-color: var(--menu-item-hover-background-color) !important;
     cursor: pointer;
     -webkit-text-decoration: none;
     text-decoration: none;

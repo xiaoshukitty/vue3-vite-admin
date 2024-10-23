@@ -18,3 +18,14 @@ export type ThemeColor = {
   name: string
   color: string
 }
+
+// 定义 WebItem 类型
+export interface WebItem {
+  id: number
+  title: string
+  introduce: string
+  webDate: string
+  type: string
+  icon: string
+  link: string
+}
