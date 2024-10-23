@@ -27,7 +27,7 @@
                 </section>
             </div>
             <!-- 内容展示 -->
-            <main class="layout_main">
+            <main :class="['layout_main',layOutThemeStore.theme === 'dark' ? '' : 'main-theme']">
                 <Main></Main>
             </main>
         </div>
@@ -169,12 +169,14 @@ export default {
 
 
         .layout_main {
-            background-color: #f1f3f5;
             width: 100%;
             height: calc(100vh - ($base-tabbar-height + $base-label-height));
             padding: 1.25rem;
             overflow: auto;
             transition: all .3s;
+        }
+        .main-theme{
+            background-color: #f1f3f5 !important;
         }
     }
 

@@ -111,11 +111,11 @@ export const webItems: WebItem[] = [
   },
   {
     id: 4,
-    title: 'Angular',
+    title: 'Vitejs',
     introduce: '热情和欲望可以突破一切难关。',
     webDate: '2024-07-27',
     type: '技术牛',
-    icon: 'angular',
+    icon: 'vitejs',
     link: 'https://vitejs.cn/',
   },
   {
@@ -125,7 +125,7 @@ export const webItems: WebItem[] = [
     webDate: '2024-07-27',
     type: 'React',
     icon: 'React',
-    link: 'https://element.eleme.cn/#/zh-CN',
+    link: 'https://zh-hans.react.dev/',
   },
   {
     id: 6,

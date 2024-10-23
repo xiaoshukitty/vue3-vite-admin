@@ -1,5 +1,5 @@
 <template>
-    <div class="p-16 d-flex anaysis-top">
+    <div :class="['p-16', 'd-flex', 'anaysis-top', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
         <div class="anaysis-img">
             <img :src="setting.logo" alt="">
         </div>
@@ -10,10 +10,11 @@
     </div>
     <div class="anaysis-bottom d-flex mt-20 ">
         <div class="anaysis-left mr-16">
-            <div class="anaysis-card mb-20">
+            <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
                 <div class="anaysis-card-top">项目</div>
                 <div class="anaysis-card-bottom">
-                    <div class="anaysis-card-item  anaysis-card-item-hover" v-for="item in webItems" :key="item.id">
+                    <div :class="['anaysis-card-item', 'anaysis-card-item-hover', layOutThemeStore.theme === 'dark' ? 'anaysis-card-item-theme' : '']"
+                        v-for="item in webItems" :key="item.id" @click="openLink(item.link)">
                         <div class="anaysis-block-top">
                             <div>
                                 <SvgIcon :name="item.icon" :width="'28px'" :height="'28px'" />
@@ -30,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="anaysis-card ">
+            <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
                 <h1>22</h1>
             </div>
         </div>
@@ -42,6 +43,15 @@
 import { SvgIcon } from '@/components';
 import { webItems } from '@/data/enum/index'
 import setting from '@/setting';
+import { useThemeStore } from '@/store/modules/theme'
+
+const layOutThemeStore = useThemeStore();
+
+
+//跳转外链
+const openLink = (link: string) => {
+    window.open(link, '_blank')
+}
 </script>
 
 <style scoped lang="scss">
@@ -76,7 +86,7 @@ import setting from '@/setting';
     .anaysis-left {
         width: 60%;
         border-radius: .8125rem;
-   
+
         .anaysis-card {
             border: .0625rem solid var(--border-color);
             background: var(--background-common-color);
@@ -84,7 +94,6 @@ import setting from '@/setting';
 
             .anaysis-card-top {
                 padding: 1.25rem;
-                border-bottom: .0625rem solid var(--border-color);
                 font-size: 1.125rem;
                 line-height: 1.75rem;
                 font-weight: 600;
@@ -97,11 +106,17 @@ import setting from '@/setting';
 
                 .anaysis-card-item {
                     padding: 1rem;
-                    border: 0;
                     border-radius: 0;
                     transition-duration: .15s;
                     transition-property: all;
                     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+                    border-top-width: .0625rem;
+                    border-right-width: .0625rem;
+                    border-bottom-width: 0;
+                    border-color: var(--border-color);
+                    border-style: solid;
+                    box-sizing: border-box;
+                    cursor: pointer;
 
                     .anaysis-block-top {
                         font-size: 1.125rem;
@@ -117,26 +132,19 @@ import setting from '@/setting';
                         height: 2.5rem;
                         margin-top: .5rem;
                         color: #00000073;
-                        font-size: 14px;
+                        font-size: .875rem;
                     }
 
                     .anaysis-block-bottom {
                         display: flex;
                         justify-content: space-between;
                         color: #00000073;
-                        font-size: 14px;
+                        font-size: .875rem;
                     }
                 }
 
-                .anaysis-card-item:nth-child(3n-1) {
-                    border-left: .0625rem solid var(--border-color);
-                    border-right: .0625rem solid var(--border-color);
-                }
-
-                .anaysis-card-item:nth-child(1),
-                .anaysis-card-item:nth-child(2),
-                .anaysis-card-item:nth-child(3) {
-                    border-bottom: .0625rem solid var(--border-color);
+                .anaysis-card-item:nth-child(3n) {
+                    border-right-width: 0 !important;
                 }
             }
         }
@@ -151,6 +159,16 @@ import setting from '@/setting';
 }
 
 .anaysis-card-item-hover:hover {
-    box-shadow: 0 0 transparent, 0 0 transparent, 0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 transparent, 0 0 transparent, 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, .1), 0 .5rem .625rem -0.375rem rgba(0, 0, 0, .1);
+}
+
+.anaysis-top-theme {
+    background-color: var(--background-theme-color) !important;
+    border: .0625rem solid var(--border-theme-color) !important;
+    color: var(--theme-color);
+}
+
+.anaysis-card-item-theme {
+    border-color: var(--border-theme-color) !important;
 }
 </style>
