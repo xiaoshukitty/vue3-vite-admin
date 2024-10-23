@@ -1,15 +1,16 @@
 <template>
-    <div class="p-13-8" @click="updateRefsh">
-        <el-button size="small" icon="Refresh" circle />
-    </div>
-    <div class="p-13-8" @click="fullScreen">
-        <el-button size="small" icon="FullScreen" circle />
-    </div>
-    <div class="p-13-8">
-        <I18n></I18n>
-    </div>
-    <div class="p-13-8" @click="openSetting">
-        <el-button size="small" icon="Setting" circle />
+    <div class="icon-btn">
+        <div :class="['icon-hover', 'mr-5', layOutThemeStore.theme === 'dark' ? 'breadcriumb-theme' : '']"
+            @click="fullScreen">
+            <el-icon class="fs-18">
+                <FullScreen />
+            </el-icon>
+        </div>
+        <div :class="['icon-hover', layOutThemeStore.theme === 'dark' ? 'breadcriumb-theme' : '']" @click="openSetting">
+            <el-icon class="fs-18">
+                <Cpu />
+            </el-icon>
+        </div>
     </div>
     <div class="">
         <el-dropdown trigger="click">
@@ -22,18 +23,17 @@
             <template #dropdown>
                 <div class="user-info ">
                     <div
-                        :class="['user-top', 'd-flex', 'ai-center', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                        :class="['user-top', 'd-flex', 'ai-center', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'setting-theme' : '']">
                         <div class="user-img">
                             <img :src="setting.logo" alt="">
                             <span></span>
                         </div>
-                        <div
-                            :class="['user-name', 'd-flex', 'j-center', 'f-cloumn', 'ml-10', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                        <div :class="['user-name', 'd-flex', 'j-center', 'f-cloumn', 'ml-10']">
                             <div class="fw-500">Xiaoshu</div>
                             <div style="color: #71717a;font-size: .75rem;line-height: 1rem;">https:xiaoshukitty</div>
                         </div>
                     </div>
-                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'setting-theme' : '']">
                         <div
                             :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']">
                             <el-icon class="mr-5">
@@ -47,7 +47,7 @@
                             </el-icon>锁定屏幕
                         </div>
                     </div>
-                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'tabbar-theme' : '']">
+                    <div :class="['user-bottom', 'b-bottom', layOutThemeStore.theme === 'dark' ? 'setting-theme' : '']">
                         <div :class="['user-bottom-line ', 'd-flex ai-center', layOutThemeStore.theme === 'dark' ? 'user-hover' : '']"
                             @click="logout"><el-icon class="mr-5">
                                 <SwitchButton />
@@ -58,6 +58,7 @@
         </el-dropdown>
     </div>
 
+
     <Drawer :isDrawer="isDrawer" @close="closeDrawer" />
     <LockDialog :isLockDialog="isLockDialog" @close="closeLockDialog" />
 </template>
@@ -65,30 +66,20 @@
 <script setup lang='ts'>
 import Drawer from './drawer/index.vue';
 import LockDialog from './LockDialog/index.vue';
-//获取 setting 仓库
-import useLayOutSettingStore from '@/store/modules/setting';
 import { useRouter, useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import type { Action } from 'element-plus';
 import { useThemeStore } from '@/store/modules/theme';
 import setting from '@/setting';
 import useUserStore from '@/store/modules/user'
 
 let layOutThemeStore = useThemeStore();
+let $router = useRouter();
+let $route = useRoute();
 
 const isDrawer = ref<boolean>(false);
 const authUserStore = useUserStore();
-let layOutSettingStore = useLayOutSettingStore();
-let $router = useRouter();
-//获取路由对象
-let $route = useRoute();
 let isLockDialog = ref<boolean>(false); //锁屏弹框
-
-//刷新
-const updateRefsh = () => {
-    layOutSettingStore.refsh = !layOutSettingStore.refsh;
-}
 
 //全屏
 const fullScreen = () => {
@@ -161,6 +152,26 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.icon-btn {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+
+    .icon-hover {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .5rem;
+        border-radius: .3125rem;
+        cursor: pointer;
+        transition: all .3s;
+
+        &:hover {
+            background-color: var(--header-hover-backgorund);
+        }
+    }
+}
+
 .img-hover {
     position: relative;
     width: 2.5rem;
@@ -240,28 +251,34 @@ export default {
     }
 
     .user-hover:hover {
-        background-color: #2e3033 !important;
+        background-color: var(--theme-color-hover) !important;
     }
 }
 
 .b-bottom {
-    border-bottom: .0625rem solid #e4e4e7;
+    border-bottom: .0625rem solid var(--border-color);
 }
+
+.setting-theme {
+    border-bottom: .0625rem solid var(--border-theme-color) !important;
+}
+
 
 .img-hover:hover {
     background-color: #f6f6f6;
 }
 
 .img-hover-theme:hover {
-    background-color: #2e3033 !important;
+    background-color: var(--theme-color-hover) !important;
 }
 
 :v-deep .el-popup-parent--hidden {
     width: 0 !important;
 }
 
-.tabbar-theme {
-    border-bottom: .0625rem solid var(--border-color);
-    border-left: .0625rem solid var(--border-color);
+.breadcriumb-theme {
+    &:hover {
+        background-color: var(--theme-color-hover) !important;
+    }
 }
 </style>

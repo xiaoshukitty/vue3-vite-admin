@@ -27,6 +27,8 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 // 引入自定义插件对象：注册整个项目全局组件
 import globalComponent from '@/components/index'
 
+import './setting'
+
 // 禁止浏览器上一步下一步
 window.addEventListener('popstate', (): void => {
   history.pushState(null, '', document.URL)

@@ -1,15 +1,15 @@
 <template>
     <div class="layout_container">
         <!-- 左侧菜单 -->
-        <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+        <div :class="['layout_slider', layOutThemeStore.theme === 'dark' ? 'slider-theme' : '']">
             <Logo></Logo>
             <!-- 展示菜单 -->
             <!-- 滚动组件 -->
             <el-scrollbar class="scrollbar">
                 <!-- 菜单组件 -->
-                <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$router.path"
-                    background-color="#151515" text-color="#fff" active-text-color="rgb(255, 208, 75)" router
-                    :unique-opened="true">
+                <el-menu class="el-menu-vertical-demo" :collapse="LayOutSettingStore.fold ? true : false"
+                    :default-active="$router.path" :background-color="menuBackground" :text-color="menuTextColor"
+                    :active-text-color="menuActiveTextColor" router :unique-opened="true">
                     <Menu :menuList="menus"></Menu>
                 </el-menu>
             </el-scrollbar>
@@ -17,17 +17,17 @@
         <!-- 顶部导航 -->
         <div class="layout_box">
             <div class="layout-header">
-                <header class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                <header :class="['layout_tabbar', layOutThemeStore.theme === 'dark' ? 'header-theme' : '']">
                     <!-- layout组件顶部 tabbar 组件 -->
                     <Tabbar></Tabbar>
                 </header>
                 <!-- 标签页 -->
-                <section class="layout-label" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+                <section :class="['layout-label', layOutThemeStore.theme === 'dark' ? 'label-theme' : '']">
                     <LabelPage></LabelPage>
                 </section>
             </div>
             <!-- 内容展示 -->
-            <main class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+            <main class="layout_main">
                 <Main></Main>
             </main>
         </div>
@@ -52,8 +52,10 @@ import useMenuStore from '@/store/modules/menu'
 import useUserStore from '@/store/modules/user'
 //获取 layout相关配置的仓库
 import useLayOutSettingStore from '@/store/modules/setting'
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useThemeStore } from '@/store/modules/theme'
 
+const layOutThemeStore = useThemeStore();
 const useMenu = useMenuStore();
 const authUserStore = useUserStore();
 let LayOutSettingStore = useLayOutSettingStore();
@@ -64,10 +66,35 @@ let menus = ref<any>([]);
 
 onMounted(() => {
     useMenu.generateMenus(authUserStore.userRole);
-    
     menus.value = useMenu.menuRoutes;
 })
 
+// menuBackground: '#fff', //菜单背景色
+//   menuTextColor: '#323639', //菜单字体颜色
+//   menuActiveTextColor: '#006be6', //菜单选中字体颜色
+
+const menuBackground = computed(() => {
+    if (layOutThemeStore.theme === 'dark') {
+        return '#1c1e23'
+    } else {
+        return '#fff'
+    }
+
+})
+const menuTextColor = computed(() => {
+    if (layOutThemeStore.theme === 'dark') {
+        return '#fafafa'
+    } else {
+        return '#323639'
+    }
+})
+const menuActiveTextColor = computed(() => {
+    if (layOutThemeStore.theme === 'dark') {
+        return '#ffd04b'
+    } else {
+        return '#006be6'
+    }
+})
 </script>
 
 <script lang="ts">
@@ -83,14 +110,14 @@ export default {
     display: flex;
 
     .layout_slider {
-        width: $base-menu-width;
-        // flex: 0 0 $base-menu-width;
-        max-width: $base-menu-width;
-        height: 100vh;
-        background-color: $base-menu-background;
         color: #fff;
-        transition: all .3s;
+        background-color: #fff;
         border-right: .0625rem solid var(--border-color);
+        transition-duration: .15s;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+        z-index: 1101;
+
 
         .scrollbar {
             width: 100%;
@@ -100,10 +127,24 @@ export default {
                 border-right: none;
             }
         }
+    }
 
-        &.fold {
-            width: $base-menu-min-width;
-        }
+
+    .slider-theme {
+        border-right: .0625rem solid var(--border-theme-color) !important;
+        background-color: var(--background-theme-color) !important;
+        color: var(--theme-color);
+    }
+
+    .header-theme,
+    .label-theme {
+        background-color: var(--background-theme-color) !important;
+        border-bottom: .0625rem solid var(--border-theme-color) !important;
+        color: var(--theme-color);
+    }
+
+    .label-theme {
+        border-top: .0625rem solid var(--border-theme-color) !important;
     }
 
     .layout_box {
@@ -112,20 +153,14 @@ export default {
 
         .layout-header {
             .layout_tabbar {
-                // position: fixed;
                 width: 100%;
                 height: $base-tabbar-height;
-                // top: 0;
-                // left: $base-menu-width;
                 transition: all .3s;
-
-                &.fold {
-                    width: calc(100vw - $base-menu-min-width);
-                    left: $base-menu-min-width;
-                }
             }
 
             .layout-label {
+                border-top: .0625rem solid var(--border-color);
+                border-bottom: .0625rem solid var(--border-color);
                 height: $base-label-height;
                 margin-left: 0px;
                 width: 100%;
@@ -134,21 +169,38 @@ export default {
 
 
         .layout_main {
-            // position: absolute;
             width: 100%;
             height: calc(100vh - ($base-tabbar-height + $base-label-height));
-            // left: $base-menu-width;
-            // top: $base-tabbar-height;
             padding: 1.25rem;
             overflow: auto;
             transition: all .3s;
-
-            &.fold {
-                width: calc(100vw - $base-menu-min-width);
-                left: $base-menu-min-width;
-            }
         }
     }
 
+}
+
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 12.5rem;
+    min-height: 25rem;
+}
+
+::v-deep .el-sub-menu__title:hover,
+::v-deep .el-menu-item:hover {
+    background: var(--menu-item-hover-background-color) !important;
+    cursor: pointer;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+}
+
+::v-deep .el-sub-menu__title {
+    height: 3.125rem !important;
+    line-height: 3.125rem !important;
+}
+
+
+/* 横向竖向都隐藏 */
+.el-aside::-webkit-scrollbar {
+    display: none;
 }
 </style>

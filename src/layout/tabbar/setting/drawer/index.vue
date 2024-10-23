@@ -314,7 +314,7 @@ const closeDrawer = () => {
 <style>
 .el-drawer__body {
     padding: 0;
-    border-top: 0.0625rem solid #ccc;
+    border-top: .0625rem solid var(--border-color);
 }
 
 .el-drawer__header {

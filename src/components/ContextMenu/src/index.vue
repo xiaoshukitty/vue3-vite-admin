@@ -134,15 +134,16 @@ onMounted(() => {
 }
 
 .menu-theme {
-    border: 0.0625rem solid var(--border-color) !important;
-    background-color: var(--header-bg-color) !important;
+    border: 0.0625rem solid var(--border-theme-color) !important;
+    background-color: var(--background-theme-color) !important;
+    color: var(--theme-color);
 
     li {
         color: hsl(var(--theme-text-color));
     }
 
     li:hover {
-        background-color: #2e3033 !important;
+        background-color: var(--theme-color-hover) !important;
     }
 }
 </style>

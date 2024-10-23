@@ -1,9 +1,18 @@
 // 项目提供 scss 变量
 
 :root {
-    --border-color: #303030;
+    --border-color: #e4e4e7;
     --header-bg-color: #151515;
     --theme-text-color: 0 0% 98%;
+    --menu-item-hover-background-color: #f4f4f5;
+    --menu-item-hover-color: #323639;
+
+    --border-theme-color: #36363a;
+    --background-theme-color: #1c1e23;
+    --theme-color: #fafafa;
+    --theme-color-hover: #2e3033;
+
+    --header-hover-backgorund: #f4f4f5;
 }
 
 // layout组件

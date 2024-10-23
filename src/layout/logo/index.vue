@@ -1,7 +1,7 @@
 <template>
-    <div class="logo" v-if="setting.logoHidden">
+    <div :class="['logo', layOutThemeStore.theme === 'dark' ? 'logo-theme' : '']" v-if="setting.logoHidden">
         <img :src="setting.logo" alt="">
-        <p :style=" LayOutSettingStore.fold ? 'display:none' : 'display:block' ">{{ setting.title }}</p>
+        <p :style="LayOutSettingStore.fold ? 'display:none' : 'display:block'">{{ setting.title }}</p>
     </div>
 </template>
 
@@ -10,7 +10,9 @@
 import setting from '@/setting'
 //获取 layout相关配置的仓库
 import useLayOutSettingStore from '@/store/modules/setting'
+import { useThemeStore } from '@/store/modules/theme'
 
+const layOutThemeStore = useThemeStore();
 let LayOutSettingStore = useLayOutSettingStore();
 </script>
 <script lang="ts">
@@ -24,7 +26,7 @@ export default {
     width: 100%;
     height: $base-menu-logo-height;
     display: flex;
-    color: #fff;
+    color: #323639;
     align-items: center;
     padding: .625rem;
 
@@ -37,6 +39,11 @@ export default {
     p {
         font-size: $base-menu-logo-title-fontSize;
         margin-left: .625rem;
+        font-weight: 600;
     }
+}
+
+.logo-theme {
+    color: #f2f2f2;
 }
 </style>
