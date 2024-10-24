@@ -27,7 +27,7 @@
                 </section>
             </div>
             <!-- 内容展示 -->
-            <main :class="['layout_main',layOutThemeStore.theme === 'dark' ? '' : 'main-theme']">
+            <main :class="['layout_main', layOutThemeStore.theme === 'dark' ? '' : 'main-theme']">
                 <Main></Main>
             </main>
         </div>
@@ -52,19 +52,25 @@ import useMenuStore from '@/store/modules/menu'
 import useUserStore from '@/store/modules/user'
 //获取 layout相关配置的仓库
 import useLayOutSettingStore from '@/store/modules/setting'
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, toRaw, toRefs } from 'vue';
 import { useThemeStore } from '@/store/modules/theme'
+import { useLabelRoute } from '@/store/modules/labelRoute';
 
 const layOutThemeStore = useThemeStore();
 const useMenu = useMenuStore();
 const authUserStore = useUserStore();
 let LayOutSettingStore = useLayOutSettingStore();
+const { addLabelRoute } = useLabelRoute();
+const { laberIndex } = toRefs(useLabelRoute());
+
 
 //获取路由对象
 let $router = useRoute();
 let menus = ref<any>([]);
 
 onMounted(() => {
+    laberIndex.value = $router.path;
+    addLabelRoute(toRaw($router));
     useMenu.generateMenus(authUserStore.userRole);
     menus.value = useMenu.menuRoutes;
 })
@@ -175,7 +181,8 @@ export default {
             overflow: auto;
             transition: all .3s;
         }
-        .main-theme{
+
+        .main-theme {
             background-color: #f1f3f5 !important;
         }
     }

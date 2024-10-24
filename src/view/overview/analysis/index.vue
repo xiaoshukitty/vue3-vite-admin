@@ -1,41 +1,43 @@
 <template>
-    <div :class="['p-16', 'd-flex', 'anaysis-top', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
-        <div class="anaysis-img">
-            <img :src="setting.logo" alt="">
+    <div>
+        <div :class="['p-16', 'd-flex', 'anaysis-top', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
+            <div class="anaysis-img">
+                <img :src="setting.logo" alt="">
+            </div>
+            <div class="anaysis-center ml-24 j-center d-flex f-cloumn">
+                <div class="fs-20"> 早安, 小舒, 开始您一天的工作吧！ </div>
+                <span style="color:#323639cc"> 今日晴，20℃ - 32℃！ </span>
+            </div>
         </div>
-        <div class="anaysis-center ml-24 j-center d-flex f-cloumn">
-            <div class="fs-20"> 早安, 小舒, 开始您一天的工作吧！ </div>
-            <span style="color:#323639cc"> 今日晴，20℃ - 32℃！ </span>
-        </div>
-    </div>
-    <div class="anaysis-bottom d-flex mt-20 ">
-        <div class="anaysis-left mr-16">
-            <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
-                <div class="anaysis-card-top">项目</div>
-                <div class="anaysis-card-bottom">
-                    <div :class="['anaysis-card-item', 'anaysis-card-item-hover', layOutThemeStore.theme === 'dark' ? 'anaysis-card-item-theme' : '']"
-                        v-for="item in webItems" :key="item.id" @click="openLink(item.link)">
-                        <div class="anaysis-block-top">
-                            <div>
-                                <SvgIcon :name="item.icon" :width="'28px'" :height="'28px'" />
+        <div class="anaysis-bottom d-flex mt-20 ">
+            <div class="anaysis-left mr-16">
+                <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
+                    <div class="anaysis-card-top">项目</div>
+                    <div class="anaysis-card-bottom">
+                        <div :class="['anaysis-card-item', 'anaysis-card-item-hover', layOutThemeStore.theme === 'dark' ? 'anaysis-card-item-theme' : '']"
+                            v-for="item in webItems" :key="item.id" @click="openLink(item.link)">
+                            <div class="anaysis-block-top">
+                                <div>
+                                    <SvgIcon :name="item.icon" :width="'28px'" :height="'28px'" />
+                                </div>
+                                <div>{{ item.title }}</div>
                             </div>
-                            <div>{{ item.title }}</div>
-                        </div>
-                        <div class="anaysis-block-conter">
-                            {{ item.introduce }}
-                        </div>
-                        <div class="anaysis-block-bottom">
-                            <span>{{ item.type }}</span>
-                            <span>{{ item.webDate }}</span>
+                            <div class="anaysis-block-conter">
+                                {{ item.introduce }}
+                            </div>
+                            <div class="anaysis-block-bottom">
+                                <span>{{ item.type }}</span>
+                                <span>{{ item.webDate }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
+                    <h1>22</h1>
+                </div>
             </div>
-            <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
-                <h1>22</h1>
-            </div>
+            <div class="anaysis-right">2</div>
         </div>
-        <div class="anaysis-right">2</div>
     </div>
 </template>
 

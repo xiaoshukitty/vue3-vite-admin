@@ -38,10 +38,11 @@
 </template>
 
 <script setup lang="ts">
-
+import { toRefs } from 'vue'
 import { useLabelRoute } from '@/store/modules/labelRoute';
 import { LabelRouteType } from '@/types/labelRouteType'
 const { addLabelRoute } = useLabelRoute();
+const { laberIndex } = toRefs(useLabelRoute());
 
 //获取父组件传递过来的全部路由数组
 defineProps(['menuList']);
@@ -52,6 +53,7 @@ let $router = useRouter();
 //点击菜单回调
 const recordsRoute = (item: LabelRouteType) => {
     addLabelRoute(item);
+    laberIndex.value = item.path;
 }
 
 </script>
