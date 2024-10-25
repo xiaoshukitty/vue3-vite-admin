@@ -1,7 +1,8 @@
 <template>
     <div class="context-menu" v-if="visible" :style="{ left: position.x + 'px', top: position.y + 'px' }">
         <ul :class="[layOutThemeStore.theme === 'dark' ? 'menu-theme' : '']">
-            <li class="d-flex ai-center" v-for="(item, index) in labelPages" :key="index" @click="triggerClick(item)">
+            <li v-for="(item, index) in labelPages" :key="index" @click="triggerClick(item)"
+                :class="['d-flex', 'ai-center', item.label == laberClick(item) ? 'isMenu' : '']" :style="isMenu">
                 <el-icon class="mr-5">
                     <component :is="item.icon" />
                 </el-icon>
@@ -12,14 +13,17 @@
 </template>
 
 <script setup lang='ts'>
-import { defineExpose, defineProps, ref, watch, onMounted } from 'vue';
+import { defineExpose, defineProps, ref, watch, onMounted, computed } from 'vue';
 import { fieldsListEnum } from '@/utils/method';
 import useLayOutSettingStore from '@/store/modules/setting';
 import { useThemeStore } from '@/store/modules/theme';
+import { useRoute } from 'vue-router';
+import type { RouteType } from '@/store/modules/types/labelRouteType'
 
 const props = defineProps(['routerType'])
 let layOutSettingStore = useLayOutSettingStore();
 const layOutThemeStore = useThemeStore();
+const $route = useRoute();
 
 interface IContextMenu {
     name: string,
@@ -30,21 +34,36 @@ interface IContextMenu {
 let position = ref({ x: 0, y: 0 });
 let visible = ref(false);
 let labelPages = ref<any>([]);
+let isRefresh = ref(false);
 
 
 //监听传递过来的来判断返回什么数据
 watch(() => props.routerType, (newVal: string) => {
     if (newVal) {
+        console.log('newVal---', newVal);
         labelPages.value = fieldsListEnum(newVal)
     }
 }, {
     immediate: true
 })
 
+//判断是否是当前路由
+const laberClick = (item: IContextMenu) => {
+    // 判断是否是刷新
+    if (!isRefresh.value) {
+        return item.label == 'refresh' ? item.label : isRefresh.value;
+    }
+
+}
 
 
 // 鼠标右键事件
-const showMenu = (event: MouseEvent) => {
+const showMenu = (event: MouseEvent, route: RouteType) => {
+    isRefresh.value = false;
+    if (route.path === $route.path) {
+        isRefresh.value = true;
+    }
+
     event.preventDefault(); // 阻止默认右键菜单
     position.value = { x: event.clientX, y: event.clientY };
     visible.value = true;
@@ -92,6 +111,7 @@ const handleClickOutside = () => {
     // 如果点击发生在菜单组件外部，则关闭菜单
     window.addEventListener('click', () => {
         visible.value = false;
+        isRefresh.value = false;
     })
 }
 
@@ -145,5 +165,10 @@ onMounted(() => {
     li:hover {
         background-color: var(--theme-color-hover) !important;
     }
+}
+
+.isMenu {
+    opacity: .5;
+    pointer-events: none;
 }
 </style>

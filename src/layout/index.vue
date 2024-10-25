@@ -61,7 +61,7 @@ const useMenu = useMenuStore();
 const authUserStore = useUserStore();
 let LayOutSettingStore = useLayOutSettingStore();
 const { addLabelRoute } = useLabelRoute();
-const { laberIndex } = toRefs(useLabelRoute());
+const { labelIndex } = toRefs(useLabelRoute());
 
 
 //获取路由对象
@@ -69,7 +69,7 @@ let $router = useRoute();
 let menus = ref<any>([]);
 
 onMounted(() => {
-    laberIndex.value = $router.path;
+    labelIndex.value = $router.path;
     addLabelRoute(toRaw($router));
     useMenu.generateMenus(authUserStore.userRole);
     menus.value = useMenu.menuRoutes;

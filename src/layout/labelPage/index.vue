@@ -1,9 +1,20 @@
 <template>
     <div class="label-page">
-        <div class="left-lable fs-14" @contextmenu="showContextMenu($event)">
+        <div class="left-lable fs-14">
             <div class="d-flex left-lable-content">
                 <div v-for="(item, index) in labelRouteList" :key="index" @click="linkRouter(item)"
-                    :class="['left-lable-text', 'd-flex', 'ai-center', 'label-hover', layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '', laberIndex === item.path ? layOutThemeStore.theme === 'dark' ? 'label-theme-active' : 'label-active' : '']">
+                    @contextmenu="showContextMenu($event, item)" :class="[
+                        'left-lable-text',
+                        'd-flex',
+                        'ai-center',
+                        'label-hover',
+                        layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '',
+                        labelIndex === item.path
+                            ? layOutThemeStore.theme === 'dark'
+                                ? 'label-theme-active'
+                                : 'label-active'
+                            : '',
+                    ]">
                     <el-icon class="fs-16 mr-5">
                         <component :is="item.meta.icon"></component>
                     </el-icon>
@@ -14,71 +25,66 @@
                 </div>
             </div>
         </div>
-        <div class="right-labl">
-            右
-        </div>
+        <div class="right-labl">右</div>
     </div>
 
     <ContextMenu ref="contextMenu" :routerType="routerType"></ContextMenu>
 </template>
 
-<script setup lang='ts'>
-import { ref, onMounted, toRefs } from 'vue';
-import { useThemeStore } from '@/store/modules/theme';
-import { useI18n } from 'vue-i18n';
-import { useLabelRoute } from '@/store/modules/labelRoute';
-import { useRouter, useRoute } from 'vue-router';
+<script setup lang="ts">
+import { ref, toRefs } from 'vue'
+import { useThemeStore } from '@/store/modules/theme'
+import { useI18n } from 'vue-i18n'
+import { useLabelRoute } from '@/store/modules/labelRoute'
+import { useRouter, useRoute } from 'vue-router'
 import type { RouteType } from '@/store/modules/types/labelRouteType'
 
 // const { labelRouteList } = useLabelRoute();
-const { laberIndex, labelRouteList } = toRefs(useLabelRoute());
-const { t } = useI18n();
-let layOutThemeStore = useThemeStore();
-const contextMenu = ref();
-let routerType = ref('');  //传递给 contextMenu 组件用来辨别
-const $router = useRouter();
-const $route = useRoute();
-console.log(t('routerNavigation'));
+const { labelIndex, labelRouteList } = toRefs(useLabelRoute())
+const { t } = useI18n()
+let layOutThemeStore = useThemeStore()
+const contextMenu = ref()
+let routerType = ref('') //传递给 contextMenu 组件用来辨别
+const $router = useRouter()
+const $route = useRoute()
+console.log(t('routerNavigation'))
 
 //路由跳转
 const linkRouter = (item: RouteType) => {
-    if ($route.path === item.path) return;
-    $router.push(item.path);
-    localStorage.setItem(
-        'labelRouteList',
-        JSON.stringify(labelRouteList.value),
-    )
-    laberIndex.value = item.path;
+    if ($route.path === item.path) return
+    $router.push(item.path)
+    localStorage.setItem('labelRouteList', JSON.stringify(labelRouteList.value))
+    labelIndex.value = item.path
 }
 // 关闭路由
 const closeRoute = (item: RouteType) => {
-    let list;
+    let list: RouteType | undefined
     labelRouteList.value.forEach((route: RouteType) => {
-        if (route.path == laberIndex.value) {
-            list = item;
+        if (route.path == labelIndex.value) {
+            list = item
         }
     })
 
-    let flag = labelRouteList.value.indexOf(list);
-    let delFlag = labelRouteList.value.indexOf(item);
-    let copyRecordRoute = JSON.parse(JSON.stringify(labelRouteList.value));
+    let flag = labelRouteList.value.indexOf(list as RouteType)
+    let delFlag = labelRouteList.value.indexOf(item)
+    let copyRecordRoute = JSON.parse(JSON.stringify(labelRouteList.value)) as RouteType[]
     labelRouteList.value = copyRecordRoute.filter((route: RouteType) => {
-        return route.path != item.path;
+        return route.path != item.path
     })
 
     if (flag == delFlag || flag == -1) {
-        let Obj = labelRouteList.value[labelRouteList.value.length - 1];
-        laberIndex.value = labelRouteList.value[labelRouteList.value.length - 1].path;
-        linkRouter(Obj);
+        let Obj = labelRouteList.value[labelRouteList.value.length - 1]
+        labelIndex.value =
+            labelRouteList.value[labelRouteList.value.length - 1].path
+        linkRouter(Obj)
     }
 }
 
-const showContextMenu = (e: MouseEvent) => {
-    e.preventDefault();
-    contextMenu.value.showMenu(e);
-    routerType.value = 'labelPage';
+const showContextMenu = (e: MouseEvent, route: RouteType) => {
+    e.preventDefault()
+    contextMenu.value.showMenu(e, route)
+    routerType.value = 'labelPage'
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -98,25 +104,25 @@ const showContextMenu = (e: MouseEvent) => {
         .left-lable-content {
             height: 100%;
             align-items: center;
-            margin-left: .625rem;
+            margin-left: 0.625rem;
 
             .left-lable-text {
-                padding: 0 .625rem;
+                padding: 0 0.625rem;
                 height: 100%;
 
                 .label-page-icon {
-                    width: .75rem;
-                    margin-left: .625rem;
+                    width: 0.75rem;
+                    margin-left: 0.625rem;
                 }
             }
 
             .label-hover {
-                margin-right: .1875rem;
+                margin-right: 0.1875rem;
             }
 
             .label-hover:hover {
                 background-color: #f6f6f6;
-                border-radius: .3125rem;
+                border-radius: 0.3125rem;
                 height: 1.9375rem;
             }
 
@@ -129,14 +135,15 @@ const showContextMenu = (e: MouseEvent) => {
 
 .label-active {
     background-color: #f6f6f6;
-    border-radius: .3125rem;
+    border-radius: 0.3125rem;
     height: 1.9375rem !important;
     color: #006be6;
 }
-.label-theme-active{
+
+.label-theme-active {
     background-color: var(--theme-color-hover) !important;
-    color:var(--theme-color) !important;
-    border-radius: .3125rem !important;
+    color: var(--theme-color) !important;
+    border-radius: 0.3125rem !important;
     height: 1.9375rem !important;
 }
 </style>

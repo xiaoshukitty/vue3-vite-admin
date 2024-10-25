@@ -18,5 +18,5 @@ export interface RouteType {
 
 export interface StateType {
   labelRouteList: RouteType[]
-  laberIndex: string
+  labelIndex: string
 }

@@ -9,7 +9,7 @@ export const useLabelRoute = defineStore({
     labelRouteList: JSON.parse(
       localStorage.getItem('labelRouteList') || '[]',
     ) as RouteType[], // 标签路由列表
-    laberIndex: '', //当前标签索引
+    labelIndex: '', //当前标签索引
   }),
   actions: {
     //添加标签路由
