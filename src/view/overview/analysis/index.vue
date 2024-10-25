@@ -6,7 +6,8 @@
             </div>
             <div class="anaysis-center ml-24 j-center d-flex f-cloumn">
                 <div class="fs-20"> 早安, 小舒, 开始您一天的工作吧！ </div>
-                <span style="color:#323639cc"> 今日晴，20℃ - 32℃！ </span>
+                <span :class="[layOutThemeStore.theme === 'dark' ? 'anaysis-block-theme' : '']" style="color:#323639cc">
+                    今日晴，20℃ - 32℃！ </span>
             </div>
         </div>
         <div class="anaysis-bottom d-flex mt-20 ">
@@ -17,15 +18,18 @@
                         <div :class="['anaysis-card-item', 'anaysis-card-item-hover', layOutThemeStore.theme === 'dark' ? 'anaysis-card-item-theme' : '']"
                             v-for="item in webItems" :key="item.id" @click="openLink(item.link)">
                             <div class="anaysis-block-top">
-                                <div>
-                                    <SvgIcon :name="item.icon" :width="'28px'" :height="'28px'" />
+                                <div class="icon-hover">
+                                    <SvgIcon :class="item.id == '1' ? 'icon' : ''" :name="item.icon" :width="'28px'"
+                                        :height="'28px'" />
                                 </div>
                                 <div>{{ item.title }}</div>
                             </div>
-                            <div class="anaysis-block-conter">
+                            <div
+                                :class="['anaysis-block-conter', layOutThemeStore.theme === 'dark' ? 'anaysis-block-theme' : '']">
                                 {{ item.introduce }}
                             </div>
-                            <div class="anaysis-block-bottom">
+                            <div
+                                :class="['anaysis-block-bottom', layOutThemeStore.theme === 'dark' ? 'anaysis-block-theme' : '']">
                                 <span>{{ item.type }}</span>
                                 <span>{{ item.webDate }}</span>
                             </div>
@@ -36,7 +40,7 @@
                     <h1>22</h1>
                 </div>
             </div>
-            <div class="anaysis-right">2</div>
+            <div :class="['anaysis-right',layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">2</div>
         </div>
     </div>
 </template>
@@ -164,6 +168,18 @@ const openLink = (link: string) => {
     box-shadow: 0 0 transparent, 0 0 transparent, 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, .1), 0 .5rem .625rem -0.375rem rgba(0, 0, 0, .1);
 }
 
+.anaysis-card-item-hover:hover .icon-hover {
+    transform: scale(1.1);
+}
+
+.icon-hover {
+    .icon {
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+}
+
 .anaysis-top-theme {
     background-color: var(--background-theme-color) !important;
     border: .0625rem solid var(--border-theme-color) !important;
@@ -172,5 +188,9 @@ const openLink = (link: string) => {
 
 .anaysis-card-item-theme {
     border-color: var(--border-theme-color) !important;
+}
+
+.anaysis-block-theme {
+    color: var(--theme-color-active) !important;
 }
 </style>
