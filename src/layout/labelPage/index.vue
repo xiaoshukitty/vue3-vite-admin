@@ -3,7 +3,7 @@
         <div class="left-lable fs-14" @contextmenu="showContextMenu($event)">
             <div class="d-flex left-lable-content">
                 <div v-for="(item, index) in labelRouteList" :key="index" @click="linkRouter(item)"
-                    :class="['left-lable-text', 'd-flex', 'ai-center', 'label-hover', layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '', laberIndex === item.path ? 'label-active' : '']">
+                    :class="['left-lable-text', 'd-flex', 'ai-center', 'label-hover', layOutThemeStore.theme === 'dark' ? 'label-theme-hover' : '', laberIndex === item.path ? layOutThemeStore.theme === 'dark' ? 'label-theme-active' : 'label-active' : '']">
                     <el-icon class="fs-16 mr-5">
                         <component :is="item.meta.icon"></component>
                     </el-icon>
@@ -132,5 +132,11 @@ const showContextMenu = (e: MouseEvent) => {
     border-radius: .3125rem;
     height: 1.9375rem !important;
     color: #006be6;
+}
+.label-theme-active{
+    background-color: var(--theme-color-hover) !important;
+    color:var(--theme-color) !important;
+    border-radius: .3125rem !important;
+    height: 1.9375rem !important;
 }
 </style>
