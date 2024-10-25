@@ -47,6 +47,7 @@ let useUserStore = defineStore('User', {
       localStorage.removeItem('token')
       localStorage.removeItem('userRole')
       axios.defaults.headers.common['Authorization']
+      localStorage.removeItem('labelRouteList')
     },
   },
   //计算属性
