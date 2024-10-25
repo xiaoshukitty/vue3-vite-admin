@@ -23,14 +23,15 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, onMounted,toRefs } from 'vue';
+import { ref, onMounted, toRefs } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
 import { useI18n } from 'vue-i18n';
 import { useLabelRoute } from '@/store/modules/labelRoute';
 import { useRouter, useRoute } from 'vue-router';
-const { labelRouteList } = useLabelRoute();
-const { laberIndex } = toRefs(useLabelRoute());
+import type { RouteType } from '@/store/modules/types/labelRouteType'
 
+// const { labelRouteList } = useLabelRoute();
+const { laberIndex, labelRouteList } = toRefs(useLabelRoute());
 const { t } = useI18n();
 let layOutThemeStore = useThemeStore();
 const contextMenu = ref();
@@ -40,13 +41,36 @@ const $route = useRoute();
 console.log(t('routerNavigation'));
 
 //路由跳转
-const linkRouter = (item: any) => {
+const linkRouter = (item: RouteType) => {
     if ($route.path === item.path) return;
     $router.push(item.path);
+    localStorage.setItem(
+        'labelRouteList',
+        JSON.stringify(labelRouteList.value),
+    )
     laberIndex.value = item.path;
 }
-//删除
-const closeRoute = (item: any) => {
+// 关闭路由
+const closeRoute = (item: RouteType) => {
+    let list;
+    labelRouteList.value.forEach((route: RouteType) => {
+        if (route.path == laberIndex.value) {
+            list = item;
+        }
+    })
+
+    let flag = labelRouteList.value.indexOf(list);
+    let delFlag = labelRouteList.value.indexOf(item);
+    let copyRecordRoute = JSON.parse(JSON.stringify(labelRouteList.value));
+    labelRouteList.value = copyRecordRoute.filter((route: RouteType) => {
+        return route.path != item.path;
+    })
+
+    if (flag == delFlag || flag == -1) {
+        let Obj = labelRouteList.value[labelRouteList.value.length - 1];
+        laberIndex.value = labelRouteList.value[labelRouteList.value.length - 1].path;
+        linkRouter(Obj);
+    }
 }
 
 const showContextMenu = (e: MouseEvent) => {

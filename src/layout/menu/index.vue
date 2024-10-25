@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { toRefs } from 'vue'
 import { useLabelRoute } from '@/store/modules/labelRoute';
-import { LabelRouteType } from '@/types/labelRouteType'
+import type { RouteType } from '@/store/modules/types/labelRouteType'
 const { addLabelRoute } = useLabelRoute();
 const { laberIndex } = toRefs(useLabelRoute());
 
@@ -51,9 +51,10 @@ import { useRouter } from 'vue-router';
 let $router = useRouter();
 
 //点击菜单回调
-const recordsRoute = (item: LabelRouteType) => {
+const recordsRoute = (item: RouteType) => {
+    laberIndex.value = item.path; // 这个位置的问题
     addLabelRoute(item);
-    laberIndex.value = item.path;
+ 
 }
 
 </script>
