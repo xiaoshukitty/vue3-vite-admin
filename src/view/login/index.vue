@@ -28,6 +28,9 @@
                             <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" show-password
                                 size="large"></el-input>
                         </el-form-item>
+                        <el-form-item>
+                            <SliderVerification ref="sliderVerification" />
+                        </el-form-item>
                         <el-form-item class="login-select">
                             <el-checkbox v-model="checked" :label="$t('common.RememberMe')" size="large" />
                             <div>{{ $t('common.ForgotPassword') }}</div>
@@ -69,6 +72,7 @@ import { useThemeStore } from '@/store/modules/theme';
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
 import { userAuthorityEnum } from '@/data/enum/index';
 import useUserStore from '@/store/modules/user'
+import SliderVerification from './components/SliderVerification.vue'
 
 let MoveRound = ref(false);
 let checked = ref(false);
@@ -83,6 +87,7 @@ let $route = useRoute();
 let $router = useRouter();
 let layOutThemeStore = useThemeStore();
 const authUserStore = useUserStore();
+const sliderVerification = ref();
 
 //自定义校验规则函数(可以写正则)
 const validateUserName = (rule: any, value: any, callback: any) => {
@@ -159,6 +164,14 @@ const themeSwitch = () => {
 const login = async () => {
     //保证全部表单验证通过才发请求
     await loginForms.value.validate();
+
+    if (!sliderVerification.value.verified) {
+        ElNotification({
+            type: 'error',
+            message: '请先拖动滑块验证'
+        })
+        return
+    }
 
     //开始加载效果:开始加载
     loading.value = true;
