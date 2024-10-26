@@ -116,7 +116,7 @@ export default defineComponent({
         .slider-progress {
             position: absolute;
             height: 100%;
-            background-color: #4caf50;
+            background-color: #57d188;
             border-radius: .25rem 0 0 .25rem;
         }
 
@@ -128,7 +128,7 @@ export default defineComponent({
         }
 
         .slider-success {
-            color: #4caf50;
+            color: #57d188;
             font-weight: bold;
         }
 
