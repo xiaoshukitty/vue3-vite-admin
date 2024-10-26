@@ -12,6 +12,8 @@ export default {
     OtherLogin: 'Other Login',
     UserNameVerify: 'Please enter username',
     PassWordVerify: 'Please enter password',
+    SliderVerified:'Slider and drag',
+    Verify: 'Passed',
   },
 
   routerNavigation: [

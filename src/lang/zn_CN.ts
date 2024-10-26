@@ -12,6 +12,8 @@ export default {
     OtherLogin: '其他登录方式',
     UserNameVerify: '请输入用户名',
     PassWordVerify: '请输入密码',
+    SliderVerified:'请按住滑块拖动',
+    Verify: '验证成功',
   },
   routers: {
     Home: '首页',

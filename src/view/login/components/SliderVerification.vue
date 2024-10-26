@@ -7,8 +7,10 @@
                 </el-icon>
             </div>
             <div :class="['slider-progress', verified ? 'verified-color' : '']" :style="{ width: handleLeft + 'px' }">{{
-                verified ? '验证成功' : '' }}</div>
-            请按住滑块拖动
+                verified ? $t('common.Verify') : '' }}</div>
+            <div>
+                <span> {{ $t('common.SliderVerified') }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -79,59 +81,60 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .slider-container {
     width: 100%;
-}
 
-.slider-track {
-    position: relative;
-    width: 100%;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    background-color: #f1f3f6;
-    border-radius: .25rem;
-    box-sizing: border-box;
-    border: .0625rem solid var(--border-color);
-}
+    .slider-track {
+        position: relative;
+        width: 100%;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        background-color: #f1f3f6;
+        border-radius: .25rem;
+        box-sizing: border-box;
+        border: .0625rem solid var(--border-color);
+        overflow: hidden;
 
-.slider-handle {
-    box-sizing: border-box;
-    position: absolute;
-    width: 40px;
-    height: 38px;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border-radius: .25rem;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    user-select: none;
-    /* box-shadow: 0 0 transparent, 0 0 transparent, 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a; */
-}
+        .slider-handle {
+            box-sizing: border-box;
+            position: absolute;
+            width: 40px;
+            height: 38px;
+            background-color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-radius: .25rem;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            user-select: none;
+            box-shadow: 0 0 transparent, 0 0 transparent, 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
+        }
 
-.slider-progress {
-    position: absolute;
-    height: 100%;
-    background-color: #4caf50;
-    border-radius: .25rem 0 0 .25rem;
-}
+        .slider-progress {
+            position: absolute;
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: .25rem 0 0 .25rem;
+        }
 
-.slider-text,
-.slider-success {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 16px;
-}
+        .slider-text,
+        .slider-success {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
 
-.slider-success {
-    color: #4caf50;
-    font-weight: bold;
-}
+        .slider-success {
+            color: #4caf50;
+            font-weight: bold;
+        }
 
-.verified-color {
-    color: #fff;
+        .verified-color {
+            color: #fff;
+        }
+    }
 }
 </style>
