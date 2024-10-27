@@ -1,14 +1,15 @@
 <template>
-    <el-drawer v-model="openDrawer" :direction="direction" close-on-click-modal @close="closeDrawer"
-        :size="drawerWidth">
+    <el-drawer v-model="openDrawer" :direction="direction" close-on-click-modal @close="closeDrawer" :size="drawerWidth"
+        :class="[layOutThemeStore.theme === 'dark' ? 'drawer-theme' : '']">
         <template #header>
-            <h4>主题配置</h4>
+            <h4 :class="[layOutThemeStore.theme === 'dark' ? 'h4-theme' : '']">主题配置</h4>
         </template>
         <template #default>
             <div class="content">
-                <div class="tab-border">
+                <div :class="['tab-border', layOutThemeStore.theme === 'dark' ? 'tab-theme' : '']">
                     <ul class="tab-tilte">
-                        <li v-for="(item, index) in tabs" :key="index" :class="{ active: tabIndex == index }"
+                        <li v-for="(item, index) in tabs" :key="index"
+                            :class="[tabIndex == index ? layOutThemeStore.theme === 'dark' ? 'drawer-theme' : 'active' : '',]"
                             @click="changeTab(index)">
                             <div>{{ item }}</div>
                         </li>
@@ -18,7 +19,7 @@
                     <div class="content-list" v-if="tabIndex == 0">
                         <div>
                             <h3>主题</h3>
-                            <div class="line">
+                            <div :class="['line', layOutThemeStore.theme === 'dark' ? 'line-theme' : '']">
                                 <div>主题</div>
                                 <ThemeSwitch :MoveRound="dark" @update:themeSwitch="changeDark"></ThemeSwitch>
                             </div>
@@ -26,9 +27,10 @@
                         <div class="built-theme">
                             <h3>内置主题</h3>
                             <div class="theme-color">
-                                <div class="theme-list" v-for="(item, index) in themeColor" :key="index">
-                                    <div :class="['theme-item', colorIndex == index ? 'active-color' : '']"
-                                        :style="[{ border: colorIndex == index ? '2px solid' + ' ' + item.color : '', }, hoverColor]"
+                                <div id="weight-theme" class="theme-list" v-for="(item, index) in themeColor"
+                                    :key="index">
+                                    <div :class="['theme-item', colorIndex == index ? 'active-color' : '', layOutThemeStore.theme === 'dark' ? 'theme-item-theme' : '']"
+                                        :style="[{ border: colorIndex == index ? '2px solid' + ' ' + item.color : '' }, hoverColor]"
                                         @click="colorChange(index)">
                                         <div class="theme-item-box" :style="{ background: item.color }"></div>
                                     </div>
@@ -51,6 +53,7 @@ import type { DrawerProps } from 'element-plus';
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
 import { useThemeStore } from '@/store/modules/theme';
 import { themeColorList as themeColor, themeTabList as tabs } from '@/data/enum/index'
+
 
 let layOutThemeStore = useThemeStore();
 const direction = ref<DrawerProps['direction']>('rtl');
@@ -276,7 +279,7 @@ const closeDrawer = () => {
             flex: 1;
             padding: .5rem;
             text-align: center;
-            background-color: #f4f4f5;
+            // background-color: #f4f4f5;
             border-radius: .625rem;
             cursor: pointer;
             transition: background-color .3s;
@@ -320,5 +323,27 @@ const closeDrawer = () => {
 .el-drawer__header {
     margin-bottom: 0;
     padding-top: 0;
+}
+
+.drawer-theme {
+    background-color: var(--background-theme-color) !important;
+    color: var(--theme-color) !important;
+}
+
+.tab-theme {
+    background: #2e3033 !important;
+}
+
+.line-theme:hover {
+    background-color: var(--theme-color-hover) !important
+}
+
+/* 用来增加 css 权重 */
+#weight-theme .theme-item-theme {
+    border: .0625rem solid var(--border-theme-color);
+}
+
+.h4-theme {
+    color: var(--theme-color) !important;
 }
 </style>
