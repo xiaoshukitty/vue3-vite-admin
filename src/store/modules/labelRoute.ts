@@ -3,6 +3,7 @@
 import { defineStore } from 'pinia'
 import type { StateType, RouteType } from '@/store/modules/types/labelRouteType'
 import { useRouter, useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 export const useLabelRoute = defineStore({
   id: 'usePlayerStore',
@@ -38,6 +39,11 @@ export const useLabelRoute = defineStore({
     // 关闭标签路由
     closeLabelRoute(item: RouteType) {
       let list: RouteType | undefined
+
+      if (this.labelRouteList.length == 1) {
+        return ElMessage.warning('最后一个标签不能关闭')
+      }
+
       this.labelRouteList.forEach((route: RouteType) => {
         if (route.path == this.labelIndex) {
           list = item
