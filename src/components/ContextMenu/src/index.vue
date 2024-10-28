@@ -18,12 +18,15 @@ import { fieldsListEnum } from '@/utils/method';
 import useLayOutSettingStore from '@/store/modules/setting';
 import { useThemeStore } from '@/store/modules/theme';
 import { useRoute } from 'vue-router';
+import { useLabelRoute } from '@/store/modules/labelRoute'
 import type { RouteType } from '@/store/modules/types/labelRouteType'
 
 const props = defineProps(['routerType'])
 let layOutSettingStore = useLayOutSettingStore();
 const layOutThemeStore = useThemeStore();
+const { closeLabelRoute } = useLabelRoute();
 const $route = useRoute();
+const routeCopy = ref<RouteType>();
 
 interface IContextMenu {
     name: string,
@@ -59,10 +62,13 @@ const laberClick = (item: IContextMenu) => {
 
 // 鼠标右键事件
 const showMenu = (event: MouseEvent, route: RouteType) => {
+    console.log('route', route);
+
     isRefresh.value = false;
     if (route.path === $route.path) {
         isRefresh.value = true;
     }
+    routeCopy.value = route;
 
     event.preventDefault(); // 阻止默认右键菜单
     position.value = { x: event.clientX, y: event.clientY };
@@ -81,8 +87,7 @@ const triggerClick = (item: IContextMenu) => {
             layOutSettingStore.refsh = !layOutSettingStore.refsh;
         },
         'close': () => {
-            //关闭菜单
-            console.log('关闭菜单');
+            closeLabelRoute(routeCopy.value);
         },
         'operation': () => {
             //关闭所有

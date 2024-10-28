@@ -39,7 +39,7 @@ import { useLabelRoute } from '@/store/modules/labelRoute'
 import { useRouter, useRoute } from 'vue-router'
 import type { RouteType } from '@/store/modules/types/labelRouteType'
 
-// const { labelRouteList } = useLabelRoute();
+const { closeLabelRoute, skipRouter } = useLabelRoute();
 const { labelIndex, labelRouteList } = toRefs(useLabelRoute())
 const { t } = useI18n()
 let layOutThemeStore = useThemeStore()
@@ -51,33 +51,11 @@ console.log(t('routerNavigation'))
 
 //路由跳转
 const linkRouter = (item: RouteType) => {
-    if ($route.path === item.path) return
-    $router.push(item.path)
-    localStorage.setItem('labelRouteList', JSON.stringify(labelRouteList.value))
-    labelIndex.value = item.path
+    skipRouter(item);
 }
 // 关闭路由
 const closeRoute = (item: RouteType) => {
-    let list: RouteType | undefined
-    labelRouteList.value.forEach((route: RouteType) => {
-        if (route.path == labelIndex.value) {
-            list = item
-        }
-    })
-
-    let flag = labelRouteList.value.indexOf(list as RouteType)
-    let delFlag = labelRouteList.value.indexOf(item)
-    let copyRecordRoute = JSON.parse(JSON.stringify(labelRouteList.value)) as RouteType[]
-    labelRouteList.value = copyRecordRoute.filter((route: RouteType) => {
-        return route.path != item.path
-    })
-
-    if (flag == delFlag || flag == -1) {
-        let Obj = labelRouteList.value[labelRouteList.value.length - 1]
-        labelIndex.value =
-            labelRouteList.value[labelRouteList.value.length - 1].path
-        linkRouter(Obj)
-    }
+    closeLabelRoute(item);
 }
 
 const showContextMenu = (e: MouseEvent, route: RouteType) => {

@@ -1,3 +1,4 @@
+import { Router, RouteLocationNormalizedLoaded } from 'vue-router'
 interface Meta {
   title: string
   hidden: boolean
@@ -19,4 +20,6 @@ export interface RouteType {
 export interface StateType {
   labelRouteList: RouteType[]
   labelIndex: string
+  currentRoute: RouteLocationNormalizedLoaded
+  currentRouter: Router
 }
