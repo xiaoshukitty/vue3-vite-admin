@@ -195,7 +195,7 @@ export default {
         height: .625rem;
         border-radius: 50%;
         border: .125rem solid #fff;
-        background-color: #79cebe;
+        background-color: #57d188;
     }
 }
 
