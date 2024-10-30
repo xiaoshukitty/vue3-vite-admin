@@ -1,5 +1,6 @@
 <template>
-    <div class="theme-switch mr-8" :style="MoveRound ? 'border: 0.0625rem solid #c4bcbc;' : ''" @click="themeSwitch">
+    <div :class="['theme-switch', 'mr-8', layOutThemeStore.theme === 'dark' ? 'switch-theme' : '']"
+        :style="MoveRound ? 'border: 0.0625rem solid #c4bcbc;' : ''" @click="themeSwitch">
         <div :class="['theme-round', MoveRound ? 'move-round ' : '']"></div>
         <SvgIcon name="sun"></SvgIcon>
         <SvgIcon name="moon"></SvgIcon>
@@ -8,7 +9,8 @@
 
 <script setup lang='ts'>
 
-import { defineEmits, defineProps } from 'vue'
+import { defineEmits, defineProps } from 'vue';
+import { useThemeStore } from '@/store/modules/theme';
 
 defineProps({
     MoveRound: {
@@ -17,6 +19,7 @@ defineProps({
     }
 })
 
+const layOutThemeStore = useThemeStore();
 const emit = defineEmits(['update:themeSwitch'])
 
 const themeSwitch = (event: MouseEvent) => {
@@ -51,5 +54,9 @@ const themeSwitch = (event: MouseEvent) => {
     .move-round {
         transform: translate(calc(100% + .125rem));
     }
+}
+
+.switch-theme {
+    border: 0.0625rem solid var(--border-theme-color) !important;
 }
 </style>
