@@ -164,7 +164,6 @@ const themeSwitch = () => {
 const login = async () => {
     //保证全部表单验证通过才发请求
     await loginForms.value.validate();
-
     if (!sliderVerification.value.verified) {
         ElNotification({
             type: 'error',
@@ -248,7 +247,8 @@ const login = async () => {
         .login-left {
             width: 62vw;
             min-height: 100vh;
-            background-color: #1677ff;
+            background: linear-gradient(154deg, #07070915 30%, #006be64d 48%, #07070915 64%);
+            filter: blur(100px);
         }
 
         .login-right {

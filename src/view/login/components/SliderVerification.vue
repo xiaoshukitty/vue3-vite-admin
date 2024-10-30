@@ -1,6 +1,6 @@
 <template>
     <div class="slider-container">
-        <div class="slider-track" ref="track">
+        <div :class="['slider-track', layOutThemeStore.theme === 'dark' ? 'slider-theme' : '']" ref="track">
             <div class="slider-handle" :style="{ left: handleLeft + 'px' }" @mousedown="startDrag">
                 <el-icon style="color:#32363999">
                     <component :is="verified ? 'Check' : 'DArrowRight'"></component>
@@ -15,69 +15,64 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 
-export default defineComponent({
-    name: 'SliderVerify',
-    setup() {
-        const handleLeft = ref(0); // 滑块的位置
-        const track = ref<HTMLElement | null>(null);
-        const verified = ref(false); // 验证状态
-        let isDragging = false;
-        let startX = 0;
-        let maxLeft = 0;
+<script setup lang='ts'>
+import { defineComponent, ref, onMounted, onBeforeUnmount, defineExpose } from 'vue';
+import { useThemeStore } from '@/store/modules/theme';
 
-        // 计算最大拖动距离
-        onMounted(() => {
-            if (track.value) {
-                maxLeft = track.value.offsetWidth - 41; // 减去滑块宽度
-            }
-        });
+const handleLeft = ref(0); // 滑块的位置
+const track = ref<HTMLElement | null>(null);
+const verified = ref(false); // 验证状态
+let isDragging = false;
+let startX = 0;
+let maxLeft = 0;
+let layOutThemeStore = useThemeStore();
 
-        // 开始拖动
-        const startDrag = (event: MouseEvent) => {
-            if (verified.value) return;
-            isDragging = true;
-            startX = event.clientX;
-            document.addEventListener('mousemove', onDragging);
-            document.addEventListener('mouseup', stopDrag);
-        };
+// 计算最大拖动距离
+onMounted(() => {
+    if (track.value) {
+        maxLeft = track.value.offsetWidth - 41; // 减去滑块宽度
+    }
+});
 
-        // 正在拖动
-        const onDragging = (event: MouseEvent) => {
-            if (!isDragging) return;
-            const deltaX = event.clientX - startX;
-            handleLeft.value = Math.min(Math.max(0, deltaX), maxLeft);
-        };
+// 开始拖动
+const startDrag = (event: MouseEvent) => {
+    if (verified.value) return;
+    isDragging = true;
+    startX = event.clientX;
+    document.addEventListener('mousemove', onDragging);
+    document.addEventListener('mouseup', stopDrag);
+};
 
-        // 停止拖动
-        const stopDrag = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            document.removeEventListener('mousemove', onDragging);
-            document.removeEventListener('mouseup', stopDrag);
+// 正在拖动
+const onDragging = (event: MouseEvent) => {
+    if (!isDragging) return;
+    const deltaX = event.clientX - startX;
+    handleLeft.value = Math.min(Math.max(0, deltaX), maxLeft);
+};
 
-            // 判断是否拖动到最右侧
-            if (handleLeft.value >= maxLeft) {
-                verified.value = true;
-            } else {
-                handleLeft.value = 0; // 重置位置
-            }
-        };
+// 停止拖动
+const stopDrag = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    document.removeEventListener('mousemove', onDragging);
+    document.removeEventListener('mouseup', stopDrag);
 
-        onBeforeUnmount(() => {
-            document.removeEventListener('mousemove', onDragging);
-            document.removeEventListener('mouseup', stopDrag);
-        });
+    // 判断是否拖动到最右侧
+    if (handleLeft.value >= maxLeft) {
+        verified.value = true;
+    } else {
+        handleLeft.value = 0; // 重置位置
+    }
+};
 
-        return {
-            handleLeft,
-            verified,
-            startDrag,
-            track,
-        };
-    },
+defineExpose({
+    verified,
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('mousemove', onDragging);
+    document.removeEventListener('mouseup', stopDrag);
 });
 </script>
 
@@ -134,6 +129,20 @@ export default defineComponent({
 
         .verified-color {
             color: #fff;
+        }
+    }
+}
+
+.slider-theme {
+    background-color: var(--theme-root-background) !important;
+    border: 0.0625rem solid var(--border-theme-color) !important;
+    color: var(--theme-color);
+
+    .slider-handle {
+        background-color: var(--theme-login-background) !important;
+
+        i {
+            color: var(--theme-color) !important;
         }
     }
 }
