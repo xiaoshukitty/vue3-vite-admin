@@ -129,7 +129,7 @@ const togglePictureInPicture = async () => {
         if (!isPictureInPicture.value) {
             await videoPlayer.value.requestPictureInPicture();
         } else {
-            document.exitPictureInPicture();
+            await document.exitPictureInPicture();
         }
     } catch (error) {
         console.error('Failed to toggle Picture-in-Picture:', error);
@@ -137,12 +137,14 @@ const togglePictureInPicture = async () => {
 };
 
 // 更新画中画状态
-videoPlayer.value?.addEventListener('enterpictureinpicture', () => {
-    isPictureInPicture.value = true;
-});
-videoPlayer.value?.addEventListener('leavepictureinpicture', () => {
-    isPictureInPicture.value = false;
-});
+const updatePictureInPictureState = () => {
+    isPictureInPicture.value = document.pictureInPictureElement !== null;
+};
+
+// 监听画中画状态变化
+document.addEventListener('enterpictureinpicture', updatePictureInPictureState);
+document.addEventListener('leavepictureinpicture', updatePictureInPictureState);
+
 
 
 // 切换全屏状态
