@@ -11,7 +11,7 @@ const overviewRoutes: RouteRecordRaw[] = [
     meta: {
       title: '概览',
       hidden: false,
-      icon: 'HomeFilled',
+      icon: 'House',
     },
     redirect: '/overview/analysis',
     children: [
@@ -21,7 +21,7 @@ const overviewRoutes: RouteRecordRaw[] = [
         meta: {
           title: '分析页',
           hidden: false,
-          icon: 'HomeFilled',
+          icon: 'Reading',
           requiresAuth: true,
           roles: ['Admin', 'User', 'Super'],
         },
