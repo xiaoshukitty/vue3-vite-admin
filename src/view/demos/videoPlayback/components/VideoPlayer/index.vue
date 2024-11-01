@@ -31,14 +31,18 @@
                 <button @click="togglePictureInPicture">{{ isPictureInPicture ? '退出画中画' : '开启画中画'
                     }}</button>
             </div>
-
-            <div class="progress-bar">
-                <div class="player-bar">
-
+            <!-- 进度条 -->
+            <div class="progress-box">
+                <div class="progress-container" @click="seekVideo" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
+                    <div class="progress-bar" :style="{ width: progressWidth }"></div>
+                    <div v-if="isHovering" class="progress-thumb" :style="{ left: thumbLeft }">{{ formattedHoverTime }}
+                    </div>
                 </div>
             </div>
+
         </div>
-        <input type="range" min="0" :max="duration" v-model="currentTime" @input="seekVideo" />
+        <!-- <input type="range" min="0" :max="duration" v-model="currentTime" @input="seekVideo" /> -->
+
         <input type="range" min="0" max="1" step="0.1" v-model="volume" @input="adjustVolume" />
         <span>🔊 {{ Math.round(volume * 100) }}%</span>
         <select v-model="playbackRate" @change="adjustPlaybackRate">
@@ -50,7 +54,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, onMounted, watch, defineProps } from 'vue';
+import { ref, onMounted, watch, defineProps, computed } from 'vue';
 
 
 const props = defineProps({
@@ -60,10 +64,10 @@ const props = defineProps({
     }
 });
 
-const videoPlayer = ref<HTMLVideoElement | null>(null);
-const isPlaying = ref(false);
-const currentTime = ref(0);
-const duration = ref(0);
+const videoPlayer = ref<HTMLVideoElement | null>(null); // 视频播放器元素
+const isPlaying = ref(false);// 播放状态
+const currentTime = ref(0); // 视频当前播放时间
+const duration = ref(0); // 视频总时长
 const volume = ref(1); // 音量控制，初始为 1 (100%)
 const playbackRate = ref(1); // 播放速度，默认 1x
 const speeds = [0.5, 1, 1.5, 2]; // 可供选择的播放速度
@@ -71,10 +75,14 @@ const loop = ref(false); // 是否循环播放，初始为 false
 const isFullscreen = ref(false); // 全屏状态
 const isPictureInPicture = ref(false); // 画中画状态
 const isAudio = ref(false); // 声音状态
+const isHovering = ref(false); // 鼠标悬停状态
+const hoverTime = ref(0); // 鼠标悬停时的时间
+const iconWidth = ref('1.25rem'); //  图标宽度
+const iconHeight = ref('1.25rem'); // 图标高度
 
-const iconWidth = ref('1.25rem');
-const iconHeight = ref('1.25rem');
-
+const progressWidth = computed(() => (duration.value > 0 ? (currentTime.value / duration.value) * 100 + '%' : '0%')); // 计算进度条的宽度
+const thumbLeft = computed(() => (isHovering.value ? `${(hoverTime.value / duration.value) * 100}%` : '0')); // 计算鼠标悬停时进度条滑块的位置
+const formattedHoverTime = computed(() => formatTime(hoverTime.value));//显示鼠标悬停时的时间。
 
 // 在视频加载完成时获取视频时长
 onMounted(() => {
@@ -116,11 +124,31 @@ const updateProgress = () => {
 };
 
 // 跳转到指定时间点
-const seekVideo = () => {
-    if (videoPlayer.value) {
-        videoPlayer.value.currentTime = currentTime.value;
-    }
+const seekVideo = (event: MouseEvent) => {
+    if (!videoPlayer.value) return;
+    const progressContainer = event.currentTarget as HTMLElement; // 获取进度条容器元素
+    const rect = progressContainer.getBoundingClientRect();// 获取进度条容器的位置信息
+    const offsetX = event.clientX - rect.left;// 计算鼠标在进度条容器中的水平位置
+    const percentage = Math.min(Math.max(offsetX / progressContainer.clientWidth, 0), 1);// 计算鼠标在进度条容器中的百分比位置
+    currentTime.value = percentage * duration.value;
+    videoPlayer.value.currentTime = currentTime.value;
 };
+
+const onMouseLeave = () => {
+    isHovering.value = false;
+};
+
+
+// 鼠标移动事件处理
+const onMouseMove = (event: MouseEvent) => {
+    const progressContainer = event.currentTarget as HTMLElement; // 获取进度条容器元素
+    const rect = progressContainer.getBoundingClientRect(); // 获取进度条容器的位置信息
+    const offsetX = event.clientX - rect.left; // 计算鼠标在进度条容器中的水平位置
+    const percentage = Math.min(Math.max(offsetX / progressContainer.clientWidth, 0), 1); // 计算鼠标在进度条容器中的百分比位置
+    hoverTime.value = percentage * duration.value;
+    isHovering.value = true;
+};
+
 
 // 视频播放结束时处理
 const onVideoEnded = () => {
@@ -200,6 +228,7 @@ const formatTime = (time: number) => {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 };
+
 </script>
 
 <style scoped lang="scss">
@@ -289,7 +318,11 @@ const formatTime = (time: number) => {
             right: 20px;
         }
 
-        .progress-bar {
+        .progress-box {}
+
+
+
+        .progress-box {
             padding: 5px 0;
             cursor: pointer;
             position: absolute;
@@ -297,12 +330,39 @@ const formatTime = (time: number) => {
             width: calc(100% - 40px);
             height: 3px;
 
-            .player-bar {
+            .progress-container {
                 position: relative;
-                height: 3px;
                 width: 100%;
+                height: 3px;
                 background: rgba(255, 255, 255, 0.2);
+                border-radius: 4px;
                 cursor: pointer;
+
+                .progress-bar {
+                    height: 100%;
+                    background-color: #007bff;
+                    border-radius: 4px;
+                }
+
+                .progress-thumb {
+                    position: absolute;
+                    bottom: 12px;
+                    background-color: rgba(0, 0, 0, 0.62);
+                    border-radius: 4px;
+                    padding: 5px 7px;
+                    white-space: nowrap;
+                    transform: translateX(-50%);
+                    pointer-events: none;
+                    color: #fff;
+                    font-size: 12px;
+                    text-align: center;
+                    opacity: 1;
+                    transition: opacity 0.1s ease-in-out;
+                    word-wrap: normal;
+                    word-break: normal;
+                    z-index: 2;
+                }
+
             }
         }
     }
