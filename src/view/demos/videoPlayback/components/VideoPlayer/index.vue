@@ -18,8 +18,6 @@
 
             </div>
             <div class="btn-right">
-                <!-- 循环播放控制 -->
-                <!-- <button @click="toggleLoop">{{ loop ? '不循环 On' : '循环 Off' }}</button> -->
                 <!-- 设置 -->
                 <!-- 声音 -->
                 <button class="play-btn" @click="adjustVolume">
@@ -27,12 +25,36 @@
                         :height="iconHeight">
                     </SvgIcon>
                 </button>
-                <div>
+                <div class="">
                     <button class="play-btn">
-                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
-                        <SvgIcon class="play-btn-icon" name="setting" :width="iconWidth" :height="iconHeight">
+                        <SvgIcon @click="settingBtn" class="play-btn-icon" name="setting" :width="iconWidth"
+                            :height="iconHeight">
                         </SvgIcon>
                     </button>
+                    <div :class="['setting-box', isSetting ? 'active-setting' : '', isSpeed ? 'active-speed-box' : '']">
+                        <div :class="['setting-panel', isSpeed ? ' active-speed' : '']">
+                            <div class="setting-item" @click="selectSpeed">
+                                <span>速度</span>
+                                <div class="setting-toggle">
+                                    <el-icon style="color: #fff;">
+                                        <ArrowRight />
+                                    </el-icon>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span>洗脑循环</span>
+                                <div class="setting-toggle">
+                                    <el-switch v-model="loop" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-speed" :style="{ display: isSpeed ? 'block' : 'none' }">
+                            <div class="setting-speed-item" v-for="(item, index) in speeds" :key="index"
+                                @click="adjustPlaybackRate(item)">
+                                <span>{{ item }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- 全屏控制 -->
                 <div>
@@ -67,11 +89,11 @@
 
         <input type="range" min="0" max="1" step="0.1" v-model="volume" @input="adjustVolume" />
         <span>🔊 {{ Math.round(volume * 100) }}%</span>
-        <select v-model="playbackRate" @change="adjustPlaybackRate">
+        <!-- <select v-model="playbackRate" @change="adjustPlaybackRate">
             <option v-for="speed in speeds" :key="speed" :value="speed">
                 {{ speed }}x
             </option>
-        </select>
+        </select> -->
     </div>
 </template>
 
@@ -92,7 +114,7 @@ const currentTime = ref(0); // 视频当前播放时间
 const duration = ref(0); // 视频总时长
 const volume = ref(1); // 音量控制，初始为 1 (100%)
 const playbackRate = ref(1); // 播放速度，默认 1x
-const speeds = [0.5, 1, 1.5, 2]; // 可供选择的播放速度
+const speeds = [0.5, 0.75, '正常', 1.25, 1.5, 2]; // 可供选择的播放速度
 const loop = ref(false); // 是否循环播放，初始为 false
 const isFullscreen = ref(false); // 全屏状态
 const isPictureInPicture = ref(false); // 画中画状态
@@ -101,6 +123,8 @@ const isHovering = ref(false); // 鼠标悬停状态
 const hoverTime = ref(0); // 鼠标悬停时的时间
 const iconWidth = ref('1.25rem'); //  图标宽度
 const iconHeight = ref('1.25rem'); // 图标高度
+const isSetting = ref(false); // 设置状态
+const isSpeed = ref(false); // 速度状态
 
 const progressWidth = computed(() => (duration.value > 0 ? (currentTime.value / duration.value) * 100 + '%' : '0%')); // 计算进度条的宽度
 const thumbLeft = computed(() => (isHovering.value ? `${(hoverTime.value / duration.value) * 100}%` : '0')); // 计算鼠标悬停时进度条滑块的位置
@@ -125,6 +149,22 @@ watch(currentTime, (newTime) => {
         videoPlayer.value.currentTime = newTime;
     }
 });
+
+//设置
+const settingBtn = () => {
+    if (videoPlayer.value) {
+        isSetting.value = !isSetting.value;
+        isSpeed.value = false;
+    }
+}
+
+// 选择播放速度
+const selectSpeed = () => {
+    if (videoPlayer.value) {
+        isSetting.value = true;
+        isSpeed.value = !isSpeed.value;
+    }
+}
 
 // 播放或暂停视频
 const togglePlay = () => {
@@ -188,14 +228,19 @@ const adjustVolume = () => {
     }
 };
 
-// 切换循环播放状态
-const toggleLoop = () => {
-    loop.value = !loop.value;
-};
+
 // 调整播放速度
-const adjustPlaybackRate = () => {
+const adjustPlaybackRate = (item: string) => {
+
     if (videoPlayer.value) {
-        videoPlayer.value.playbackRate = playbackRate.value;
+        if (item == '正常') {
+            videoPlayer.value.playbackRate = 1;
+        } else {
+            videoPlayer.value.playbackRate = parseFloat(item);
+        }
+
+        isSpeed.value = false;
+        isSetting.value = false;
     }
 };
 
@@ -319,8 +364,6 @@ const formatTime = (time: number) => {
             position: absolute;
             bottom: 0;
 
-
-
             .player-time {
                 line-height: 38px;
                 color: #eee;
@@ -342,6 +385,86 @@ const formatTime = (time: number) => {
             position: absolute;
             bottom: 0;
             right: 20px;
+
+            .active-setting {
+                transform: scale(1) !important;
+
+                .active-speed {
+                    display: none !important;
+                }
+            }
+
+            .active-speed-box {
+                width: 70px !important;
+                text-align: center !important;
+                transform: scale(1) !important;
+            }
+
+            .setting-box {
+                position: absolute;
+                right: 0;
+                bottom: 50px;
+                transform: scale(0);
+                width: 150px;
+                border-radius: 2px;
+                background: rgba(28, 28, 28, 0.9);
+                padding: 7px 0;
+                transition: all 0.3s ease-in-out;
+                overflow: hidden;
+                z-index: 2;
+
+                .setting-panel {
+                    .setting-item {
+                        height: 30px;
+                        padding: 5px 10px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        span {
+                            color: #eee;
+                            font-size: 13px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            white-space: nowrap;
+                        }
+
+                        .setting-toggle {}
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.1);
+                        }
+                    }
+
+                }
+
+                .setting-speed {
+                    display: none;
+
+                    .setting-speed-item {
+                        height: 30px;
+                        padding: 5px 10px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                        position: relative;
+
+                        span {
+                            color: #eee;
+                            font-size: 13px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            white-space: nowrap;
+                        }
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.1);
+                        }
+                    }
+                }
+            }
         }
 
         .progress-box {
