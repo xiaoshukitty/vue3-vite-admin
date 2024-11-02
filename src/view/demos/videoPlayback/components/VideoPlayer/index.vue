@@ -5,6 +5,7 @@
         </video>
         <div class="controls">
             <div class="btn-left">
+                <!-- 开关 -->
                 <button class="play-btn" @click="togglePlay">
                     <SvgIcon class="play-btn-icon" :name="isPlaying ? 'play-pause' : 'play-back'" :width="iconWidth"
                         :height="iconHeight">
@@ -18,13 +19,13 @@
 
             </div>
             <div class="btn-right">
-                <!-- 设置 -->
                 <!-- 声音 -->
                 <button class="play-btn" @click="adjustVolume">
                     <SvgIcon class="play-btn-icon" :name="isAudio ? 'sound-off' : 'audio'" :width="iconWidth"
                         :height="iconHeight">
                     </SvgIcon>
                 </button>
+                <!-- 设置 -->
                 <div class="">
                     <button class="play-btn">
                         <SvgIcon @click="settingBtn" class="play-btn-icon" name="setting" :width="iconWidth"
@@ -56,21 +57,20 @@
                         </div>
                     </div>
                 </div>
-                <!-- 全屏控制 -->
-                <div>
-                    <button @click="toggleFullscreen" class="play-btn">
-                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
-                        <SvgIcon class="play-btn-icon" name="full-screen" :width="iconWidth" :height="iconHeight">
-                        </SvgIcon>
-                    </button>
-                </div>
-
                 <!-- 画中画控制 -->
                 <div>
                     <button @click="togglePictureInPicture" class="play-btn">
                         <!-- {{ isPictureInPicture ? '退出画中画' : '开启画中画' }} -->
                         <SvgIcon class="play-btn-icon" name="picture-in-picture" :width="iconWidth"
                             :height="iconHeight">
+                        </SvgIcon>
+                    </button>
+                </div>
+                <!-- 全屏控制 -->
+                <div>
+                    <button @click="toggleFullscreen" class="play-btn">
+                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
+                        <SvgIcon class="play-btn-icon" name="full-screen" :width="iconWidth" :height="iconHeight">
                         </SvgIcon>
                     </button>
                 </div>
@@ -307,14 +307,14 @@ const formatTime = (time: number) => {
     width: 70%;
     /* max-width: 640px; */
     margin: auto;
-    height: calc(100vh - 240px);
+    height: calc(100vh - 15rem);
 
     .video-element {
         width: 100%;
         /* max-width: 640px; */
-        border: 1px solid #ddd;
-        margin-bottom: 10px;
-        height: calc(100vh - 240px);
+        border: .0625rem solid #ddd;
+        margin-bottom: .0625rem;
+        height: calc(100vh - 15rem);
         position: relative;
         background: #000;
         font-size: 0;
@@ -325,19 +325,19 @@ const formatTime = (time: number) => {
         bottom: 0;
         left: 0;
         right: 0;
-        height: 41px;
-        padding: 0 20px;
+        height: 2.5625rem;
+        padding: 0 1.25rem;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: .625rem;
 
         .play-btn {
             position: relative;
-            width: 40px;
+            width: 2.5rem;
             height: 100%;
             border: none;
             background-color: transparent;
@@ -350,7 +350,7 @@ const formatTime = (time: number) => {
 
             .play-btn-icon {
                 position: absolute;
-                left: 10px;
+                left: .625rem;
                 /* Adjust the position as needed */
                 top: 50%;
                 /* Center the icon vertically */
@@ -360,16 +360,16 @@ const formatTime = (time: number) => {
         }
 
         .btn-left {
-            height: 38px;
+            height: 2.375rem;
             position: absolute;
             bottom: 0;
 
             .player-time {
-                line-height: 38px;
+                line-height: 2.375rem;
                 color: #eee;
-                text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+                text-shadow: 0 0 .125rem rgba(0, 0, 0, 0.5);
                 vertical-align: middle;
-                font-size: 13px;
+                font-size: .8125rem;
                 cursor: default;
 
                 .player-ptime {}
@@ -381,10 +381,10 @@ const formatTime = (time: number) => {
         .btn-right {
             display: flex;
             align-items: center;
-            height: 38px;
+            height: 2.375rem;
             position: absolute;
             bottom: 0;
-            right: 20px;
+            right: 1.25rem;
 
             .active-setting {
                 transform: scale(1) !important;
@@ -395,7 +395,7 @@ const formatTime = (time: number) => {
             }
 
             .active-speed-box {
-                width: 70px !important;
+                width: 4.375rem !important;
                 text-align: center !important;
                 transform: scale(1) !important;
             }
@@ -403,20 +403,20 @@ const formatTime = (time: number) => {
             .setting-box {
                 position: absolute;
                 right: 0;
-                bottom: 50px;
+                bottom: 3.125rem;
                 transform: scale(0);
-                width: 150px;
-                border-radius: 2px;
+                width: 9.375rem;
+                border-radius: .125rem;
                 background: rgba(28, 28, 28, 0.9);
-                padding: 7px 0;
+                padding: .4375rem 0;
                 transition: all 0.3s ease-in-out;
                 overflow: hidden;
                 z-index: 2;
 
                 .setting-panel {
                     .setting-item {
-                        height: 30px;
-                        padding: 5px 10px;
+                        height: 1.875rem;
+                        padding: .3125rem .625rem;
                         box-sizing: border-box;
                         cursor: pointer;
                         position: relative;
@@ -426,7 +426,7 @@ const formatTime = (time: number) => {
 
                         span {
                             color: #eee;
-                            font-size: 13px;
+                            font-size: .8125rem;
                             display: inline-block;
                             vertical-align: middle;
                             white-space: nowrap;
@@ -445,15 +445,15 @@ const formatTime = (time: number) => {
                     display: none;
 
                     .setting-speed-item {
-                        height: 30px;
-                        padding: 5px 10px;
+                        height: 1.875rem;
+                        padding: .3125rem .625rem;
                         box-sizing: border-box;
                         cursor: pointer;
                         position: relative;
 
                         span {
                             color: #eee;
-                            font-size: 13px;
+                            font-size: .8125rem;
                             display: inline-block;
                             vertical-align: middle;
                             white-space: nowrap;
@@ -468,38 +468,38 @@ const formatTime = (time: number) => {
         }
 
         .progress-box {
-            padding: 5px 0;
+            padding: .3125rem 0;
             cursor: pointer;
             position: absolute;
-            bottom: 33px;
-            width: calc(100% - 40px);
-            height: 3px;
+            bottom: 2.0625rem;
+            width: calc(100% - 2.5rem);
+            height: .1875rem;
 
             .progress-container {
                 position: relative;
                 width: 100%;
-                height: 3px;
+                height: .1875rem;
                 background: rgba(255, 255, 255, 0.2);
-                border-radius: 4px;
+                border-radius: .25rem;
                 cursor: pointer;
 
                 .progress-bar {
                     height: 100%;
                     background-color: #007bff;
-                    border-radius: 4px;
+                    border-radius: .25rem;
                 }
 
                 .progress-thumb {
                     position: absolute;
-                    bottom: 12px;
+                    bottom: .75rem;
                     background-color: rgba(0, 0, 0, 0.62);
-                    border-radius: 4px;
-                    padding: 5px 7px;
+                    border-radius: .25rem;
+                    padding: .3125rem .4375rem;
                     white-space: nowrap;
                     transform: translateX(-50%);
                     pointer-events: none;
                     color: #fff;
-                    font-size: 12px;
+                    font-size: .75rem;
                     text-align: center;
                     opacity: 1;
                     transition: opacity 0.1s ease-in-out;
