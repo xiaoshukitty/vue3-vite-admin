@@ -1,7 +1,7 @@
 <template>
     <div class="video-player">
         <video ref="videoPlayer" :src="videoSrc" @timeupdate="updateProgress" @ended="onVideoEnded" :loop="loop"
-            class="video-element">
+            @click="togglePlay" class="video-element" :style="{ height: !isPictureInPicture ? '100%' : '' }">
         </video>
         <div class="controls">
             <div class="btn-left">
@@ -10,26 +10,48 @@
                         :height="iconHeight">
                     </SvgIcon>
                 </button>
-
+                <!-- 播放时间 -->
                 <span class="player-time">
                     <span class="player-ptime">{{ formatTime(currentTime) }} </span>/
                     <span class="player-dtime">{{ formatTime(duration) }}</span>
                 </span>
 
+            </div>
+            <div class="btn-right">
+                <!-- 循环播放控制 -->
+                <!-- <button @click="toggleLoop">{{ loop ? '不循环 On' : '循环 Off' }}</button> -->
+                <!-- 设置 -->
+                <!-- 声音 -->
                 <button class="play-btn" @click="adjustVolume">
                     <SvgIcon class="play-btn-icon" :name="isAudio ? 'sound-off' : 'audio'" :width="iconWidth"
                         :height="iconHeight">
                     </SvgIcon>
                 </button>
-            </div>
-            <div class="btn-right">
-                <!-- 循环播放控制 -->
-                <button @click="toggleLoop">{{ loop ? '不循环 On' : '循环 Off' }}</button>
+                <div>
+                    <button class="play-btn">
+                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
+                        <SvgIcon class="play-btn-icon" name="setting" :width="iconWidth" :height="iconHeight">
+                        </SvgIcon>
+                    </button>
+                </div>
                 <!-- 全屏控制 -->
-                <button @click="toggleFullscreen">{{ isFullscreen ? '取消全屏' : '全屏' }}</button>
+                <div>
+                    <button @click="toggleFullscreen" class="play-btn">
+                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
+                        <SvgIcon class="play-btn-icon" name="full-screen" :width="iconWidth" :height="iconHeight">
+                        </SvgIcon>
+                    </button>
+                </div>
+
                 <!-- 画中画控制 -->
-                <button @click="togglePictureInPicture">{{ isPictureInPicture ? '退出画中画' : '开启画中画'
-                    }}</button>
+                <div>
+                    <button @click="togglePictureInPicture" class="play-btn">
+                        <!-- {{ isPictureInPicture ? '退出画中画' : '开启画中画' }} -->
+                        <SvgIcon class="play-btn-icon" name="picture-in-picture" :width="iconWidth"
+                            :height="iconHeight">
+                        </SvgIcon>
+                    </button>
+                </div>
             </div>
             <!-- 进度条 -->
             <div class="progress-box">
@@ -268,34 +290,36 @@ const formatTime = (time: number) => {
         align-items: center;
         gap: 10px;
 
+        .play-btn {
+            position: relative;
+            width: 40px;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            cursor: pointer;
+            vertical-align: middle;
+            box-sizing: border-box;
+            display: inline-block;
+            padding: 7px;
+
+            .play-btn-icon {
+                position: absolute;
+                left: 10px;
+                /* Adjust the position as needed */
+                top: 50%;
+                /* Center the icon vertically */
+                transform: translateY(-50%);
+                /* Compensate for centering */
+            }
+        }
+
         .btn-left {
             height: 38px;
             position: absolute;
             bottom: 0;
 
-            .play-btn {
-                position: relative;
-                width: 40px;
-                height: 100%;
-                border: none;
-                background-color: transparent;
-                outline: none;
-                cursor: pointer;
-                vertical-align: middle;
-                box-sizing: border-box;
-                display: inline-block;
-                padding: 7px;
 
-                .play-btn-icon {
-                    position: absolute;
-                    left: 10px;
-                    /* Adjust the position as needed */
-                    top: 50%;
-                    /* Center the icon vertically */
-                    transform: translateY(-50%);
-                    /* Compensate for centering */
-                }
-            }
 
             .player-time {
                 line-height: 38px;
@@ -312,15 +336,13 @@ const formatTime = (time: number) => {
         }
 
         .btn-right {
+            display: flex;
+            align-items: center;
             height: 38px;
             position: absolute;
             bottom: 0;
             right: 20px;
         }
-
-        .progress-box {}
-
-
 
         .progress-box {
             padding: 5px 0;
