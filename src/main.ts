@@ -27,6 +27,9 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 // 引入自定义插件对象：注册整个项目全局组件
 import globalComponent from '@/components/index'
 
+// 打包才放开  可以使用 npm run uncomment 去掉注释 ，需要在注释前加上 @uncomment 标记 才可以
+import './ban.ts'
+
 import './setting'
 
 // 禁止浏览器上一步下一步
@@ -34,10 +37,9 @@ window.addEventListener('popstate', (): void => {
   history.pushState(null, '', document.URL)
 })
 
-if(import.meta.env.MODE === 'development') {
+if (import.meta.env.MODE === 'development') {
   import('../mock/mocks')
 }
-
 
 //获取应用实例对象
 const app = createApp(App)
