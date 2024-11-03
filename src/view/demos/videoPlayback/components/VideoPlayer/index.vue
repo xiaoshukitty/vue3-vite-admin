@@ -220,7 +220,9 @@ const onVideoEnded = () => {
 const adjustVolume = () => {
     if (videoPlayer.value) {
         isAudio.value = !isAudio.value;
-        isSetting.value = !isSetting.value
+        if (isSetting.value) {
+            isSetting.value = false;
+        } 
         isSpeed.value = false;
     }
 };
@@ -228,11 +230,11 @@ const adjustVolume = () => {
 const selectAdjustVolume = () => {
     if (videoPlayer.value) {
         videoPlayer.value.volume = Math.round(volume.value / 100);
-        if (volume.value == 0) {
-            isAudio.value = true;
-        } else {
-            isAudio.value = false;
-        }
+        // if (volume.value == 0) {
+        //     isAudio.value = true;
+        // } else {
+        //     isAudio.value = false;
+        // }
     }
 }
 
