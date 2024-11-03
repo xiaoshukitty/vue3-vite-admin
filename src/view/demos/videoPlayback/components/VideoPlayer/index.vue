@@ -13,8 +13,8 @@
                 </button>
                 <!-- 播放时间 -->
                 <span class="player-time">
-                    <span class="player-ptime">{{ formatTime(currentTime) }} </span>/
-                    <span class="player-dtime">{{ formatTime(duration) }}</span>
+                    <span class="player-ptime">{{ getFormatTime(currentTime) }} </span>/
+                    <span class="player-dtime">{{ getFormatTime(duration) }}</span>
                 </span>
 
             </div>
@@ -92,7 +92,7 @@
 
 <script setup lang='ts'>
 import { ref, onMounted, watch, defineProps, computed } from 'vue';
-
+import { getFormatTime } from '@/utils/time'
 
 const props = defineProps({
     videoSrc: {
@@ -122,7 +122,7 @@ const isSpeed = ref(false); // 速度状态
 
 const progressWidth = computed(() => (duration.value > 0 ? (currentTime.value / duration.value) * 100 + '%' : '0%')); // 计算进度条的宽度
 const thumbLeft = computed(() => (isHovering.value ? `${(hoverTime.value / duration.value) * 100}%` : '0')); // 计算鼠标悬停时进度条滑块的位置
-const formattedHoverTime = computed(() => formatTime(hoverTime.value));//显示鼠标悬停时的时间。
+const formattedHoverTime = computed(() => getFormatTime(hoverTime.value));//显示鼠标悬停时的时间。
 
 // 在视频加载完成时获取视频时长
 onMounted(() => {
@@ -198,6 +198,7 @@ const onMouseLeave = () => {
 
 // 鼠标移动事件处理
 const onMouseMove = (event: MouseEvent) => {
+    if (!videoPlayer.value) return;
     const progressContainer = event.currentTarget as HTMLElement; // 获取进度条容器元素
     const rect = progressContainer.getBoundingClientRect(); // 获取进度条容器的位置信息
     const offsetX = event.clientX - rect.left; // 计算鼠标在进度条容器中的水平位置
@@ -237,7 +238,6 @@ const selectAdjustVolume = () => {
 
 // 调整播放速度
 const adjustPlaybackRate = <T extends string | number>(item: T) => {
-
     if (videoPlayer.value) {
         if (item == '正常') {
             videoPlayer.value.playbackRate = 1;
@@ -275,8 +275,6 @@ const updatePictureInPictureState = () => {
 document.addEventListener('enterpictureinpicture', updatePictureInPictureState);
 document.addEventListener('leavepictureinpicture', updatePictureInPictureState);
 
-
-
 // 切换全屏状态
 const toggleFullscreen = () => {
     const videoContainer = videoPlayer.value?.parentElement;
@@ -295,12 +293,6 @@ document.addEventListener('fullscreenchange', () => {
     isFullscreen.value = !!document.fullscreenElement;
 });
 
-// 格式化时间
-const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-};
 
 </script>
 

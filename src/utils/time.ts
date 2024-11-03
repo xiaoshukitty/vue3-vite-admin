@@ -41,6 +41,18 @@ export const getCurrentDate = <T>(type: T, week?: boolean): T | undefined => {
   return cureenDateObj[type]()
 }
 
+/**
+ * 获取时间格式
+ * @param time 秒数
+ * @returns 0:13
+ */
+export const getFormatTime = (time: number) => {
+  const minutes = Math.floor(time / 60)
+  const seconds = Math.floor(time % 60)
+
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+}
+
 //获取当时星期
 const weekDay = (): string => {
   var date = new Date()
