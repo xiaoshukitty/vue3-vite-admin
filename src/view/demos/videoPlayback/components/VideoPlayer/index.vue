@@ -22,7 +22,7 @@
                 <!-- 声音 -->
                 <div style="position: relative;">
                     <button class="play-btn" @click="adjustVolume">
-                        <SvgIcon class="play-btn-icon" :name="isAudio ? 'sound-off' : 'audio'" :width="iconWidth"
+                        <SvgIcon class="play-btn-icon" :name="isAudioIcon ? 'sound-off' : 'audio'" :width="iconWidth"
                             :height="iconHeight">
                         </SvgIcon>
                     </button>
@@ -118,6 +118,7 @@ const iconWidth = ref('1.25rem'); //  图标宽度
 const iconHeight = ref('1.25rem'); // 图标高度
 const isSetting = ref(false); // 设置状态
 const isSpeed = ref(false); // 速度状态
+const isAudioIcon = ref(false); // 音量图标状态
 
 
 const progressWidth = computed(() => (duration.value > 0 ? (currentTime.value / duration.value) * 100 + '%' : '0%')); // 计算进度条的宽度
@@ -222,7 +223,7 @@ const adjustVolume = () => {
         isAudio.value = !isAudio.value;
         if (isSetting.value) {
             isSetting.value = false;
-        } 
+        }
         isSpeed.value = false;
     }
 };
@@ -230,11 +231,11 @@ const adjustVolume = () => {
 const selectAdjustVolume = () => {
     if (videoPlayer.value) {
         videoPlayer.value.volume = Math.round(volume.value / 100);
-        // if (volume.value == 0) {
-        //     isAudio.value = true;
-        // } else {
-        //     isAudio.value = false;
-        // }
+        if (volume.value == 0) {
+            isAudioIcon.value = true;
+        } else {
+            isAudioIcon.value = false;
+        }
     }
 }
 
