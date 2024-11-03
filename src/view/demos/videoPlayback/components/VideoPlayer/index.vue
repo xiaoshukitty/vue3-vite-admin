@@ -20,11 +20,16 @@
             </div>
             <div class="btn-right">
                 <!-- 声音 -->
-                <button class="play-btn" @click="adjustVolume">
-                    <SvgIcon class="play-btn-icon" :name="isAudio ? 'sound-off' : 'audio'" :width="iconWidth"
-                        :height="iconHeight">
-                    </SvgIcon>
-                </button>
+                <div style="position: relative;">
+                    <button class="play-btn" @click="adjustVolume">
+                        <SvgIcon class="play-btn-icon" :name="isAudio ? 'sound-off' : 'audio'" :width="iconWidth"
+                            :height="iconHeight">
+                        </SvgIcon>
+                    </button>
+                    <div :class="['audio-box', isAudio ? 'active-audio' : '']">
+                        <el-slider v-model="volume" vertical height="100px" @input="selectAdjustVolume" />
+                    </div>
+                </div>
                 <!-- 设置 -->
                 <div class="">
                     <button class="play-btn">
@@ -60,7 +65,6 @@
                 <!-- 画中画控制 -->
                 <div>
                     <button @click="togglePictureInPicture" class="play-btn">
-                        <!-- {{ isPictureInPicture ? '退出画中画' : '开启画中画' }} -->
                         <SvgIcon class="play-btn-icon" name="picture-in-picture" :width="iconWidth"
                             :height="iconHeight">
                         </SvgIcon>
@@ -69,7 +73,6 @@
                 <!-- 全屏控制 -->
                 <div>
                     <button @click="toggleFullscreen" class="play-btn">
-                        <!-- {{ isFullscreen ? '取消全屏' : '全屏' }} -->
                         <SvgIcon class="play-btn-icon" name="full-screen" :width="iconWidth" :height="iconHeight">
                         </SvgIcon>
                     </button>
@@ -83,17 +86,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- <input type="range" min="0" :max="duration" v-model="currentTime" @input="seekVideo" /> -->
-
-        <input type="range" min="0" max="1" step="0.1" v-model="volume" @input="adjustVolume" />
-        <span>🔊 {{ Math.round(volume * 100) }}%</span>
-        <!-- <select v-model="playbackRate" @change="adjustPlaybackRate">
-            <option v-for="speed in speeds" :key="speed" :value="speed">
-                {{ speed }}x
-            </option>
-        </select> -->
     </div>
 </template>
 
@@ -112,7 +105,7 @@ const videoPlayer = ref<HTMLVideoElement | null>(null); // 视频播放器元素
 const isPlaying = ref(false);// 播放状态
 const currentTime = ref(0); // 视频当前播放时间
 const duration = ref(0); // 视频总时长
-const volume = ref(1); // 音量控制，初始为 1 (100%)
+const volume = ref(100); // 音量控制，初始为 1 (100%)
 const playbackRate = ref(1); // 播放速度，默认 1x
 const speeds = [0.5, 0.75, '正常', 1.25, 1.5, 2]; // 可供选择的播放速度
 const loop = ref(false); // 是否循环播放，初始为 false
@@ -126,6 +119,7 @@ const iconHeight = ref('1.25rem'); // 图标高度
 const isSetting = ref(false); // 设置状态
 const isSpeed = ref(false); // 速度状态
 
+
 const progressWidth = computed(() => (duration.value > 0 ? (currentTime.value / duration.value) * 100 + '%' : '0%')); // 计算进度条的宽度
 const thumbLeft = computed(() => (isHovering.value ? `${(hoverTime.value / duration.value) * 100}%` : '0')); // 计算鼠标悬停时进度条滑块的位置
 const formattedHoverTime = computed(() => formatTime(hoverTime.value));//显示鼠标悬停时的时间。
@@ -137,7 +131,7 @@ onMounted(() => {
             duration.value = videoPlayer.value?.duration || 0;
         };
         // 设置默认音量
-        videoPlayer.value.volume = volume.value;
+        videoPlayer.value.volume = Math.round(volume.value / 100)
         //设置默认音量和播放速度
         videoPlayer.value.playbackRate = playbackRate.value;
     }
@@ -155,6 +149,7 @@ const settingBtn = () => {
     if (videoPlayer.value) {
         isSetting.value = !isSetting.value;
         isSpeed.value = false;
+        isAudio.value = false;
     }
 }
 
@@ -223,20 +218,31 @@ const onVideoEnded = () => {
 // 调整音量
 const adjustVolume = () => {
     if (videoPlayer.value) {
-        videoPlayer.value.volume = volume.value;
         isAudio.value = !isAudio.value;
+        isSetting.value = !isSetting.value
+        isSpeed.value = false;
     }
 };
-
+//调整音量
+const selectAdjustVolume = () => {
+    if (videoPlayer.value) {
+        videoPlayer.value.volume = Math.round(volume.value / 100);
+        if (volume.value == 0) {
+            isAudio.value = true;
+        } else {
+            isAudio.value = false;
+        }
+    }
+}
 
 // 调整播放速度
-const adjustPlaybackRate = (item: string) => {
+const adjustPlaybackRate = <T extends string | number>(item: T) => {
 
     if (videoPlayer.value) {
         if (item == '正常') {
             videoPlayer.value.playbackRate = 1;
         } else {
-            videoPlayer.value.playbackRate = parseFloat(item);
+            videoPlayer.value.playbackRate = item as number;
         }
 
         isSpeed.value = false;
@@ -371,10 +377,6 @@ const formatTime = (time: number) => {
                 vertical-align: middle;
                 font-size: .8125rem;
                 cursor: default;
-
-                .player-ptime {}
-
-                .player-dtime {}
             }
         }
 
@@ -398,6 +400,24 @@ const formatTime = (time: number) => {
                 width: 4.375rem !important;
                 text-align: center !important;
                 transform: scale(1) !important;
+            }
+
+            .active-audio {
+                transform: scale(1) !important;
+            }
+
+            .audio-box {
+                position: absolute;
+                right: 0;
+                bottom: 2.375rem;
+                transform: scale(0);
+                width: 2.375rem;
+                border-radius: .125rem;
+                background: rgba(28, 28, 28, 0.9);
+                padding: 1rem 0;
+                transition: all 0.3s ease-in-out;
+                overflow: hidden;
+                z-index: 2;
             }
 
             .setting-box {
@@ -511,11 +531,7 @@ const formatTime = (time: number) => {
             }
         }
     }
-
-
 }
-
-
 
 input[type="range"] {
     width: 100%;
