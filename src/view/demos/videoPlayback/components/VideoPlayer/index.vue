@@ -1,7 +1,8 @@
 <template>
     <div class="video-player">
         <video ref="videoPlayer" :src="videoSrc" @timeupdate="updateProgress" @ended="onVideoEnded" :loop="loop"
-            @click="togglePlay" class="video-element" :style="{ height: !isPictureInPicture ? '100%' : '' }">
+            @click="togglePlay" :class="['video-element', layOutThemeStore.theme === 'dark' ? 'video-theme' : '']"
+            :style="{ height: !isPictureInPicture ? '100%' : '' }">
         </video>
         <div class="controls">
             <div class="btn-left">
@@ -92,7 +93,8 @@
 
 <script setup lang='ts'>
 import { ref, onMounted, watch, defineProps, computed } from 'vue';
-import { getFormatTime } from '@/utils/time'
+import { getFormatTime } from '@/utils/time';
+import { useThemeStore } from '@/store/modules/theme';
 
 const props = defineProps({
     videoSrc: {
@@ -100,7 +102,7 @@ const props = defineProps({
         required: true
     }
 });
-
+const layOutThemeStore = useThemeStore();
 const videoPlayer = ref<HTMLVideoElement | null>(null); // 视频播放器元素
 const isPlaying = ref(false);// 播放状态
 const currentTime = ref(0); // 视频当前播放时间
@@ -526,6 +528,10 @@ document.addEventListener('fullscreenchange', () => {
             }
         }
     }
+}
+
+.video-theme {
+    border: .0625rem solid var(--border-theme-color) !important;
 }
 
 input[type="range"] {
