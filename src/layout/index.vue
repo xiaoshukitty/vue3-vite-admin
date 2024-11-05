@@ -28,7 +28,12 @@
             </div>
             <!-- 内容展示 -->
             <main :class="['layout_main', layOutThemeStore.theme === 'dark' ? '' : 'main-theme']">
-                <Main></Main>
+                <div style="flex: 1 1 auto;">
+                    <Main></Main>
+                </div>
+                <div style="flex: 0 0 auto">
+                    <Copyright></Copyright>
+                </div>
             </main>
         </div>
     </div>
@@ -47,6 +52,9 @@ import Main from './main/index.vue';
 import Tabbar from './tabbar/index.vue';
 //引入标签页
 import LabelPage from './labelPage/index.vue';
+//引入版权组件
+import Copyright from './copyright/index.vue';
+
 //获取用户相关的小仓库路由
 import useMenuStore from '@/store/modules/menu'
 import useUserStore from '@/store/modules/user'
@@ -175,6 +183,8 @@ export default {
 
 
         .layout_main {
+            display: flex;
+            flex-flow: column nowrap;
             width: 100%;
             height: calc(100vh - ($base-tabbar-height + $base-label-height));
             padding: 1.25rem;

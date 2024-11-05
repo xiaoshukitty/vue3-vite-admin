@@ -1,6 +1,5 @@
 <template>
     <div class="videoPlayback">
-        <h1>视频播放</h1>
         <VideoPlayer :videoSrc="videoSrc" />
     </div>
 </template>
