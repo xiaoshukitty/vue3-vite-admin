@@ -81,7 +81,7 @@ let loading = ref(false);
 //获取 el-form组件
 let loginForms = ref();
 //收集表单账号密码数据
-let loginForm = reactive({ authority: 'User', username: 'admin', password: '123456' });
+let loginForm = reactive({ authority: 'Super', username: 'admin', password: '123456' });
 let $route = useRoute();
 //获取路由器
 let $router = useRouter();
