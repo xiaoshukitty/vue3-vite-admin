@@ -28,7 +28,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import globalComponent from '@/components/index'
 
 // 打包才放开  可以使用 npm run uncomment 去掉注释 ，需要在注释前加上 @uncomment 标记 才可以
-import './ban.ts'
+// import './ban.ts'
 
 import './setting'
 
