@@ -45,8 +45,7 @@ const { t } = useI18n()
 let layOutThemeStore = useThemeStore()
 const contextMenu = ref()
 let routerType = ref('') //传递给 contextMenu 组件用来辨别
-const $router = useRouter()
-const $route = useRoute()
+
 console.log(t('routerNavigation'))
 
 //路由跳转

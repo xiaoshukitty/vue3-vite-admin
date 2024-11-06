@@ -307,11 +307,11 @@ document.addEventListener('fullscreenchange', () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 70%;
+    width: 75%;
     /* max-width: 640px; */
-    margin: auto;
+    // margin: auto;
     height: calc(100vh - 15rem);
-
+    
     .video-element {
         width: 100%;
         /* max-width: 640px; */

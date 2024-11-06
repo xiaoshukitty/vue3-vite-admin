@@ -1,13 +1,15 @@
 <template>
     <div class="copyright">
-        <div class="copyright-center">
+        <div :class="['copyright-center', layOutThemeStore.theme === 'dark' ? 'copyright-theme' : '']">
             Copyright © 2024 Xiao Shu All Rights Reserved
         </div>
     </div>
 </template>
 
 <script setup lang='ts'>
+import { useThemeStore } from '@/store/modules/theme'
 
+const layOutThemeStore = useThemeStore();
 </script>
 <style scoped lang="scss">
 .copyright {
@@ -25,6 +27,12 @@
         color: #303133;
         transition: .3s;
         box-shadow: 0 .125rem .75rem 0 rgba(0, 0, 0, .1);
+    }
+
+    .copyright-theme {
+        background-color: var(--background-theme-color) !important;
+        border: .0625rem solid var(--border-theme-color) !important;
+        color: var(--theme-color) !important;
     }
 }
 </style>
