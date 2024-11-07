@@ -37,11 +37,51 @@ export const useLabelRoute = defineStore({
       }
     },
     // 关闭标签路由
-    closeLabelRoute(item: RouteType) {
+    closeLabelRoute(item: RouteType, type?: string) {
       let list: RouteType | undefined
 
       if (this.labelRouteList.length == 1) {
         return ElMessage.warning('最后一个标签不能关闭')
+      }
+      //关闭全部
+      if (type == 'all') {
+        this.labelRouteList = [item]
+        this.labelIndex = item.path
+        localStorage.setItem(
+          'labelRouteList',
+          JSON.stringify(this.labelRouteList),
+        )
+        return
+      }
+      //关闭左侧
+      if (type == 'left') {
+        const index = this.labelRouteList.findIndex(
+          (e: RouteType) => e.path === item.path,
+        )
+        if (index !== -1) {
+          // 删除 target 之前的所有元素
+          this.labelRouteList.splice(0, index)
+        }
+        localStorage.setItem(
+          'labelRouteList',
+          JSON.stringify(this.labelRouteList),
+        )
+        return
+      }
+      //关闭右侧
+      if (type == 'right') {
+        const index = this.labelRouteList.findIndex(
+          (e: RouteType) => e.path === item.path,
+        )
+        if (index !== -1) {
+          // 删除 target 之后的所有元素（包括目标元素后面的所有元素）
+          this.labelRouteList.splice(index + 1)
+        }
+        localStorage.setItem(
+          'labelRouteList',
+          JSON.stringify(this.labelRouteList),
+        )
+        return
       }
       this.labelRouteList.forEach((route: RouteType) => {
         if (route.path == this.labelIndex) {
@@ -60,7 +100,6 @@ export const useLabelRoute = defineStore({
       })
       if (flag == delFlag || flag == -1) {
         let Obj = this.labelRouteList[this.labelRouteList.length - 1]
-
         this.labelIndex =
           this.labelRouteList[this.labelRouteList.length - 1].path
         this.skipRouter(Obj)
@@ -76,6 +115,7 @@ export const useLabelRoute = defineStore({
     skipRouter(item: RouteType) {
       if (this.currentRoute.path === item.path) return
       this.currentRouter.push(item.path)
+      console.log('this.labelRouteList', this.labelRouteList)
       localStorage.setItem(
         'labelRouteList',
         JSON.stringify(this.labelRouteList),

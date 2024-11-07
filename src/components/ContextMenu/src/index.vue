@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang='ts'>
-import { defineExpose, defineProps, ref, watch, onMounted, computed } from 'vue';
+import { defineExpose, defineProps, ref, watch, onMounted, computed, toRefs } from 'vue';
 import { fieldsListEnum } from '@/utils/method';
 import useLayOutSettingStore from '@/store/modules/setting';
 import { useThemeStore } from '@/store/modules/theme';
@@ -25,6 +25,7 @@ const props = defineProps(['routerType'])
 let layOutSettingStore = useLayOutSettingStore();
 const layOutThemeStore = useThemeStore();
 const { closeLabelRoute } = useLabelRoute();
+const { labelRouteList } = toRefs(useLabelRoute())
 const $route = useRoute();
 const routeCopy = ref<RouteType>();
 
@@ -38,12 +39,16 @@ let position = ref({ x: 0, y: 0 });
 let visible = ref(false);
 let labelPages = ref<any>([]);
 let isRefresh = ref(false);
+let isCloseLeft = ref(false);
+let isCloseRight = ref(false);
+let isClose = ref(false);
+let isCloseAll = ref(false);
+let isTopRight = ref(false);
 
 
 //监听传递过来的来判断返回什么数据
 watch(() => props.routerType, (newVal: string) => {
     if (newVal) {
-        console.log('newVal---', newVal);
         labelPages.value = fieldsListEnum(newVal)
     }
 }, {
@@ -52,23 +57,51 @@ watch(() => props.routerType, (newVal: string) => {
 
 //判断是否是当前路由
 const laberClick = (item: IContextMenu) => {
-    // 判断是否是刷新
-    if (!isRefresh.value) {
-        return item.label == 'refresh' ? item.label : isRefresh.value;
+    if (item.label == 'refresh') {
+        // 判断是否是刷新
+        if (!isRefresh.value) {
+            return item.label == 'refresh' ? item.label : isRefresh.value;
+        }
     }
-
+    if (item.label == 'back') {
+        // 判断是否可删除左侧
+        if (!isCloseLeft.value) {
+            return item.label == 'back' ? item.label : isCloseLeft.value;
+        }
+    }
+    if (item.label == 'right') {
+        //判断是否可删除右侧
+        if (!isCloseRight.value) {
+            return item.label == 'right' ? item.label : isCloseRight.value;
+        }
+    }
 }
 
 
 // 鼠标右键事件
 const showMenu = (event: MouseEvent, route: RouteType) => {
-    console.log('route', route);
-
     isRefresh.value = false;
+    isCloseLeft.value = false;
+    isCloseRight.value = false;
+    const index = labelRouteList.value.findIndex(
+        (e: RouteType) => e.path === route.path,
+    );
     if (route.path === $route.path) {
         isRefresh.value = true;
+        isCloseLeft.value = true;
+        isCloseRight.value = true;
+        if(index == 0){
+            isCloseLeft.value = false;
+        }
+        if(index == labelRouteList.value.length - 1){
+            isCloseRight.value = false;
+        }
     }
     routeCopy.value = route;
+
+
+    console.log('index', index);
+
 
     event.preventDefault(); // 阻止默认右键菜单
     position.value = { x: event.clientX, y: event.clientY };
@@ -92,23 +125,25 @@ const triggerClick = (item: IContextMenu) => {
         'operation': () => {
             //关闭所有
             console.log('关闭所有');
+            closeLabelRoute(routeCopy.value, 'all');
         },
         'back': () => {
             //关闭左侧
-            console.log('关闭左侧');
+            closeLabelRoute(routeCopy.value, 'left');
+
         },
         'right': () => {
             //关闭右侧
+            closeLabelRoute(routeCopy.value, 'right');
             console.log('关闭右侧');
         },
         'topRight': () => {
             //新的窗口打开
-            console.log('新的窗口打开');
+            window.open(routeCopy.value.path, '_blank');
         },
     } as any;
 
     routeContextMenuObj[item.label] && routeContextMenuObj[item.label]();
-
     visible.value = false;
 }
 
