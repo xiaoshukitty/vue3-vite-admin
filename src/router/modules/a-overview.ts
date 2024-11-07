@@ -19,7 +19,7 @@ const overviewRoutes: RouteRecordRaw[] = [
         path: '/overview/analysis',
         component: () => import('@/view/overview/analysis/index.vue'),
         meta: {
-          title: '分析页',
+          title: '工作台',
           hidden: false,
           icon: 'Reading',
           requiresAuth: true,

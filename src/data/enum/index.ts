@@ -4,6 +4,7 @@ import {
   ThemeTab,
   ThemeColor,
   WebItem,
+  DynamicData,
 } from './types'
 export const userAuthorityEnum: userAuthorityEnumType[] = [
   {
@@ -135,5 +136,81 @@ export const webItems: WebItem[] = [
     type: '架构组',
     icon: 'JavaScript',
     link: 'https://www.w3school.com.cn/js/index.asp',
+  },
+]
+
+/**
+ * 工作台动态数据
+ */
+export const dynamicData: DynamicData[] = [
+  {
+    id: 1,
+    name: '小舒',
+    icon: 'woman-avatar-1',
+    date: '刚刚',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 2,
+    name: '小小舒',
+    icon: 'woman-avatar-2',
+    date: '1个小时前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 3,
+    name: '小欢',
+    icon: 'man-avatar-3',
+    date: '1天前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 4,
+    name: '小阿欢',
+    icon: 'man-avatar-2',
+    date: '2天前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 5,
+    name: '小阿欢',
+    icon: 'woman-avatar-4',
+    date: '3天前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 6,
+    name: '阿欢',
+    icon: 'man-avatar-1',
+    date: '一周前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 7,
+    name: '阿小欢',
+    icon: 'man-avatar-5',
+    date: '2个月前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 8,
+    name: '小欢',
+    icon: 'woman-avatar-6',
+    date: '半年前',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 9,
+    name: '小阿欢',
+    icon: 'woman-avatar-7',
+    date: '2024-05-20 13:14',
+    info: '在 组件 创建了 文字滚动 组件',
+  },
+  {
+    id: 10,
+    name: '小舒',
+    icon: 'woman-avatar-8',
+    date: '2023-05-20 13:14',
+    info: '在 组件 创建了 文字滚动 组件',
   },
 ]

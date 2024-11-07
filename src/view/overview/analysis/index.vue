@@ -37,27 +37,57 @@
                     </div>
                 </div>
                 <div :class="['anaysis-card', 'mb-20', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">
-                    <h1>22</h1>
+                    <div class="anaysis-card-top">最新动态</div>
+                    <div class="card-list">
+                        <ul>
+                            <li v-for="(item, index) in dynamicData" :key="index">
+                                <div class="li-left">
+                                    <div class="li-icon">
+                                        <SvgIcon :name="item.icon" :width="'40px'" :height="'40px'" />
+                                    </div>
+                                    <div class="li-title">
+                                        <span>{{ item.name }}</span>
+                                        <span>{{ item.info }}</span>
+                                    </div>
+                                </div>
+                                <div class="li-right">
+                                    <span>{{ item.date }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div :class="['anaysis-right',layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">2</div>
+            <div :class="['anaysis-right', layOutThemeStore.theme === 'dark' ? 'anaysis-top-theme' : '']">2</div>
+        </div>
+
+        <div class="anchor-point" v-if="isShowButton">
+            <el-icon>
+                <Upload />
+            </el-icon>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import { SvgIcon } from '@/components';
 import { webItems } from '@/data/enum/index'
 import setting from '@/setting';
 import { useThemeStore } from '@/store/modules/theme'
+import { dynamicData } from '@/data/enum/index'
 
 const layOutThemeStore = useThemeStore();
 
+// 定义 isShowButton 来控制按钮的显示与否
+const isShowButton = ref(false);
 
 //跳转外链
 const openLink = (link: string) => {
     window.open(link, '_blank')
 }
+
+
 </script>
 
 <style scoped lang="scss">
@@ -84,6 +114,28 @@ const openLink = (link: string) => {
             margin-bottom: .5rem;
         }
     }
+}
+
+.anchor-point {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    transition-duration: .5s;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    --tw-shadow: 0 6px 16px 0 rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    --tw-shadow-colored: 0 6px 16px 0 var(--tw-shadow-color), 0 3px 6px -4px var(--tw-shadow-color), 0 9px 28px 8px var(--tw-shadow-color);
+    box-shadow: 0 0 transparent, 0 0 transparent, 0 6px 16px #00000014, 0 3px 6px -4px #0000001f, 0 9px 28px 8px #0000000d;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent), var(--tw-ring-shadow, 0 0 transparent), var(--tw-shadow);
+    color: #323639cc;
+    z-index: 1000;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 1.25rem;
+    right: 3.125rem;
 }
 
 .anaysis-bottom {
@@ -153,6 +205,69 @@ const openLink = (link: string) => {
                     border-right-width: 0 !important;
                 }
             }
+
+            .card-list {
+                padding: 0 1.25rem 1.25rem;
+
+                ul {
+                    li {
+                        padding-bottom: 1.25rem;
+                        padding-top: 1.25rem;
+                        display: flex;
+                        justify-content: space-between;
+                        border-bottom: .0625rem solid #e4e4e7;
+
+                        .li-left {
+                            display: flex;
+                            align-items: center;
+                            column-gap: 1rem;
+
+                            .li-icon {
+                                width: 2.5rem;
+                                height: 2.5rem;
+                            }
+
+                            .li-title {
+                                flex: 1 1 auto;
+                                display: flex;
+                                flex-direction: column;
+
+                                span:nth-child(1) {
+                                    color: #323639;
+                                    line-height: 1.5rem;
+                                    font-weight: 600;
+                                    font-size: .875rem;
+                                }
+
+                                span:nth-child(2) {
+                                    color: #323639cc;
+                                    line-height: 1.25rem;
+                                    font-size: .75rem;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    margin-top: .25rem;
+                                }
+                            }
+                        }
+
+                        .li-right {
+                            display: flex;
+                            align-items: flex-end;
+
+                            span {
+                                color: #323639cc;
+                                font-size: .75rem;
+                                line-height: 1rem;
+                            }
+                        }
+                    }
+
+                    li:last-child {
+                        border-block-end: none;
+                    }
+                }
+            }
         }
     }
 
@@ -183,7 +298,21 @@ const openLink = (link: string) => {
 .anaysis-top-theme {
     background-color: var(--background-theme-color) !important;
     border: .0625rem solid var(--border-theme-color) !important;
-    color: var(--theme-color);
+    color: var(--theme-color-active);
+
+    ul {
+        li {
+            span {
+                color: var(--theme-color-active) !important;
+            }
+
+            border-bottom: .0625rem solid var(--border-theme-color) !important;
+        }
+
+        li:last-child {
+            border-block-end: none !important;
+        }
+    }
 }
 
 .anaysis-card-item-theme {

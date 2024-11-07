@@ -29,3 +29,12 @@ export interface WebItem {
   icon: string
   link: string
 }
+
+//首页最新动态类型
+export type DynamicData = {
+  id: number
+  name: string
+  icon: string
+  date: string
+  info: string
+}
