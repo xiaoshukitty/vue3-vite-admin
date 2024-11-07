@@ -18,7 +18,6 @@ export const useContextMenu = (container: HTMLElement) => {
   }
   // 关闭菜单
   const closeMenu = () => {
-    console.log('xaxa')
 
     visible.value = false
   }

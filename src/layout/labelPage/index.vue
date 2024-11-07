@@ -46,7 +46,7 @@ let layOutThemeStore = useThemeStore()
 const contextMenu = ref()
 let routerType = ref('') //传递给 contextMenu 组件用来辨别
 
-console.log(t('routerNavigation'))
+// console.log(t('routerNavigation'))
 
 //路由跳转
 const linkRouter = (item: RouteType) => {

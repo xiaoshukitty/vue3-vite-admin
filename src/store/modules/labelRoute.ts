@@ -66,7 +66,6 @@ export const useLabelRoute = defineStore({
         this.skipRouter(Obj)
       }
       if (flag != delFlag) {
-        console.log('this.labelRouteList---', this.labelRouteList)
         localStorage.setItem(
           'labelRouteList',
           JSON.stringify(this.labelRouteList),

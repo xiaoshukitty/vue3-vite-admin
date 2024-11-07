@@ -9,11 +9,7 @@ const useMenuStore = defineStore('menu', {
   }),
   actions: {
     generateMenus(role: string) {
-      console.log('role', role)
-
       const arr = recursionMenu(commonRoutes, role)
-      console.log('arr', arr)
-
       this.menuRoutes = arr
     },
   },

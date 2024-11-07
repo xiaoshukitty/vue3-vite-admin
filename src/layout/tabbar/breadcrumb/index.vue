@@ -50,7 +50,7 @@ const changeIcon = () => {
 }
 
 const recordsRoute = (item: LabelRouteType) => {
-    console.log(item);
+    // console.log(item);
 }
 //刷新
 const updateRefsh = () => {

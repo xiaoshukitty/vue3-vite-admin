@@ -28,15 +28,12 @@ let useUserStore = defineStore('User', {
         const { token } = response.data.data as dataType
 
         this.userRole = data.authority
-
-        console.log('登录成功', this.userRole)
-
         this.token = token
         localStorage.setItem('token', token)
         localStorage.setItem('userRole', data.authority)
         axios.defaults.headers.common['Authorization'] = token
       } catch (error) {
-        console.log('登录失败', error)
+        throw error
       }
     },
 
