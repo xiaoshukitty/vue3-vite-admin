@@ -43,14 +43,14 @@ export const useLabelRoute = defineStore({
       if (this.labelRouteList.length == 1) {
         return ElMessage.warning('最后一个标签不能关闭')
       }
-
       this.labelRouteList.forEach((route: RouteType) => {
         if (route.path == this.labelIndex) {
-          list = item
+          list = route
         }
       })
-
+      // 当前的标签索引
       let flag = this.labelRouteList.indexOf(list as RouteType)
+      // 要删除的标签索引
       let delFlag = this.labelRouteList.indexOf(item)
       let copyRecordRoute = JSON.parse(
         JSON.stringify(this.labelRouteList),
@@ -58,12 +58,19 @@ export const useLabelRoute = defineStore({
       this.labelRouteList = copyRecordRoute.filter((route: RouteType) => {
         return route.path != item.path
       })
-
       if (flag == delFlag || flag == -1) {
         let Obj = this.labelRouteList[this.labelRouteList.length - 1]
+
         this.labelIndex =
           this.labelRouteList[this.labelRouteList.length - 1].path
         this.skipRouter(Obj)
+      }
+      if (flag != delFlag) {
+        console.log('this.labelRouteList---', this.labelRouteList)
+        localStorage.setItem(
+          'labelRouteList',
+          JSON.stringify(this.labelRouteList),
+        )
       }
     },
     // 路由跳转
