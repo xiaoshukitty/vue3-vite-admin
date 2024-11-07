@@ -25,6 +25,7 @@ export const useLabelRoute = defineStore({
           JSON.stringify(this.labelRouteList),
         )
       } else {
+        // 检查标签路由列表中是否已经存在该路由
         let flag = deWeight(this.labelRouteList, labelRoute)
 
         if (flag === 1) {
@@ -38,7 +39,7 @@ export const useLabelRoute = defineStore({
     },
     // 关闭标签路由
     closeLabelRoute(item: RouteType, type?: string) {
-      let list: RouteType | undefined
+      let list: RouteType | undefined //当前标签路由
 
       if (this.labelRouteList.length == 1) {
         return ElMessage.warning('最后一个标签不能关闭')
@@ -94,7 +95,8 @@ export const useLabelRoute = defineStore({
       let delFlag = this.labelRouteList.indexOf(item)
       let copyRecordRoute = JSON.parse(
         JSON.stringify(this.labelRouteList),
-      ) as RouteType[]
+      ) as RouteType[] //克隆标签路由列表
+      // 删除标签路由
       this.labelRouteList = copyRecordRoute.filter((route: RouteType) => {
         return route.path != item.path
       })

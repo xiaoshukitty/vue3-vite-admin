@@ -35,18 +35,15 @@ interface IContextMenu {
     label: string,
 }
 
-let position = ref({ x: 0, y: 0 });
-let visible = ref(false);
-let labelPages = ref<any>([]);
-let isRefresh = ref(false);
-let isCloseLeft = ref(false);
-let isCloseRight = ref(false);
-let isClose = ref(false);
-let isCloseAll = ref(false);
-let isTopRight = ref(false);
+let position = ref({ x: 0, y: 0 }); //右键菜单位置
+let visible = ref(false); //控制右键菜单显示隐藏
+let labelPages = ref<any>([]); //右键菜单数据
+let isRefresh = ref(false); //判断是否可刷新
+let isCloseLeft = ref(false); //判断是否可删除左侧
+let isCloseRight = ref(false); //判断是否可删除右侧
 
 
-//监听传递过来的来判断返回什么数据
+//监听传递过来的来 实时返回 路由标签总数组 数据
 watch(() => props.routerType, (newVal: string) => {
     if (newVal) {
         labelPages.value = fieldsListEnum(newVal)
@@ -55,7 +52,7 @@ watch(() => props.routerType, (newVal: string) => {
     immediate: true
 })
 
-//判断是否是当前路由
+// 判断右键菜单样式是否是禁止的 -- 刷新-删除左侧-删除右侧
 const laberClick = (item: IContextMenu) => {
     if (item.label == 'refresh') {
         // 判断是否是刷新
@@ -83,26 +80,23 @@ const showMenu = (event: MouseEvent, route: RouteType) => {
     isRefresh.value = false;
     isCloseLeft.value = false;
     isCloseRight.value = false;
+    //获取右键标签在标签数组中的索引  --- 用来进行关闭 左 右 标签操作
     const index = labelRouteList.value.findIndex(
         (e: RouteType) => e.path === route.path,
     );
+    //判断右键的是否是当前页面 -- 用来禁止右键菜单的操作
     if (route.path === $route.path) {
         isRefresh.value = true;
         isCloseLeft.value = true;
         isCloseRight.value = true;
-        if(index == 0){
+        if (index == 0) {
             isCloseLeft.value = false;
         }
-        if(index == labelRouteList.value.length - 1){
+        if (index == labelRouteList.value.length - 1) {
             isCloseRight.value = false;
         }
     }
     routeCopy.value = route;
-
-
-    console.log('index', index);
-
-
     event.preventDefault(); // 阻止默认右键菜单
     position.value = { x: event.clientX, y: event.clientY };
     visible.value = true;
@@ -124,7 +118,6 @@ const triggerClick = (item: IContextMenu) => {
         },
         'operation': () => {
             //关闭所有
-            console.log('关闭所有');
             closeLabelRoute(routeCopy.value, 'all');
         },
         'back': () => {
@@ -135,7 +128,6 @@ const triggerClick = (item: IContextMenu) => {
         'right': () => {
             //关闭右侧
             closeLabelRoute(routeCopy.value, 'right');
-            console.log('关闭右侧');
         },
         'topRight': () => {
             //新的窗口打开
