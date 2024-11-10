@@ -8,7 +8,7 @@
         </div>
         <div :class="['icon-hover', layOutThemeStore.theme === 'dark' ? 'breadcriumb-theme' : '']" @click="openSetting">
             <el-icon class="fs-18">
-                <Cpu />
+                <Aim />
             </el-icon>
         </div>
     </div>

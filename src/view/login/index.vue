@@ -1,6 +1,7 @@
 <template>
     <div class="login">
-        <div class="d-flex ai-center p-a top-16 right-16">
+        <div class="d-flex ai-center p-a top-16 right-16 btn-top">
+            <Direction />
             <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch"></ThemeSwitch>
             <I18n></I18n>
         </div>
@@ -72,7 +73,8 @@ import { useThemeStore } from '@/store/modules/theme';
 import { SET_STORAGE, GET_STORAGE } from '@/utils/storage';
 import { userAuthorityEnum } from '@/data/enum/index';
 import useUserStore from '@/store/modules/user'
-import SliderVerification from './components/SliderVerification.vue'
+import SliderVerification from './components/SliderVerification.vue';
+import Direction from './components/Direction.vue';
 
 let MoveRound = ref(false);
 let checked = ref(false);
@@ -209,6 +211,12 @@ const login = async () => {
 .login {
     width: 100%;
     min-height: 100vh;
+
+    .btn-top {
+        padding: .5rem .75rem;
+        border-radius: 1.5rem;
+        background-color: #f4f4f5;
+    }
 
     .theme-switch {
         display: flex;
