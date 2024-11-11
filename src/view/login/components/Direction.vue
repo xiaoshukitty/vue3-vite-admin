@@ -5,7 +5,7 @@
                 <el-button class="c-p" size="small" :icon="current" circle @click="visiblePopover = true" />
             </template>
             <div class="popover-icon">
-                <div v-for="(item, index) in directionIcon" :key="index" @click="changeIcon(item.icon)"
+                <div v-for="(item, index) in directionIcon" :key="index" @click="changeIcon(item)"
                     :class="current == item.icon ? 'paint' : ''">
                     <el-button class="c-p" size="small" :icon="item.icon" circle />
                     {{ item.name }}
@@ -17,11 +17,12 @@
 
 <script setup lang='ts'>
 
-import { ref, reactive } from 'vue'
+import { ref, reactive, defineEmits } from 'vue'
 
-let current = ref('Tickets');// 展示
+let current = ref('Notebook');// 展示
 let visiblePopover = ref(false);
 
+const emits = defineEmits(['emitIcon']);
 const directionIcon = reactive([
     {
         icon: 'Memo',
@@ -37,9 +38,12 @@ const directionIcon = reactive([
     },
 ])
 
-const changeIcon = (icon: string) => {
+
+const changeIcon = (e) => {
+    let { icon, name } = e;
     current.value = icon;
     visiblePopover.value = false;
+    emits('emitIcon', icon);
 }
 </script>
 <style scoped lang="scss">

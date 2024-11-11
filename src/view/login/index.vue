@@ -1,12 +1,12 @@
 <template>
-    <div class="login">
+    <div :class="['login']">
         <div class="d-flex ai-center p-a top-16 right-16 btn-top">
-            <Direction />
-            <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch"></ThemeSwitch>
-            <I18n></I18n>
+            <Direction @emitIcon="changeIcon" />
+            <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch" />
+            <I18n />
         </div>
         <div class="login-box">
-            <div class="login-left">
+            <div :class="['login-left', containerIcon == 'Memo' ? 'center-left' : '']" >
                 <div class="login-block2">1</div>
             </div>
             <div class="login-right d-flex j-center pt-64">
@@ -58,6 +58,9 @@
                     </el-form>
                 </div>
             </div>
+            <div class="login-left" :style="{ display: containerIcon == 'Memo' ? 'block' : 'none' }">
+                <div class="login-block2">1</div>
+            </div>
         </div>
     </div>
 </template>
@@ -80,6 +83,7 @@ let MoveRound = ref(false);
 let checked = ref(false);
 //定义变量控制按钮加载效果
 let loading = ref(false);
+let containerIcon = ref('Notebook');
 //获取 el-form组件
 let loginForms = ref();
 //收集表单账号密码数据
@@ -90,6 +94,7 @@ let $router = useRouter();
 let layOutThemeStore = useThemeStore();
 const authUserStore = useUserStore();
 const sliderVerification = ref();
+
 
 //自定义校验规则函数(可以写正则)
 const validateUserName = (rule: any, value: any, callback: any) => {
@@ -162,6 +167,13 @@ const themeSwitch = () => {
     }
 }
 
+//切换登录样式
+const changeIcon = (value: string) => {
+    containerIcon.value = value;
+    console.log('value-', value);
+
+}
+
 // 登录按钮回调
 const login = async () => {
     //保证全部表单验证通过才发请求
@@ -211,6 +223,8 @@ const login = async () => {
 .login {
     width: 100%;
     min-height: 100vh;
+    background: linear-gradient(154deg, #07070915 30%, #006be64d 48%, #07070915 64%);
+    // filter: blur(100px);
 
     .btn-top {
         padding: .5rem .75rem;
@@ -255,8 +269,8 @@ const login = async () => {
         .login-left {
             width: 62vw;
             min-height: 100vh;
-            background: linear-gradient(154deg, #07070915 30%, #006be64d 48%, #07070915 64%);
-            filter: blur(100px);
+            // background: linear-gradient(154deg, #07070915 30%, #006be64d 48%, #07070915 64%);
+            // filter: blur(100px);
         }
 
         .login-right {
@@ -265,6 +279,7 @@ const login = async () => {
             text-align: center;
             overflow: hidden;
             box-sizing: border-box;
+            background-color: #fff;
         }
 
 
@@ -342,5 +357,9 @@ const login = async () => {
         }
 
     }
+}
+
+.center-left {
+    display: none !important;
 }
 </style>
