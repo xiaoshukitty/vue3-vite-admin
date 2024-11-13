@@ -87,7 +87,17 @@ const openLink = (link: string) => {
     window.open(link, '_blank')
 }
 
-
+onMounted(() => {
+    //强行刷新页面 暂时解决进入也看标签路由的小问题 --- 暂时 
+    // 检查 sessionStorage 中是否有 "visited" 键
+    const isFirstVisit = sessionStorage.getItem('visited') === null;
+    if (isFirstVisit) {
+        // 如果是第一次访问，执行刷新逻辑
+        sessionStorage.setItem('visited', 'true');  // 设置标记
+        window.location.reload();  // 刷新页面
+    } else {
+    }
+})
 </script>
 
 <style scoped lang="scss">

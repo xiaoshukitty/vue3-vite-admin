@@ -122,6 +122,7 @@ const logout = () => {
         .then(() => {
 
             authUserStore.logout();
+            sessionStorage.removeItem('visited')
             $router.push({ path: '/', query: { redirect: $route.path } })
             ElMessage({
                 type: 'success',
