@@ -28,7 +28,7 @@
             </div>
             <!-- 内容展示 -->
             <main :class="['layout_main', layOutThemeStore.theme === 'dark' ? '' : 'main-theme']">
-                <div style="flex: 1 1 auto;">
+                <div style="flex: 1 1 auto;" class="layout_main_content">
                     <Main></Main>
                 </div>
                 <div style="flex: 0 0 auto">
@@ -190,6 +190,13 @@ export default {
             padding: 1.25rem;
             overflow: auto;
             transition: all .3s;
+
+            .layout_main_content {
+                // background: var(--background-common-color);
+                // border-radius: 0.8125rem;
+                // border: 0.0625rem solid var(--border-color);
+                // padding: 1rem;
+            }
         }
 
         .main-theme {
