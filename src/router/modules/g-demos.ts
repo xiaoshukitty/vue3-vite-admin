@@ -37,6 +37,29 @@ const demosRoutes: RouteRecordRaw[] = [
           roles: ['Super'],
         },
       },
+      {
+        path: '/demos/drag',
+        component: () => import('@/view/demos/drag/cardDrag/index.vue'),
+        meta: {
+          title: '拖拽',
+          hidden: false,
+          icon: 'ToiletPaper',
+        },
+        redirect: '/demos/drag/cardDrag', //访问一级路由直接重定向到二级路由的第一个
+        children: [
+          {
+            path: '/demos/drag/cardDrag',
+            component: () => import('@/view/demos/drag/cardDrag/index.vue'),
+            meta: {
+              title: '卡片拖拽',
+              hidden: false,
+              icon: 'CopyDocument',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
+        ],
+      },
     ],
   },
 ]
