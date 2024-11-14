@@ -72,6 +72,7 @@ const showContextMenu = (e: MouseEvent, route: RouteType) => {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    overflow: hidden;
 
     .left-lable {
         height: 100%;
@@ -111,10 +112,48 @@ const showContextMenu = (e: MouseEvent, route: RouteType) => {
 }
 
 .label-active {
-    background-color: #f6f6f6;
-    border-radius: 0.3125rem;
+    background-color: #006be626;
+    border-radius: 0.3125rem 0.3125rem 0 0;
     height: 1.9375rem !important;
     color: #006be6;
+    position: relative;
+}
+
+.label-active:hover {
+    border-radius: 0.3125rem 0.3125rem 0 0 !important;
+    background: #006be626 !important;
+}
+
+
+
+.label-active::before {
+    content: "";
+    position: absolute;
+    width: .625rem;
+    height: .625rem;
+    background: #000;
+    bottom: 0;
+    left: -0.625rem;
+    background: radial-gradient(circle at 0 0,
+            transparent .625rem,
+            #006be626 .6875rem,
+        );
+
+}
+
+.label-active::after {
+    content: "";
+    position: absolute;
+    width: .625rem;
+    height: .625rem;
+    background: #000;
+    bottom: 0;
+    right: -0.625rem;
+    background: radial-gradient(circle at 100% 0,
+            transparent .625rem,
+            #006be626 .6875rem,
+        );
+
 }
 
 .label-theme-active {
