@@ -41,6 +41,7 @@ let labelPages = ref<any>([]); //右键菜单数据
 let isRefresh = ref(false); //判断是否可刷新
 let isCloseLeft = ref(false); //判断是否可删除左侧
 let isCloseRight = ref(false); //判断是否可删除右侧
+let isCloseAll = ref(false); //判断是否可删除全部
 
 
 //监听传递过来的来 实时返回 路由标签总数组 数据
@@ -72,6 +73,13 @@ const laberClick = (item: IContextMenu) => {
             return item.label == 'right' ? item.label : isCloseRight.value;
         }
     }
+    if (item.label == 'operation') {
+        //判断是否可删除全部
+        if (!isCloseAll.value) {
+            return item.label == 'operation' ? item.label : isCloseAll.value;
+        }
+    }
+
 }
 
 
@@ -80,6 +88,7 @@ const showMenu = (event: MouseEvent, route: RouteType) => {
     isRefresh.value = false;
     isCloseLeft.value = false;
     isCloseRight.value = false;
+    isCloseAll.value = false;
     //获取右键标签在标签数组中的索引  --- 用来进行关闭 左 右 标签操作
     const index = labelRouteList.value.findIndex(
         (e: RouteType) => e.path === route.path,
@@ -89,6 +98,8 @@ const showMenu = (event: MouseEvent, route: RouteType) => {
         isRefresh.value = true;
         isCloseLeft.value = true;
         isCloseRight.value = true;
+        isCloseAll.value = true;
+
         if (index == 0) {
             isCloseLeft.value = false;
         }
