@@ -60,6 +60,29 @@ const demosRoutes: RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: '/demos/form',
+        component: () => import('@/view/demos/form/stepForm/index.vue'),
+        meta: {
+          title: '表单',
+          hidden: false,
+          icon: 'Tickets',
+        },
+        redirect: '/demos/form/stepForm', //访问一级路由直接重定向到二级路由的第一个
+        children: [
+          {
+            path: '/demos/form/stepForm',
+            component: () => import('@/view/demos/form/stepForm/index.vue'),
+            meta: {
+              title: '分步表单',
+              hidden: false,
+              icon: 'SetUp',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
+        ],
+      },
     ],
   },
 ]
