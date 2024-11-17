@@ -6,6 +6,8 @@ import {
   WebItem,
   DynamicData,
 } from './types'
+
+// 用户登录权限枚举
 export const userAuthorityEnum: userAuthorityEnumType[] = [
   {
     value: '1',
@@ -21,6 +23,7 @@ export const userAuthorityEnum: userAuthorityEnumType[] = [
   },
 ]
 
+// 标签页右键菜单-动态数据枚举
 export const labelPages: LabelPagetype[] = [
   {
     name: '关闭',
@@ -59,8 +62,7 @@ export const labelPages: LabelPagetype[] = [
 export const themeTabList: ThemeTab[] = ['外观', '布局', '功能']
 // export const themeTabList = ['外观', '布局', '功能'] as const;
 
-//内置主题
-
+// 主题颜色
 export const themeColorList: ThemeColor[] = [
   { name: '默认', color: '#006be6' },
   { name: '紫罗兰', color: 'rgb(113, 102, 240)' },
@@ -79,9 +81,7 @@ export const themeColorList: ThemeColor[] = [
   { name: '自定义', color: 'rgb(223, 223, 223)' },
 ]
 
-/**
- * 概览页面数据
- */
+//概览页面数据
 export const webItems: WebItem[] = [
   {
     id: 1,
@@ -139,9 +139,7 @@ export const webItems: WebItem[] = [
   },
 ]
 
-/**
- * 工作台动态数据
- */
+//工作台动态数据
 export const dynamicData: DynamicData[] = [
   {
     id: 1,

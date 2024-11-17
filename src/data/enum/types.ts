@@ -13,7 +13,7 @@ export interface LabelPagetype {
 //主题tab切换
 export type ThemeTab = '外观' | '布局' | '功能'
 
-//内置主题
+//内置主题 用于约束颜色对象
 export type ThemeColor = {
   name: string
   color: string
