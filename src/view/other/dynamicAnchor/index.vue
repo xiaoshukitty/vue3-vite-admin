@@ -2,7 +2,7 @@
     <div :class="['dynamicAnchor', layOutThemeStore.theme === 'dark' ? 'dynamicAnchor-theme' : '']">
         <el-row>
             <el-col :span="24">
-                <div ref="containerRef" class="anchor">
+                <div ref="containerRef" class="anchor" @scroll="handleScroll">
                     <div v-for="(section, index) in sections" :key="index" :id="section.id"
                         :class="['anchor-block', section.colorClass]">
                         {{ section.title }}
@@ -18,6 +18,9 @@
                     :title="section.title" />
             </el-anchor>
         </div>
+
+        <!-- 返回顶部图标 -->
+        <el-button v-if="showBackToTop" class="back-to-top" type="primary" circle icon="Top" @click="scrollToTop" />
     </div>
 </template>
 
@@ -27,6 +30,7 @@ import { useThemeStore } from '@/store/modules/theme';
 
 const layOutThemeStore = useThemeStore();
 const containerRef = ref<HTMLElement | null>(null);
+const showBackToTop = ref(false);
 
 const sections = [
     { id: 'part1', title: '用户管理', colorClass: 'color-a' },
@@ -35,8 +39,27 @@ const sections = [
     { id: 'part4', title: '定时任务', colorClass: 'color-d' },
 ];
 
+// 点击链接事件处理（目前为空实现）
 const handleClick = (e: MouseEvent) => {
     e.preventDefault();
+};
+
+// 滚动事件处理
+const handleScroll = () => {
+    if (containerRef.value) {
+        // 显示返回顶部按钮当滚动位置大于一定高度时
+        showBackToTop.value = containerRef.value.scrollTop > 200;
+    }
+};
+
+// 返回顶部
+const scrollToTop = () => {
+    if (containerRef.value) {
+        containerRef.value.scrollTo({
+            top: 0,
+            behavior: 'smooth', // 平滑滚动
+        });
+    }
 };
 </script>
 <style scoped lang="scss">
@@ -51,6 +74,17 @@ const handleClick = (e: MouseEvent) => {
     .anchor {
         height: calc(100vh - 14.875rem);
         overflow-y: auto;
+
+        /* 隐藏滚动条 */
+        -ms-overflow-style: none;
+        /* 适用于 IE 和 Edge */
+        scrollbar-width: none;
+        /* 适用于 Firefox */
+
+        &::-webkit-scrollbar {
+            display: none;
+            /* 适用于 Chrome、Safari 和 Edge */
+        }
 
         .anchor-block {
             padding: 2.5rem;
@@ -85,6 +119,17 @@ const handleClick = (e: MouseEvent) => {
         .demo-tabs {
             background: transparent;
         }
+    }
+
+    .back-to-top {
+        position: fixed;
+        bottom: 9rem;
+        right: 4.75rem;
+        background-color: var(--theme-color);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s ease;
+        color: #000;
+
     }
 }
 
