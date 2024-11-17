@@ -18,25 +18,18 @@
 <script setup lang='ts'>
 
 import { ref, reactive, defineEmits } from 'vue'
-
+// 当前显示的图标
 let current = ref('Notebook');// 展示
+// 控制 Popover 的显示与
 let visiblePopover = ref(false);
-
+// 触发事件的定义
 const emits = defineEmits(['emitIcon']);
+// 图标数据
 const directionIcon = reactive([
-    {
-        icon: 'Memo',
-        name: '居左'
-    },
-    {
-        icon: 'Tickets',
-        name: '居中'
-    },
-    {
-        icon: 'Notebook',
-        name: '居右'
-    },
-])
+    { icon: 'Memo', name: '居左' },
+    { icon: 'Tickets', name: '居中' },
+    { icon: 'Notebook', name: '居右' }
+]);
 
 
 const changeIcon = (e) => {

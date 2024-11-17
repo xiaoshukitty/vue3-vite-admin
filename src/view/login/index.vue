@@ -1,12 +1,12 @@
 <template>
-    <div :class="['login']">
+    <div :class="['login', layOutThemeStore.theme === 'dark' ? 'login-theme' : '']">
         <div class="d-flex ai-center p-a top-16 right-16 btn-top">
             <Direction @emitIcon="changeIcon" />
             <ThemeSwitch :MoveRound="MoveRound" @update:themeSwitch="themeSwitch" />
             <I18n />
         </div>
         <div class="login-box">
-            <div :class="['login-left', containerIcon == 'Memo' ? 'center-left' : '']" >
+            <div :class="['login-left', containerIcon == 'Memo' ? 'center-left' : '']">
                 <div class="login-block2">1</div>
             </div>
             <div class="login-right d-flex j-center pt-64">
@@ -279,7 +279,7 @@ const login = async () => {
             text-align: center;
             overflow: hidden;
             box-sizing: border-box;
-            background-color: #fff;
+            // background-color: #fff;
         }
 
 
@@ -356,6 +356,14 @@ const login = async () => {
             }
         }
 
+    }
+
+    &-theme {
+
+        .btn-top {
+            background-color: var(--background-theme-color) !important;
+            border: 0.0625rem solid var(--border-theme-color) !important;
+        }
     }
 }
 
