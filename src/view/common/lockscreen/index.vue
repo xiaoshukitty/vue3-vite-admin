@@ -1,5 +1,5 @@
 <template>
-    <div class="lockscreen">
+    <div :class="['lockscreen', layOutThemeStore.theme === 'dark' ? 'lockscreen-theme' : '']">
         <div class="lock-time" v-if="showUnlock">
             <div class="lock-time-header">
                 <el-icon class="icon-lock" style="color:#323639" @click="unlock">
@@ -53,6 +53,9 @@ import Cookies from 'js-cookie';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { getCurrentDate } from '@/utils/time'
 import { useRouter, useRoute } from 'vue-router';
+import { useThemeStore } from '@/store/modules/theme';
+
+const layOutThemeStore = useThemeStore();
 let $router = useRouter();
 let $route = useRoute();
 let when = ref(""); //时
@@ -273,6 +276,20 @@ onUnmounted(() => {
         font-size: 1.875rem;
         line-height: 2.25rem;
         text-align: center;
+    }
+
+    &-theme {
+        background-color: var(--background-theme-color) !important;
+        border: 0.0625rem solid var(--border-theme-color) !important;
+        color: var(--theme-color) !important;
+
+        .time-text {
+            background: #2e3033 !important;
+        }
+
+        .el-icon {
+            color: var(--theme-color) !important;
+        }
     }
 }
 
