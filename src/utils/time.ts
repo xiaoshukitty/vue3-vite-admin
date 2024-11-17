@@ -1,18 +1,13 @@
-//封装函数：获取 早上｜下午｜上午｜晚上
+/**
+ * 获取时间段（早上 | 上午 | 下午 | 晚上）
+ * @returns {string} 返回对应的时间段
+ */
 export const getTime = (): string => {
-  let message = ''
-  let hours = new Date().getHours()
-
-  if (hours <= 9) {
-    message = '早上'
-  } else if (hours <= 12) {
-    message = '上午'
-  } else if (hours <= 18) {
-    message = '下午'
-  } else {
-    message = '晚上'
-  }
-  return message
+  const hours = new Date().getHours()
+  if (hours < 9) return '早上'
+  if (hours < 12) return '上午'
+  if (hours < 18) return '下午'
+  return '晚上'
 }
 
 /**
@@ -41,18 +36,22 @@ export const getCurrentDate = <T>(type: T, week?: boolean): T | undefined => {
 }
 
 /**
- * 获取时间格式
- * @param time 秒数
- * @returns 0:13
+ * 格式化时间（分钟:秒）
+ * @param {number} time - 秒数
+ * @returns {string} 格式化后的时间，格式为 'mm:ss'
  */
-export const getFormatTime = (time: number) => {
+export const getFormatTime = (time: number): string => {
   const minutes = Math.floor(time / 60)
   const seconds = Math.floor(time % 60)
 
   return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
 }
 
-//获取当时星期
+/**
+ * 获取当前星期几
+ * @param {Date} date - 日期对象
+ * @returns {string} 当前星期几的中文表示
+ */
 const weekDay = (): string => {
   var date = new Date()
   var weekDays = [

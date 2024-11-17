@@ -1,7 +1,7 @@
 /**
- * 通过url 转为blob格式的数据(下载视频)
- * @param {String} url 下载地址
- * @param {any} name 下载名称
+ * 通过url转换为blob格式的数据并下载视频文件
+ * @param {string} url - 视频的下载地址
+ * @param {string} name - 下载文件的名称
  */
 export const getVideoArrayBuffer = async (
   url: string,
@@ -10,34 +10,48 @@ export const getVideoArrayBuffer = async (
   try {
     // 使用 fetch 获取视频文件，设置响应类型为 arraybuffer
     const response = await fetch(url)
+
     if (!response.ok) {
-      throw new Error('视频文件获取失败')
+      throw new Error(`视频文件获取失败: ${response.statusText}`)
     }
-    // 获取响应的 arraybuffer
+
+    // 获取响应的 ArrayBuffer 数据
     const arrayBuffer = await response.arrayBuffer()
 
-    // 将 arraybuffer 转换为 Blob 对象
+    // 将 ArrayBuffer 转换为 Blob 对象
     const blob = new Blob([arrayBuffer], { type: 'video/mp4' })
 
-    // 创建一个 URL 对象，指向 Blob 数据
-    const downLoadUrl = URL.createObjectURL(blob)
+    // 创建下载链接
+    const downloadUrl = URL.createObjectURL(blob)
 
-    // 创建一个隐藏的 <a> 标签来触发下载
-    const a = document.createElement('a')
-    a.href = downLoadUrl
-    a.download = name // 设置下载文件的名称
-    a.style.display = 'none'
-    document.body.appendChild(a)
-    a.click() // 模拟点击下载
+    // 调用辅助函数进行文件下载
+    triggerDownload(downloadUrl, name)
 
-    // 下载后移除 <a> 标签并释放 URL
-    a.remove()
-    URL.revokeObjectURL(downLoadUrl)
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error('视频下载失败:', error.message)
-    } else {
-      console.error('视频下载失败，未知错误:', error)
-    }
+    // 下载后释放 Blob URL
+    URL.revokeObjectURL(downloadUrl)
+  } catch (error) {
+    // 详细的错误日志
+    const errorMessage = error instanceof Error ? error.message : '未知错误'
+    console.error('视频下载失败:', errorMessage)
   }
+}
+
+/**
+ * 辅助函数：触发文件下载
+ * @param {string} downloadUrl - 创建的 Blob URL
+ * @param {string} name - 下载文件的名称
+ */
+const triggerDownload = (downloadUrl: string, name: string): void => {
+  // 创建一个隐藏的 <a> 标签来触发下载
+  const anchor = document.createElement('a')
+  anchor.href = downloadUrl
+  anchor.download = name // 设置下载文件的名称
+  anchor.style.display = 'none'
+
+  // 将 <a> 标签添加到 DOM 中并模拟点击下载
+  document.body.appendChild(anchor)
+  anchor.click()
+
+  // 下载完成后移除 <a> 标签
+  document.body.removeChild(anchor)
 }
