@@ -3,44 +3,41 @@
         <el-row>
             <el-col :span="24">
                 <div ref="containerRef" class="anchor">
-                    <div id="part1" class="anchor-block color-a">
-                        用户管理
-                    </div>
-                    <div id="part2" class="anchor-block color-b">
-                        配置管理
-                    </div>
-                    <div id="part3" class="anchor-block color-c">
-                        角色管理
-                    </div>
-                    <div id="part4" class="anchor-block color-d">
-                        定时任务
+                    <div v-for="(section, index) in sections" :key="index" :id="section.id"
+                        :class="['anchor-block', section.colorClass]">
+                        {{ section.title }}
                     </div>
                 </div>
             </el-col>
-
         </el-row>
+
         <div class="orientation">
             <el-anchor class="demo-tabs" :container="containerRef" direction="vertical" type="default"
                 @click="handleClick">
-                <el-anchor-link href="#part1" title="用户管理" />
-                <el-anchor-link href="#part2" title="配置管理" />
-                <el-anchor-link href="#part3" title="角色管理" />
-                <el-anchor-link href="#part4" title="定时任务" />
+                <el-anchor-link v-for="(section, index) in sections" :key="index" :href="'#' + section.id"
+                    :title="section.title" />
             </el-anchor>
         </div>
     </div>
 </template>
 
-<script setup lang='ts'>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
 
 const layOutThemeStore = useThemeStore();
-const containerRef = ref<HTMLElement | null>(null)
+const containerRef = ref<HTMLElement | null>(null);
+
+const sections = [
+    { id: 'part1', title: '用户管理', colorClass: 'color-a' },
+    { id: 'part2', title: '配置管理', colorClass: 'color-b' },
+    { id: 'part3', title: '角色管理', colorClass: 'color-c' },
+    { id: 'part4', title: '定时任务', colorClass: 'color-d' },
+];
 
 const handleClick = (e: MouseEvent) => {
-    e.preventDefault()
-}
+    e.preventDefault();
+};
 </script>
 <style scoped lang="scss">
 .dynamicAnchor {
@@ -73,9 +70,8 @@ const handleClick = (e: MouseEvent) => {
         }
 
         .color-d {
-            background: #97fd97
+            background: #97fd97;
         }
-
     }
 
     .orientation {
@@ -84,17 +80,23 @@ const handleClick = (e: MouseEvent) => {
         top: 5rem;
         background: #fff;
         padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+        border-radius: 0.5rem;
+
+        .demo-tabs {
+            background: transparent;
+        }
     }
 }
 
 .dynamicAnchor-theme {
     background-color: var(--background-theme-color) !important;
-    border: .0625rem solid var(--border-theme-color) !important;
+    border: 0.0625rem solid var(--border-theme-color) !important;
 
     .orientation {
         background-color: var(--background-theme-color) !important;
         color: var(--theme-color) !important;
-        .demo-tabs{
+
+        .demo-tabs {
             background-color: var(--background-theme-color) !important;
         }
     }
