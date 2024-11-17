@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="['storage', layOutThemeStore.theme === 'dark' ? 'storage-theme' : '']">
         <h1>储存 Hook</h1>
         <div>
             <h2>储存 Session：{{ sessionData }}</h2>
@@ -22,7 +22,9 @@
 <script setup lang="ts">
 import { useStorage } from '@/hooks/useStorage';
 import { ref } from 'vue';
+import { useThemeStore } from '@/store/modules/theme';
 
+const layOutThemeStore = useThemeStore();
 // 数据绑定
 const sessionData = ref<string>('');
 const localData = ref<string>('');
@@ -58,3 +60,18 @@ const handleStorage = (type: 'session' | 'local', action: 'set' | 'get' | 'updat
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.storage {
+    background: var(--background-common-color);
+    border-radius: 0.8125rem;
+    border: 0.0625rem solid var(--border-color);
+    padding: 1rem;
+    height: 100%;
+
+    &-theme {
+        background-color: var(--background-theme-color) !important;
+        border: 0.0625rem solid var(--border-theme-color) !important;
+    }
+}
+</style>
