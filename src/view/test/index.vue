@@ -1,20 +1,20 @@
 <template>
     <div>
-        <h1>储存hook</h1>
+        <h1>储存 Hook</h1>
         <div>
-            <h2>储存Session：{{ sessionStorage }}</h2>
-            <el-button type="primary" @click="setSessionStorage">储存session</el-button>
-            <el-button type="primary" @click="getSessionStorage">获取session</el-button>
-            <el-button type="primary" @click="updateSessionStorage">更新session</el-button>
-            <el-button type="primary" @click="delSessionStorage">删除session</el-button>
+            <h2>储存 Session：{{ sessionData }}</h2>
+            <el-button type="primary" @click="handleStorage('session', 'set')">储存 Session</el-button>
+            <el-button type="primary" @click="handleStorage('session', 'get')">获取 Session</el-button>
+            <el-button type="primary" @click="handleStorage('session', 'update')">更新 Session</el-button>
+            <el-button type="primary" @click="handleStorage('session', 'delete')">删除 Session</el-button>
         </div>
         <div style="height: 6.25rem;"></div>
         <div>
-            <h2>储存Local：{{ localStorage }}</h2>
-            <el-button type="primary" @click="setLocalStorage">储存Local</el-button>
-            <el-button type="primary" @click="getLocalStorage">获取Local</el-button>
-            <el-button type="primary" @click="updateLocalStorage">更新Local</el-button>
-            <el-button type="primary" @click="delLocalStorage">删除Local</el-button>
+            <h2>储存 Local：{{ localData }}</h2>
+            <el-button type="primary" @click="handleStorage('local', 'set')">储存 Local</el-button>
+            <el-button type="primary" @click="handleStorage('local', 'get')">获取 Local</el-button>
+            <el-button type="primary" @click="handleStorage('local', 'update')">更新 Local</el-button>
+            <el-button type="primary" @click="handleStorage('local', 'delete')">删除 Local</el-button>
         </div>
     </div>
 </template>
@@ -23,45 +23,38 @@
 import { useStorage } from '@/hooks/useStorage';
 import { ref } from 'vue';
 
-let sessionStorage = ref<string>('');
-let localStorage = ref<string>('');
-// const { setSessionStorage, getSessionStorage, updateSessionStorage, delSessionStorage } = useStorage();
+// 数据绑定
+const sessionData = ref<string>('');
+const localData = ref<string>('');
 
-/** 储存Session：  */
+// 通用的存储操作函数
+const handleStorage = (type: 'session' | 'local', action: 'set' | 'get' | 'update' | 'delete') => {
+    const storageKey = type === 'session' ? 'token' : 'name';
+    const storageValue = type === 'session' ? '123456789' : 'xiaoxiaoshu';
+    const updateValue = type === 'session' ? 'tokentoken' : 'xiaohuan';
 
-const setSessionStorage = () => {
-    useStorage({ storageKey: 'token', storageValue: '123456789', storageType: 'session' });
-}
-const getSessionStorage = () => {
-    const { value: newStorage } = useStorage({ storageKey: 'token', storageType: 'session' });
-    sessionStorage.value = newStorage.value;
-}
-const updateSessionStorage = () => {
-    const { updateStorage } = useStorage({ storageKey: 'token', storageType: 'session' });
-    updateStorage('tokentoken');
-}
-const delSessionStorage = () => {
-    const { removeStorage } = useStorage({ storageKey: 'token', storageType: 'session' });
-    removeStorage();
-}
+    const { value, updateStorage, removeStorage } = useStorage({
+        storageKey,
+        storageValue: action === 'set' ? storageValue : undefined,
+        storageType: type,
+    });
 
-
-/** 储存Local：   */
-
-const setLocalStorage = () => {
-    useStorage({ storageKey: 'name', storageValue: 'xiaoxiaoshu', storageType: 'local' });
-}
-const getLocalStorage = () => {
-    const { value: newStorage } = useStorage({ storageKey: 'name', storageType: 'local' });
-    localStorage.value = newStorage.value;
-}
-const updateLocalStorage = () => {
-    const { updateStorage } = useStorage({ storageKey: 'name', storageType: 'local' });
-    updateStorage('xiaohuan');
-}
-const delLocalStorage = () => {
-    const { removeStorage } = useStorage({ storageKey: 'name', storageType: 'local' });
-    removeStorage();
-}
-
+    switch (action) {
+        case 'set':
+            value.value = storageValue; // 设置存储值
+            break;
+        case 'get':
+            if (type === 'session') sessionData.value = value.value;
+            if (type === 'local') localData.value = value.value;
+            break;
+        case 'update':
+            updateStorage(updateValue); // 更新存储值
+            break;
+        case 'delete':
+            removeStorage(); // 删除存储值
+            if (type === 'session') sessionData.value = '';
+            if (type === 'local') localData.value = '';
+            break;
+    }
+};
 </script>
