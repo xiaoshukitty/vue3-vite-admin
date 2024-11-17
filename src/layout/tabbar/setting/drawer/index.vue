@@ -7,13 +7,14 @@
         <template #default>
             <div class="content">
                 <div :class="['tab-border', layOutThemeStore.theme === 'dark' ? 'tab-theme' : '']">
-                    <ul class="tab-tilte">
+                    <!-- <ul class="tab-tilte">
                         <li v-for="(item, index) in tabs" :key="index"
                             :class="[tabIndex == index ? layOutThemeStore.theme === 'dark' ? 'drawer-theme' : 'active' : '',]"
                             @click="changeTab(index)">
                             <div>{{ item }}</div>
                         </li>
-                    </ul>
+                    </ul> -->
+                    <el-segmented v-model="tabsValue" :options="tabs" class="custom-style" />
                 </div>
                 <div>
                     <div class="content-list" v-if="tabIndex == 0">
@@ -69,6 +70,7 @@ const props = defineProps({
         default: false
     }
 });
+const tabsValue = ref('外观')
 
 const emits = defineEmits(['close']);
 
@@ -264,6 +266,17 @@ const closeDrawer = () => {
         background-color: #f4f4f5;
         padding: .3125rem;
         border-radius: .625rem;
+
+        .custom-style {
+            width: 100%;
+
+
+        }
+
+        .el-segmented__item-selected {
+            background-color: #fff !important;
+            color: #71717a !important;
+        }
 
         ul li {
             margin: 0;
