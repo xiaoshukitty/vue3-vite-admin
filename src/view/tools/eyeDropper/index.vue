@@ -1,71 +1,70 @@
 <template>
-    <div :class="['eyeDropper', layOutThemeStore.theme === 'dark' ? 'eyeDropper-theme' : '']">
+    <div :class="['eyeDropper', isDarkTheme ? 'eyeDropper-theme' : '']">
         <div class="color-box">
             <div class="bg-img">
-                <!-- <img ref="clorImg" :src="imgURL" :alt="imgURL"> -->
                 <el-image :src="imgURL" lazy />
             </div>
             <div class="color-show">
                 <el-input id="copyText" placeholder="展示取的颜色" v-model="iptColor" style="width: 200px;" disabled>
                     <template #append>
-                        <div @click="copyText(iptColor)" style="cursor: pointer;">
+                        <div @click="copyToClipboard(iptColor)" style="cursor: pointer;">
                             复制
                         </div>
                     </template>
                 </el-input>
-                <el-button style="margin: 20px 0; width: 100px;" plain @click="handleColor">点击取色</el-button>
-                <div class="box" :style="containerBox"></div>
+                <el-button class="color-picker-btn" @click="handleColorPicker">
+                    点击取色
+                </el-button>
+                <div class="color-preview" :style="{ backgroundColor: iptColor }"></div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 import { useThemeStore } from '@/store/modules/theme';
 
+// 主题切换
 const layOutThemeStore = useThemeStore();
+const isDarkTheme = computed(() => layOutThemeStore.theme === 'dark');
+
+// 图片 URL 和颜色数据
 const imgURL = ref('https://raw.githubusercontent.com/xiaoshukitty/img-folder/refs/heads/main/17.jpeg');
 const iptColor = ref('');
-const containerBox = computed(() => ({ backgroundColor: iptColor.value }));
 
-//取色
-const handleColor = async () => {
+// 颜色拾取功能
+const handleColorPicker = async () => {
     if ('EyeDropper' in window) {
         try {
             const eyeDropper = new EyeDropper();
             const result = await eyeDropper.open();
-            iptColor.value = result.sRGBHex; // 颜色结果以 sRGBHex 格式返回
+            iptColor.value = result.sRGBHex;
         } catch (error) {
-            console.error('选择颜色失败:', error);
+            ElMessage.error('取色操作已取消或失败');
         }
     } else {
-        alert('你的浏览器不支持 EyeDropper API');
+        ElMessage.warning('当前浏览器不支持 EyeDropper API');
     }
-}
+};
 
-//复制
-const copyText = (val: string) => {
-    const input = document.createElement('input');
-    input.value = val;
+// 文本复制功能
+const copyToClipboard = (val: string) => {
+    if (!val) {
+        ElMessage.warning('没有可复制的内容');
+        return;
+    }
 
-    // 将输入框添加到页面，但不显示
-    document.body.appendChild(input);
-    input.select(); // 选择输入框的内容
-
-    // 执行复制操作
-    document.execCommand('copy');
-
-    // 清除临时输入框
-    document.body.removeChild(input);
-    ElMessage({
-        message: '复制成功',
-        type: 'success',
-        plain: true,
-    })
-}
-
+    navigator.clipboard
+        .writeText(val)
+        .then(() => {
+            ElMessage.success('复制成功');
+        })
+        .catch(() => {
+            ElMessage.error('复制失败');
+        });
+};
 </script>
 <style scoped lang="scss">
 .eyeDropper {
@@ -74,36 +73,46 @@ const copyText = (val: string) => {
     border: 0.0625rem solid var(--border-color);
     height: 100%;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 
     .color-box {
         display: flex;
 
         .bg-img {
-            width: 70%;
+            flex: 2;
+            padding-right: 1rem;
 
             img {
                 width: 100%;
+                border-radius: 0.5rem;
             }
         }
 
         .color-show {
-            margin-left: 20px;
+            flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
 
-            .box {
-                box-sizing: border-box;
+            .color-picker-btn {
+                margin: 1rem 0;
+                width: 100px;
+            }
+
+            .color-preview {
                 width: 100px;
                 height: 100px;
                 border: 1px solid #ccc;
+                border-radius: 0.5rem;
+                margin-top: 1rem;
             }
         }
-
     }
 }
 
 .eyeDropper-theme {
     background-color: var(--background-theme-color) !important;
-    border: .0625rem solid var(--border-theme-color) !important;
+    border: 0.0625rem solid var(--border-theme-color) !important;
 }
 </style>
