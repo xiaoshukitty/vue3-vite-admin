@@ -4,8 +4,7 @@
             <div class="drag-item" v-for="(item, index) in drags" :key="item.id" :draggable="true"
                 @dragstart="onDragStart($event, index)" @dragover="onDragOver($event)" @drop="onDrop($event, index)"
                 @dragenter="onDragEnter($event, index)" @dragleave="onDragLeave($event)" @dragend="onDragEnd($event)"
-                :style="{ backgroundColor: item.bgColor }"
-                >
+                :style="{ backgroundColor: item.bgColor }">
                 <span>按住拖拽{{ item.id }}</span>
             </div>
         </div>
@@ -15,6 +14,7 @@
 <script setup lang='ts'>
 import { reactive, ref } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
+import { getRandomColor } from '@/utils/method';
 
 // 获取主题数据
 const layOutThemeStore = useThemeStore();
@@ -78,15 +78,6 @@ const onDrop = (event: DragEvent, index: number) => {
     draggingIndex.value = null;  // 重置拖拽项的索引
 };
 
-// 随机生成颜色
-function getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 </script>
 
 <style scoped lang="scss">

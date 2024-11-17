@@ -26,3 +26,16 @@ export const fieldsListEnum = (routerType: string): FieldsListType => {
   // 调用 getFields 并返回
   return getFields(routerType)
 }
+
+/**
+ * 生成一个随机的十六进制颜色字符串
+ * @returns {string} 返回随机的颜色字符串，如 "#A3D9F1"
+ */
+export const getRandomColor = (): string => {
+  return (
+    '#' +
+    Array.from({ length: 6 }, () =>
+      Math.floor(Math.random() * 16).toString(16),
+    ).join('')
+  )
+}
