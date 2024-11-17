@@ -1,66 +1,77 @@
 <template>
     <el-dialog v-model="dialogVisible" title="锁定屏幕" width="500" :before-close="handleClose" @close="handleClose"
         style="border-radius: 1.25rem;">
-        <div class="lock-dialog pr-40 pl-40">
+        <div class="lock-dialog">
             <div class="lock-img">
-                <img :src="setting.logo" alt="">
+                <img :src="setting.logo" alt="Logo" />
             </div>
             <div class="lock-name">
                 小小舒
             </div>
             <div class="lock-ipt">
-                <el-input type="password" :prefix-icon="Lock" v-model="lockIpt" show-password
-                    placeholder="请输入锁屏密码"></el-input>
+                <el-input type="password" :prefix-icon="Lock" v-model="lockIpt" show-password placeholder="请输入锁屏密码" />
             </div>
             <div class="lock-btn">
-                <el-button type="primary" style="width: 100%;" @click="goToLockscreen">确定</el-button>
+                <el-button type="primary" style="width: 100%;" @click="goToLockscreen">
+                    确定
+                </el-button>
             </div>
         </div>
     </el-dialog>
 </template>
 
-<script setup lang='ts'>
-import Cookies from 'js-cookie';
-import { ref, defineProps, watch, defineEmits, } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import setting from '@/setting';
+<script setup lang="ts">
+import Cookies from "js-cookie";
+import { ref, defineProps, defineEmits, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import setting from "@/setting";
 
+// 定义响应式变量
+const lockIpt = ref(""); // 输入的锁屏密码
+const dialogVisible = ref(false); // 控制对话框是否显示
 
-let lockIpt = ref('');
-let dialogVisible = ref(false);
-let $router = useRouter();
+const $router = useRouter();
 const $route = useRoute();
 
-
+// 接收父组件传递的属性
 const props = defineProps({
     isLockDialog: {
         type: Boolean,
-        default: false
-    }
-})
+        default: false,
+    },
+});
 
+// 事件定义
+const emits = defineEmits(["close"]);
 
+// 监听锁定对话框的显示状态
+watch(
+    () => props.isLockDialog,
+    (val: boolean) => {
+        dialogVisible.value = val;
+    },
+    { immediate: true }
+);
 
-const emits = defineEmits(['close'])
-
-watch(() => props.isLockDialog, (val: boolean) => {
-    dialogVisible.value = val;
-}, { immediate: true });
-
-
+// 关闭对话框
 const handleClose = () => {
-    emits('close', false)
+    emits("close", false);
 };
 
-
+// 跳转到锁屏页面
 const goToLockscreen = () => {
-    if (lockIpt.value === '') return;
-    Cookies.set("lastLockscreen", $route.fullPath); // 本地存储锁屏之前打开的页面以便解锁后打开
-    $router.push(
-        { path: '/lockscreen', query: { unlockPassword: lockIpt.value } }
-    );
+    if (!lockIpt.value) return; // 防止密码为空时提交
+
+    // 保存当前路径，方便解锁后重定向
+    Cookies.set("lastLockscreen", $route.fullPath);
     Cookies.set("lockStatus", "1");
-}
+
+    // 跳转到锁屏页面，并传递解锁密码
+    $router.push({
+        path: "/lockscreen",
+        query: { unlockPassword: lockIpt.value },
+    });
+};
 </script>
 <style lang="scss" scoped>
 .lock-dialog {
@@ -82,8 +93,7 @@ const goToLockscreen = () => {
     .lock-name {
         font-weight: 700;
         font-size: 1rem;
-        margin-bottom: 1.5rem;
-        margin-top: 1.5rem;
+        margin: 1.5rem 0;
     }
 
     .lock-ipt {
