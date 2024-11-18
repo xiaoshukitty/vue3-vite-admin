@@ -6,6 +6,7 @@
             <div class="planet"></div>
             <div class="astronaut">
                 <!-- <img src="@/assets/astronaut.png" alt="Astronaut" /> -->
+                <img src="/src/assets/images/yhy.png" alt="Astronaut" />
             </div>
         </div>
         <el-button type="primary" @click="goHome" class="back-home-btn">返回首页</el-button>
