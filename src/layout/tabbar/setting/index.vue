@@ -8,7 +8,7 @@
         </div>
         <div :class="['icon-hover', layOutThemeStore.theme === 'dark' ? 'breadcriumb-theme' : '']" @click="openSetting">
             <el-icon class="fs-18">
-                <Aim />
+                <Setting />
             </el-icon>
         </div>
     </div>
@@ -72,6 +72,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { useThemeStore } from '@/store/modules/theme';
 import setting from '@/setting';
 import useUserStore from '@/store/modules/user'
+import { Setting } from '@element-plus/icons-vue';
 
 let layOutThemeStore = useThemeStore();
 let $router = useRouter();
