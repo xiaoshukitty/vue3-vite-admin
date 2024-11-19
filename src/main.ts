@@ -32,6 +32,8 @@ import globalComponent from '@/components/index'
 
 import './setting'
 
+import preloadImages from '@/utils/preloadImages'
+
 // 禁止浏览器上一步下一步
 window.addEventListener('popstate', (): void => {
   history.pushState(null, '', document.URL)
@@ -57,6 +59,9 @@ app.use(globalComponent)
 
 //将应用挂载到挂载点上
 app.mount('#app')
+
+//图片预加载
+preloadImages(1)
 
 //全局配置颜色
 // app.config.globalProperties.$styles = {
