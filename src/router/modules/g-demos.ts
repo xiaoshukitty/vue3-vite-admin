@@ -83,6 +83,30 @@ const demosRoutes: RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: '/demos/image',
+        component: () => import('@/view/demos/image/preloadImages/index.vue'),
+        meta: {
+          title: '图片',
+          hidden: false,
+          icon: 'Postcard',
+        },
+        redirect: '/demos/image/preloadImages', //访问一级路由直接重定向到二级路由的第一个
+        children: [
+          {
+            path: '/demos/image/preloadImages',
+            component: () =>
+              import('@/view/demos/image/preloadImages/index.vue'),
+            meta: {
+              title: '图片预加载',
+              hidden: false,
+              icon: 'FolderChecked',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
+        ],
+      },
     ],
   },
 ]
