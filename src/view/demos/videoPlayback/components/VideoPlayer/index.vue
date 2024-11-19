@@ -232,7 +232,7 @@ const adjustVolume = () => {
 //调整音量
 const selectAdjustVolume = () => {
     if (videoPlayer.value) {
-        videoPlayer.value.volume = Math.round(volume.value / 100);
+        videoPlayer.value.volume = volume.value / 100;
         if (volume.value == 0) {
             isAudioIcon.value = true;
         } else {
