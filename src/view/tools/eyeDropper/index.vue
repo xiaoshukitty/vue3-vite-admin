@@ -2,7 +2,8 @@
     <div :class="['eyeDropper', isDarkTheme ? 'eyeDropper-theme' : '']">
         <div class="color-box">
             <div class="bg-img">
-                <el-image :src="imgURL" lazy />
+                <!-- <el-image :src="imgURL" lazy /> -->
+                <el-image src="/public//images/17.jpeg" lazy />
             </div>
             <div class="color-show">
                 <el-input id="copyText" placeholder="展示取的颜色" v-model="iptColor" style="width: 200px;" disabled>

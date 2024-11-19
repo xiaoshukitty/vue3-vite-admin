@@ -61,7 +61,7 @@ app.use(globalComponent)
 app.mount('#app')
 
 //图片预加载
-preloadImages(1)
+// preloadImages(1)
 
 //全局配置颜色
 // app.config.globalProperties.$styles = {

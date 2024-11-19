@@ -12,6 +12,9 @@ import { viteMockServe } from 'vite-plugin-mock'
 
 import path from 'path'
 
+// 加载图片预加载
+import { preloadImages } from './plugins/preloadImages'
+
 // https://vitejs.dev/config/
 export default defineConfig((command, mode) => {
   // 获取各种环境下对应的变量
@@ -31,6 +34,13 @@ export default defineConfig((command, mode) => {
       visualizer({
         // filename: 'dist/stats.html', // 指定报告文件的输出路径
         // open: true, // 构建完成后自动打开报告
+      }),
+      //图片预加载
+      preloadImages({
+        dir: 'images/*.{jpeg,png,jpg,svg,webp}',
+        attrs: {
+          rel: 'preload',
+        },
       }),
     ],
 
