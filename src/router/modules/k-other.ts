@@ -26,6 +26,17 @@ const otherRoutes: RouteRecordRaw[] = [
           roles: ['Admin', 'User', 'Super'],
         },
       },
+      {
+        path: '/other/upload',
+        component: () => import('@/view/other/upload/index.vue'),
+        meta: {
+          title: '上传',
+          hidden: false,
+          icon: 'Upload',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
+        },
+      },
     ],
   },
 ]
