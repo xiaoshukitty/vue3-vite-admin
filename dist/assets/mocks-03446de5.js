@@ -1,0 +1,1 @@
+import{M as s}from"./mockjs-b8009a1e.js";import"./dayjs-db284eda.js";const o=[{id:1,username:"admin",password:"123456"}];s.mock("/api/login","post",(s=>{const{username:e,password:a,authority:r}=JSON.parse(s.body);return o.find((s=>s.username===e&&s.password===a))?{code:200,message:"登录成功",data:{token:`token-${r}`,role:r}}:{code:401,message:"用户名或密码错误"}}));export{s as default};
