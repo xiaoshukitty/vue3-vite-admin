@@ -39,9 +39,13 @@ window.addEventListener('popstate', (): void => {
   history.pushState(null, '', document.URL)
 })
 
-if (import.meta.env.MODE === 'development') {
-  import('../mock/mocks')
-}
+// 开发环境使用 mock
+// if (import.meta.env.MODE === 'development') {
+//   import('../mock/mocks')
+// }
+
+////生产、开发环境使用 mock
+import('../mock/mocks')
 
 //获取应用实例对象
 const app = createApp(App)
