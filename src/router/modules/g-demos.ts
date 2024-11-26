@@ -107,6 +107,17 @@ const demosRoutes: RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: '/demos/calendar',
+        component: () => import('@/view/demos/calendar/index.vue'),
+        meta: {
+          title: '日历',
+          hidden: false,
+          icon: 'Calendar',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
+        },
+      },
     ],
   },
 ]
