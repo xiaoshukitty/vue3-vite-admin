@@ -26,6 +26,17 @@ const overviewRoutes: RouteRecordRaw[] = [
           roles: ['Admin', 'User', 'Super'],
         },
       },
+      {
+        path: '/overview/dynamicData',
+        component: () => import('@/view/overview/dynamicData/index.vue'),
+        meta: {
+          title: '数据看板',
+          hidden: false,
+          icon: 'Grid',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
+        },
+      },
     ],
   },
 ]
