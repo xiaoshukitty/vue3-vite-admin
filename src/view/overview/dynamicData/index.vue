@@ -28,6 +28,17 @@
                     <div id="chart" style="width: 100%;height:400px;"></div>
                 </div>
             </div>
+            <div class="round">
+                <div class="round-item">
+                    <div id="roundChart" style="width: 100%;height:400px;"></div>
+                </div>
+                <div class="round-item">
+                    <div id="roundChartTwo" style="width: 100%;height:400px;"></div>
+                </div>
+                <div class="round-item">
+                    <div id="roundChartThree" style="width: 100%;height:400px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -94,8 +105,149 @@ const option = ref({
     ]
 });
 
+// 图表初始化
+const roundOption = ref({
+    title: {
+        text: '访问来源',
+        left: 'left'
+    },
+    legend: {
+        top: 'bottom'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    series: [
+        {
+            name: 'Access From',
+            type: 'pie',
+            radius: [100, 150],
+            avoidLabelOverlap: false,
+            padAngle: 5,
+            itemStyle: {
+                borderRadius: 10
+            },
+            data: [
+                { value: 1048, name: 'Search Engine' },
+                { value: 735, name: 'Direct' },
+                { value: 580, name: 'Email' },
+                { value: 484, name: 'Union Ads' },
+            ]
+        }
+    ]
+})
+// 圆形图表配置
+const roundOptionTwo = ref({
+    title: {
+        text: '访问来源',
+        left: 'left'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            restore: { show: true },
+            saveAsImage: { show: true }
+        }
+    },
+    series: [
+        {
+            name: 'Nightingale Chart',
+            type: 'pie',
+            radius: [0, 150],
+            center: ['50%', '50%'],
+            roseType: 'area',
+            itemStyle: {
+                borderRadius: 8
+            },
+            data: [
+                { value: 50, name: 'rose 1' },
+                { value: 60, name: 'rose 2' },
+                { value: 80, name: 'rose 3' },
+                { value: 100, name: 'rose 4' }
+            ]
+        }
+    ]
+})
+// 圆形图表配置
+const roundOptionThree = ref({
+    title: {
+        text: '访问来源',
+        left: 'left'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c}%'
+    },
+    toolbox: {
+        feature: {
+            dataView: { readOnly: false },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+
+    legend: {
+        data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order'],
+        top: 'bottom'
+    },
+    series: [
+        {
+            name: 'Funnel',
+            type: 'funnel',
+            left: '10%',
+            top: 60,
+            bottom: 60,
+            width: '80%',
+            min: 0,
+            max: 100,
+            minSize: '0%',
+            maxSize: '100%',
+            sort: 'descending',
+            gap: 2,
+            label: {
+                show: true,
+                position: 'inside'
+            },
+            labelLine: {
+                length: 10,
+                lineStyle: {
+                    width: 1,
+                    type: 'solid'
+                }
+            },
+            itemStyle: {
+                borderColor: '#fff',
+                borderWidth: 1
+            },
+            emphasis: {
+                label: {
+                    fontSize: 20
+                }
+            },
+            data: [
+                { value: 60, name: 'Visit' },
+                { value: 40, name: 'Inquiry' },
+                { value: 20, name: 'Order' },
+                { value: 80, name: 'Click' },
+                { value: 100, name: 'Show' }
+            ]
+        }
+    ]
+})
+
 // 图表实例
 let chartInstance: echarts.ECharts | null = null;
+// 圆形实例
+let roundChartInstance: echarts.ECharts | null = null;
+// 圆形实例
+let roundChartTwoInstance: echarts.ECharts | null = null;
+// 圆形实例
+let roundChartThreeInstance: echarts.ECharts | null = null;
 
 // 切换图表类型及数据
 const graph = (index: number) => {
@@ -144,9 +296,17 @@ const graph = (index: number) => {
     chartInstance.setOption(option.value);
 };
 
+// 图表数据 
+
 onMounted(() => {
     chartInstance = echarts.init(document.getElementById('chart') as HTMLElement);
     chartInstance.setOption(option.value);
+    roundChartInstance = echarts.init(document.getElementById('roundChart') as HTMLElement);
+    roundChartInstance.setOption(roundOption.value);
+    roundChartTwoInstance = echarts.init(document.getElementById('roundChartTwo') as HTMLElement);
+    roundChartTwoInstance.setOption(roundOptionTwo.value);
+    roundChartThreeInstance = echarts.init(document.getElementById('roundChartThree') as HTMLElement);
+    roundChartThreeInstance.setOption(roundOptionThree.value);
 });
 
 // onBeforeUnmount(() => {
@@ -219,6 +379,20 @@ onMounted(() => {
                 }
             }
         }
+
+        .round {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 1.25rem;
+
+            .round-item {
+                background: var(--background-common-color);
+                border-radius: 0.8125rem;
+                border: 0.0625rem solid var(--border-color);
+                padding: .75rem 1rem 1.25rem;
+            }
+        }
     }
 
     &-theme {
@@ -227,14 +401,23 @@ onMounted(() => {
             border: 0.0625rem solid var(--border-theme-color) !important;
             color: var(--theme-color-active);
         }
-        .broken-line{
+
+        .broken-line {
             background-color: var(--background-theme-color) !important;
             border: 0.0625rem solid var(--border-theme-color) !important;
             color: var(--theme-color-active);
-            .tablist{
+
+            .tablist {
                 background-color: var(--background-theme-color) !important;
                 border: 0.0625rem solid var(--border-theme-color) !important;
             }
+
+        }
+
+        .round-item {
+            background-color: var(--background-theme-color) !important;
+            border: 0.0625rem solid var(--border-theme-color) !important;
+            color: var(--theme-color-active);
         }
     }
 }
