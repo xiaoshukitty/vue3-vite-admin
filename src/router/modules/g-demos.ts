@@ -118,6 +118,17 @@ const demosRoutes: RouteRecordRaw[] = [
           roles: ['Admin', 'User', 'Super'],
         },
       },
+      {
+        path: '/demos/fileDownload',
+        component: () => import('@/view/demos/fileDownload/index.vue'),
+        meta: {
+          title: '文件下载',
+          hidden: false,
+          icon: 'Download',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
+        },
+      },
     ],
   },
 ]
