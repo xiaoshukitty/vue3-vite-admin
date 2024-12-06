@@ -1,6 +1,10 @@
 <template>
     <div :class="['videoPlayback', layOutThemeStore.theme === 'dark' ? 'video-theme' : '']">
-        <VideoPlayer :videoSrc="videoSrc" />
+        <!-- <VideoPlayer :videoSrc="videoSrc" /> -->
+        <div>
+            <vue3VideoPlay width="1000px" height="650px" title="钢铁侠" :src="options.src" :poster="options.poster" @play="onPlay"
+                @pause="onPause" @timeupdate="onTimeupdate" @canplay="onCanplay" />
+        </div>
         <div class="video-btn">
             <div>
                 <el-button type="primary" @click="videoDownload()">下载</el-button>
@@ -13,12 +17,33 @@
 </template>
 
 <script setup lang='ts'>
-import VideoPlayer from './components/VideoPlayer/index.vue'
-import videoSrc from '@/assets/video/dance.mp4'
+// import VideoPlayer from './components/VideoPlayer/index.vue'
+import videoSrc from '@/assets/video/dance.mp4';
+import { reactive } from 'vue';
 import { useThemeStore } from '@/store/modules/theme'
 import { getVideoArrayBuffer } from '@/utils/download'
 
 const layOutThemeStore = useThemeStore();
+
+
+
+const options = reactive({
+    src: videoSrc, //视频源
+    poster: '', //封面
+})
+const onPlay = (ev) => {
+    console.log('播放')
+}
+const onPause = (ev) => {
+    console.log(ev, '暂停')
+}
+
+const onTimeupdate = (ev) => {
+    console.log(ev, '时间更新')
+}
+const onCanplay = (ev) => {
+    console.log(ev, '可以播放')
+}
 
 // 下载视频
 const videoDownload = () => {

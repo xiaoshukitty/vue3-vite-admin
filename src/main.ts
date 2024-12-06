@@ -34,6 +34,9 @@ import './setting'
 
 import preloadImages from '@/utils/preloadImages'
 
+import vue3videoPlay from 'vue3-video-play' // 引入组件
+import 'vue3-video-play/dist/style.css' // 引入css
+
 // 禁止浏览器上一步下一步
 window.addEventListener('popstate', (): void => {
   history.pushState(null, '', document.URL)
@@ -63,6 +66,9 @@ app.use(globalComponent)
 
 //将应用挂载到挂载点上
 app.mount('#app')
+
+// 引入视频播放组件
+app.use(vue3videoPlay)
 
 //图片预加载
 // preloadImages(1)
