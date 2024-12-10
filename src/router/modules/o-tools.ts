@@ -26,6 +26,17 @@ const overviewRoutes: RouteRecordRaw[] = [
           roles: ['Admin', 'User', 'Super'],
         },
       },
+      {
+        path: '/tools/sortFunction',
+        component: () => import('@/view/tools/sortFunction/index.vue'),
+        meta: {
+          title: '排序功能',
+          hidden: false,
+          icon: 'PieChart',
+          requiresAuth: true,
+          roles: ['Admin', 'User', 'Super'],
+        },
+      },
     ],
   },
 ]
