@@ -12,7 +12,7 @@
                                 :action="uploadAction" :on-success="handleSuccess" :on-error="handleError"
                                 :on-remove="handleRemove" :file-list="fileList" :before-upload="beforeUpload"
                                 list-type="picture-card" :headers="headers">
-                                <i class="el-icon-plus"></i>
+                                <el-icon><Plus /></el-icon>
                             </el-upload>
                         </div>
                     </el-form-item>
