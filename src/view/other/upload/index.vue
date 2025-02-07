@@ -7,14 +7,17 @@
                     支持图片(jpg、jpeg、png格式，单次最多选择50张，每张不可大于3MB，大于3MB会自动为您过滤)和视频。
                 </p>
                 <div class="upload-file">
-                    <el-upload ref="uploadRef" action="your-upload-api-endpoint" :limit="50" :on-exceed="handleExceed"
-                        :file-list="fileList" :on-change="handleChange" :before-upload="beforeUpload"
-                        list-type="picture-card" accept="image/*,video/*">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                        <el-icon v-else class="avatar-uploader-icon">
-                            <Plus />
-                        </el-icon>
-                    </el-upload>
+                    <div>
+                        <div v-if="uploadImageUrl == ''" class="upload-img" @click="triggerFileInput">
+                            <el-icon style="color:#8c939d">
+                                <Plus />
+                            </el-icon>
+                        </div>
+                        <div v-if="uploadImageUrl" class="image-preview">
+                            <img :src="uploadImageUrl" alt="预览图片" />
+                        </div>
+                        <input type="file" ref="fileInput" @change="onFileChange" style="display: none;" />
+                    </div>
                 </div>
             </div>
             <template #footer>
@@ -28,17 +31,23 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import { ref, computed } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
 import { ElMessage } from 'element-plus';
 
-const MAX_SIZE_MB = 3; // 最大文件大小 (单位：MB)
-const MAX_FILES = 50; // 最大文件数量
 
 const layOutThemeStore = useThemeStore();
 const dialogVisible = ref(false);
-const fileList = ref<any[]>([]);
-const uploadRef = ref(); // ElUpload实例
+const MAX_SIZE_MB = 1; // 最大文件大小 (单位：MB)
+// 使用 ref 获取文件上传 input 元素的引用
+const fileInput = ref<HTMLInputElement | null>(null);
+const uploadImageUrl = ref('');
+const uploadSuccess = ref(false); // 上传成功标志
+const uploadError = ref<string | null>(null); // 上传失败信息
+const file = ref<File | null>(null); // 存储选择的文件
+const imageInfo = ref(null); // 存储上传的图片信息
+const imageSrc = ref(''); // 存储图片的 src，用于显示图片
 
 // 判断主题
 const isDarkTheme = computed(() => layOutThemeStore.theme === 'dark');
@@ -52,15 +61,45 @@ const openDialog = () => {
 const closeDialog = () => {
     dialogVisible.value = false;
 };
+const triggerFileInput = () => {
+    // 触发 input 的点击事件
+    fileInput.value?.click();
+}
+
+// 选择文件时，更新 file
+const onFileChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        file.value = input.files[0];
+        uploadError.value = null; // 清除之前的错误
+        uploadSuccess.value = false;
+
+        const isImgType = beforeUpload(input.files[0]);
+        if (!isImgType) return;
+
+        // 使用 FileReader 或 URL.createObjectURL 显示图片
+        const reader = new FileReader();
+
+        // 监听文件读取完成事件
+        reader.onload = () => {
+            uploadImageUrl.value = reader.result as string;  // 获取图片的 base64 URL
+        };
+
+        // 读取文件
+        reader.readAsDataURL(file.value);
+    }
+};
+
 
 // 开始上传（模拟接口调用）
 const startUpload = () => {
-    if (fileList.value.length === 0) {
+    if (uploadImageUrl.value.length === 0) {
         ElMessage.warning('请先上传文件！');
         return;
     }
     ElMessage.success('开始上传！');
-    dialogVisible.value = false;
+    uploadImage();
+
 };
 
 // 检查上传文件的大小和类型
@@ -79,15 +118,51 @@ const beforeUpload = (file: File) => {
     return true; // 允许上传
 };
 
-// 超出文件数量限制的提示
-const handleExceed = () => {
-    ElMessage.warning(`最多只能上传 ${MAX_FILES} 个文件！`);
+// 处理文件上传
+const uploadImage = async () => {
+    if (!file.value) return;
+
+    const formData = new FormData();
+    formData.append("image", file.value); // 'image' 为后端接收文件字段名
+    formData.append('timestamp', new Date().toISOString());  // 手动添加时间戳，ISO 格式  formData.append('timestamp', new Date().toISOString());  // 手动添加时间戳，ISO 格式
+
+
+    uploadSuccess.value = false;
+    uploadError.value = null;
+
+    // 设置上传进度条初始值
+    dialogVisible.value = true;
+
+    try {
+        // 上传文件到服务器
+        const response = await axios.post("http://localhost:3000/upload", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data", // 必须设置请求头
+            },
+        });
+        console.log(response.data);
+        // 上传成功，返回图片信息
+        imageInfo.value = response.data.image;
+
+        // 如果需要显示图片，可以用 Base64 编码的方式显示
+        imageSrc.value = await `data:${response.data.image.mime_type};base64,${response.data.image.image}`;
+        console.log(imageSrc.value);
+        setTimeout(() => {
+            ElMessage.success('上传成功');
+            uploadSuccess.value = true;
+        }, 600)
+    } catch (error: any) {
+        console.error(error);
+        uploadError.value = error.response?.data || "上传失败，请重试";
+    } finally {
+        setTimeout(() => {
+            dialogVisible.value = false;
+            uploadImageUrl.value = ''; // 清空上传图片 URL
+        }, 500)
+
+    }
 };
 
-// 文件上传变化处理（如新增或移除）
-const handleChange = (file: any, fileListArray: any[]) => {
-    fileList.value = fileListArray; // 更新文件列表
-};
 
 </script>
 
@@ -114,6 +189,32 @@ const handleChange = (file: any, fileListArray: any[]) => {
 
         .upload-file {
             margin: 1.25rem 0 12.5rem;
+
+            .upload-img {
+                width: 120px;
+                height: 120px;
+                background-color: #fafafa;
+                border: 1px dashed #cdd0d6;
+                border-radius: 6px;
+                box-sizing: border-box;
+                cursor: pointer;
+                vertical-align: top;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .image-preview {
+                width: 120px;
+                height: 120px;
+
+                img {
+                    border-radius: 6px;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
         }
     }
 

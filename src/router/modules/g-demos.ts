@@ -129,6 +129,31 @@ const demosRoutes: RouteRecordRaw[] = [
           roles: ['Admin', 'User', 'Super'],
         },
       },
+
+      {
+        path: '/demos/blogs',
+        component: () => import('@/view/demos/blogs/blogsOperation/index.vue'),
+        meta: {
+          title: '博客',
+          hidden: false,
+          icon: 'Pear',
+        },
+        redirect: '/demos/blogs/blogsOperation', //访问一级路由直接重定向到二级路由的第一个
+        children: [
+          {
+            path: '/demos/blogs/blogsOperation',
+            component: () =>
+              import('@/view/demos/blogs/blogsOperation/index.vue'),
+            meta: {
+              title: '博客操作',
+              hidden: false,
+              icon: 'Bicycle',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
+        ],
+      },
     ],
   },
 ]
