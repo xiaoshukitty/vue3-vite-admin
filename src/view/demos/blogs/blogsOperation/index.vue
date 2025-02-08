@@ -18,6 +18,9 @@
                                     </div>
                                     <div v-if="uploadImageUrl" class="image-preview">
                                         <img :src="uploadImageUrl" alt="预览图片" />
+                                        <el-icon class="close-icon" @click="removeImage">
+                                            <Close />
+                                        </el-icon>
                                     </div>
                                 </div>
                                 <input type="file" ref="fileInput" @change="onFileChange" style="display: none;" />
@@ -57,8 +60,10 @@
 
 <script setup lang='ts'>
 import axios from "axios";
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, h } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
+import { ElNotification } from 'element-plus'
+
 
 const layOutThemeStore = useThemeStore();
 
@@ -85,6 +90,11 @@ const formInfo = reactive({
 const triggerFileInput = () => {
     // 触发 input 的点击事件
     fileInput.value?.click();
+}
+
+//删除
+const removeImage = () => {
+    uploadImageUrl.value = '';
 }
 
 // 选择文件时，更新 file
@@ -158,7 +168,10 @@ const uploadImage = async () => {
         // 如果需要显示图片，可以用 Base64 编码的方式显示
         imageSrc.value = await `data:${response.data.image.mime_type};base64,${response.data.image.image}`;
         console.log(imageSrc.value);
-
+        ElNotification({
+            title: '上传信息',
+            message: h('i', { style: 'color: teal' }, '上传成功！'),
+        })
         uploadSuccess.value = true;
     } catch (error: any) {
         console.error(error);
@@ -222,14 +235,35 @@ onMounted(() => {
                 }
 
                 .image-preview {
+                    position: relative;
                     width: 120px;
                     height: 120px;
+
+                    .close-icon {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        transition: transform 0.35s;
+                        transform: scaleY(0);
+                        color: #cdd0d6;
+                    }
 
                     img {
                         border-radius: 6px;
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
+                    }
+
+                    &:hover {
+                        opacity: .8;
+                    }
+
+                    &:hover .close-icon {
+                        opacity: 1;
+                        transform: scaleY(1);
+                        color: #000;
                     }
                 }
 
