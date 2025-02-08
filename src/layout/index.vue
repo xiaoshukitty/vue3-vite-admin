@@ -8,7 +8,7 @@
             <el-scrollbar class="scrollbar">
                 <!-- 菜单组件 -->
                 <el-menu class="el-menu-vertical-demo" :collapse="LayOutSettingStore.fold ? true : false"
-                    :default-active="$router.path" :background-color="menuBackground" :text-color="menuTextColor"
+                    :default-active="activeMenu" :background-color="menuBackground" :text-color="menuTextColor"
                     :active-text-color="menuActiveTextColor" router :unique-opened="true">
                     <Menu :menuList="menus"></Menu>
                 </el-menu>
@@ -86,6 +86,10 @@ onMounted(() => {
 // menuBackground: '#fff', //菜单背景色
 //   menuTextColor: '#323639', //菜单字体颜色
 //   menuActiveTextColor: '#006be6', //菜单选中字体颜色
+
+const activeMenu = computed(() => {
+    return $router.path
+})
 
 const menuBackground = computed(() => {
     if (layOutThemeStore.theme === 'dark') {

@@ -132,7 +132,7 @@ const demosRoutes: RouteRecordRaw[] = [
 
       {
         path: '/demos/blogs',
-        component: () => import('@/view/demos/blogs/blogsOperation/index.vue'),
+        component: () => import('@/view/demos/blogs/index.vue'),
         meta: {
           title: '博客',
           hidden: false,
@@ -146,6 +146,18 @@ const demosRoutes: RouteRecordRaw[] = [
               import('@/view/demos/blogs/blogsOperation/index.vue'),
             meta: {
               title: '博客操作',
+              hidden: false,
+              icon: 'Bicycle',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
+          {
+            path: '/demos/blogs/articleOperation',
+            component: () =>
+              import('@/view/demos/blogs/articleOperation/index.vue'),
+            meta: {
+              title: '文章操作',
               hidden: false,
               icon: 'Bicycle',
               requiresAuth: true,
