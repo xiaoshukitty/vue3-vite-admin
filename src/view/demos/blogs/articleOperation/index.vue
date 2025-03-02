@@ -241,9 +241,12 @@ const beforeImageUpload = (file: File) => {
 
 const handleImageSuccess = (response: any, uploadFile: any) => {
     const newImage = {
-        url: response.url,
-        description: '',
+        url: response.url || uploadFile.url,
+        name: uploadFile.name,
         uid: uploadFile.uid
+    }
+    if (!articleForm.imageList) {
+        articleForm.imageList = []
     }
     articleForm.imageList.push(newImage)
 }
@@ -309,6 +312,18 @@ const handlePreview = () => {
 
 const handlePreviewClose = () => {
     previewVisible.value = false
+}
+
+const mockUploadAction = (file: File) => {
+    return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+            resolve({
+                url: reader.result
+            })
+        }
+    })
 }
 </script>
 

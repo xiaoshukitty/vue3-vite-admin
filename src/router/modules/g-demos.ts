@@ -164,6 +164,18 @@ const demosRoutes: RouteRecordRaw[] = [
               roles: ['Admin', 'User', 'Super'],
             },
           },
+          {
+            path: '/demos/blogs/blogsCarousel',
+            component: () =>
+              import('@/view/demos/blogs/blogsCarousel/index.vue'),
+            meta: {
+              title: '博客轮播图',
+              hidden: false,
+              icon: 'Bicycle',
+              requiresAuth: true,
+              roles: ['Admin', 'User', 'Super'],
+            },
+          },
         ],
       },
     ],
